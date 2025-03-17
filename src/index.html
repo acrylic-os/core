@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>acrylicOS</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter&family=Roboto+Mono&family=Schibsted+Grotesk&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="common.css">
+        <link rel="icon" href="https://anpang.fun/acrylic/assets/acrylic_logo.png">
+        <link rel="prefetch" href="https://anpang.fun/acrylic/assets/acrylic_wallpaper.png">
+    </head>
+    <body>
+        <div id="version" class="version-boot">
+            acrylicOS v<span id="version-number"></span>
+            <br>
+            (<span id="version-date"></span>)
+        </div>
+        <div id="bootscreen" class="screen">
+            <div id="bootscreen-title">
+                <span>a</span><span>c</span><span>r</span><span>y</span><span>l</span><span>i</span><span>c</span><span>O</span><span>S</span>
+            </div>
+            <div id="bootscreen-text">Booting up...</div>
+        </div>
+        <div id="setupscreen" class="screen">
+            <div id="setupscreen-box">
+                Stage <span id="setup-stage-number"></span> - <span id="setup-stage-name"></span>
+                <hr>
+                <section id="setup-1">
+                    <h1>Welcome to acrylicOS!</h1>
+                    <section>
+                        It seems you're a new user here. acrylicOS is a new operating system that runs completely in your browser, meaning it can be run in any device without any installation.
+                        <br>
+                        Here, we will set up acrylicOS for you.
+                    </section>
+                    <section>
+                        <button class="bfull" id="setup-1-continue">Continue</button>
+                    </section>
+                    <hr>
+                    <section>
+                        If you are already a user, you may be seeing this screen because there is no data.
+                    </section>
+                    <section>
+                        <button class="bfull" id="setup-1-import">Import data</button>
+                    </section>
+                </section>
+                <div id="setup-2">
+                    <h2>Create an account</h2>
+                    <section>
+                        acrylicOS has a system of user accounts. You can create a user account here.
+                    </section>
+                    <section>
+                        <label for="setup-2-username">Username</label>
+                        <input type="text" placeholder="Username" id="setup-2-username" class="textbox">
+                        <label for="setup-2-password">Password</label>
+                        <input type="text" placeholder="Password" id="setup-2-password" class="textbox">
+                    </section>
+                    <section>
+                        <button class="bfull" id="setup-2-create">Create account</button>
+                        <button class="bfull" id="setup-2-back">Go back</button>
+                    </section>
+                </div>
+                <div id="setup-3">
+                    <h2>Customization</h2>
+                    <section>
+                        Customization options currently aren't available.
+                    </section>
+                    <section>
+                        <button class="bfull" id="setup-3-continue">Continue</button>
+                        <button class="bfull" id="setup-3-back">Go back</button>
+                    </section>
+                </div>
+                <div id="setup-4">
+                    <h2>Options</h2>
+                    <section>
+                        Additional options currently aren't available.
+                    </section>
+                    <section>
+                        <button class="bfull" id="setup-4-continue">Continue</button>
+                        <button class="bfull" id="setup-4-back">Go back</button>
+                    </section>
+                </div>
+                <div id="setup-5">
+                    <h2>Setup is complete!</h2>
+                    <section>
+                        You may now enjoy your installation of acrylicOS.
+                        <br>
+                        Reload the page to enter acrylicOS, or simply click the button below:
+                    </section>
+                    <div>
+                        <button class="bfull" id="setup-5-reload">Enter acrylicOS</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="loginscreen" class="screen">
+            <div id="loginbox">
+                <h1>Welcome to acrylicOS!</h1>
+                <div>
+                    <h2>Login</h2>
+                    <section>
+                        <label for="loginbox-username">Username</label>
+                        <input type="text" placeholder="Username" id="loginbox-username" class="textbox bfull">
+                        <label for="loginbox-password">Password</label>
+                        <input type="text" placeholder="Password" id="loginbox-password" class="textbox bfull">
+                    </section>
+                    <section>
+                        <button class="bfull" id="loginbox-login">Login</button>
+                    </section>
+                </div>
+                <hr>
+                <button class="bfull" id="loginbox-create">Create an account</button>
+            </div>
+        </div>
+        <div id="desktop" class="screen">
+            <div id="desktop-click"></div>
+            <div id="windows"></div>
+            <div id="topbar">
+                <div id="topbar-left"></div>
+                <div id="topbar-center">
+                    <label for="searchbar">Search / Open / Go to</label>
+                    <input type="text" id="searchbar" placeholder="Search / Open / Go to" class="textbox">
+                    <div id="searchmenu"></div>
+                </div>
+                <div id="topbar-right">
+                    <div id="menubar"></div>
+                    <button id="timebar" class="bflat"></button>
+                </div>
+            </div>
+            <div id="dock">
+                <a href="#" id="start-button"></a>
+                <div id="dock-apps">
+                </div>
+            </div>
+            <div id="startmenu">
+                <div id="startmenu-name">
+                    <b>Start</b>
+                </div>
+                <div id="startmenu-buttons">
+                    Button go here
+                </div>
+                <div id="startmenu-categories"></div>
+                <div id="startmenu-apps">
+                </div>
+                <div id="startmenu-power">
+                    <button onclick="quit('logout')" class="bflat">Log out</button>
+                    <button onclick="quit('reload')" class="bflat">Reload</button>
+                    <button onclick="quit('quit')" class="bflat">Quit</button>
+                </div>
+            </div>
+            <div id="bluerectangle"></div>
+        </div>
+        <div id="bsod" class="screen">
+            <h1>Something went wrong!</h1>
+            <section>
+                <b>Type:</b> <span id="bsod-type"></span>
+            </section>
+            <section>
+                <b>Error:</b>
+                <br>
+                <span id="bsod-error"></span>
+            </section>
+            <section>
+                <button class="bfull" id="bsod-ignore">Ignore</button>
+                <button class="bfull" id="bsod-restart">Restart</button>
+            </section>
+            <section id="bsod-fatal-text">
+                This is a fatal error and cannot be ignored. You need to restart Acrylic.
+            </section>
+            <section>
+                Please report this bug!
+            </section>
+        </div>
+        <div id="quitscreen" class="screen">
+            <div id="quit-areyousure" class="quit-box">
+                <section>
+                    Are you sure you want to <span id="quit-areyousure-action"></span>?
+                </section>
+                <section>
+                    <button class="bfull quit-button" id="quit-areyousure-button">Quit</button>
+                    <button class="bfull quit-button" id="quit-areyousure-cancel">Cancel</button>
+                </section>
+            </div>
+            <span id="quit-quitting" class="quit-box">
+                Quitting...
+            </span>
+            <span id="quit-done" class="quit-box">
+                You may now close this tab.
+            </span>
+        </div>
+        <div id="click-confetti"></div>
+        <script src="script.js"></script>
+    </body>
+</html>
