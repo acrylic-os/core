@@ -1,14 +1,15 @@
 
 ---
 
-![](https://img.shields.io/badge/stable-0.1.6--r04-f65) ![](https://img.shields.io/badge/beta-0.2.0--b11-0c2) ![](https://img.shields.io/badge/license-PolyForm-Noncommercial-1.0.0-90e) ![](https://img.shields.io/badge/donut-🍩-b70)
+![](https://img.shields.io/badge/stable-0.1.6--r04-f65) ![](https://img.shields.io/badge/beta-0.2.0--b11-0c2) ![](https://img.shields.io/badge/license-PolyForm--Noncommercial--1.0.0-90e) ![](https://img.shields.io/badge/donut-🍩-b70)
 
 # Acrylic
 
 **Acrylic is, put simply, an OS that runs in your browser.**\
 Despite not being an actual OS which runs on top of hardware, it acts basically as an OS. You can install apps, edit files, etc.
 
-Currently, the latest stable version is **0.1.6**. 0.2.0 is currently in development, with **0.2.0-b11** being the latest beta release.
+Currently, the latest stable version is **0.1.6**.\
+The next major release, 0.2.0, is currently in development. **0.2.0-b11** is currently the latest beta release.
 
 > [!NOTE]
 > Note that Acrylic is currently in alpha, so a lot of things are broken or just haven't been implemented yet.
