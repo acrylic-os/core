@@ -1,7 +1,10 @@
 
 ---
 
-![](https://img.shields.io/badge/stable-0.1.6--r04-f65) ![](https://img.shields.io/badge/beta-0.2.0--b11-0c2) ![](https://img.shields.io/badge/license-PolyForm--Noncommercial--1.0.0-90e) ![](https://img.shields.io/badge/donut-🍩-b70)
+![](https://img.shields.io/badge/stable-0.1.6--r04-f65) ![](https://img.shields.io/badge/beta-0.2.0--b11-0c2) ![](https://img.shields.io/github/issues-raw/acrylic-os/core
+) ![](https://img.shields.io/badge/dependencies-none!-04f) ![](https://img.shields.io/badge/license-PolyForm--Noncommercial--1.0.0-90e)
+<br>
+[![](https://img.shields.io/discord/1312024058358923264?label=discord)](https://discord.com/invite/tznE5yCFHQ) ![](https://img.shields.io/badge/donut-🍩-f90)
 
 # Acrylic
 
@@ -34,3 +37,4 @@ Now that Acrylic is open-source (actually source-available), everyone, including
 If you find a bug, want to make a feature request, or anything in between, feel free to make an issue. If you know just a bit of frontend web development and have something to contribute, also feel free to make a PR.
 
 ---
+
