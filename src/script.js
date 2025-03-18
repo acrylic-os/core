@@ -1,13 +1,13 @@
 "use strict";
 /*
     Acrylic is (c) Anpang 2024 - 2025
-    https://github.com/acrylic-os/acrylic
+    https://github.com/acrylic-os/core
 */
 
-let version = "0.2.0-b11";
-let versionDate = "17 Mar 2025";
-
 let acr = new function() {
+
+    this.version = "0.2.0-b12";
+    this.versionDate = "18 Mar 2025";
 
     //region ━━━━━━━━━━━━━━━    FUNCTIONS/CONSTANTS   ━━━━━━━━━━━━━━━
 
@@ -144,7 +144,7 @@ let acr = new function() {
     let startTime = window.performance.now();
 
     function initializeLogging() {
-        const plainText = `Acrylic ${version}`;
+        const plainText = `Acrylic ${acr.version}`;
         let coloredText = "\n";
         let coloredStyles = [];
         for(let i = 0; i < plainText.length; ++i) {
@@ -246,9 +246,9 @@ let acr = new function() {
             id("bootscreen").style.display = "block";
 
             // set version
-            id("version-number").innerText = version;
-            id("version-date").innerText = versionDate;
-            document.title = `Acrylic v${version}`;
+            id("version-number").innerText = acr.version;
+            id("version-date").innerText = acr.versionDate;
+            document.title = `Acrylic v${acr.version}`;
 
             // show title and text
             let counter = 0;
@@ -467,7 +467,7 @@ let acr = new function() {
                 this.display = info.display;
                 this.type = info.type;
                 this.category = info.category;
-                this.icon = info.icon;
+                this.icon = "icon" in info? info.icon: "iconol/square_%3F.svg";
                 this.run = hooks.run;
                 this.action = hooks.action;
                 this.onKill = hooks.kill;
@@ -905,6 +905,7 @@ let acr = new function() {
                     if (appData["category"] === category) {
                         append("startmenu-apps", `
                             <a href="#" id="startmenu-app-tile-${appTileID}" class="startmenu-app-tile">
+                                <img src="${appData["icon"]}" class="startmenu-app-tile-icon">
                                 ${appData["display"]}
                             </a>
                         `);
@@ -1116,9 +1117,9 @@ let acr = new function() {
 
     this.Window = class{
 
-        constructor(titlebar, content, PID = null, initialDimensions = null) {
+        constructor(titlebar, content, process, initialDimensions = null) {
 
-            let windowID = PID;
+            let windowID = process.PID;
 
             // set window data
             this.titlebar = titlebar;
@@ -1126,12 +1127,13 @@ let acr = new function() {
             this.maximized = false;
             this.leftStyle = "";
             this.topStyle = "";
-            this.windowID = PID;
+            this.windowID = windowID;
 
             // summon window
             append("windows", `
                 <div id="window-${windowID}" class="window selected" style="left: 100px; top: 100px">
                     <div id="window-${windowID}-titlebar" class="titlebar">
+                        <img src="${acr.apps[process.app].icon}" class="titlebar-icon">
                         <span class="titlebar-text">${titlebar}</span>
                         <div class="titlebar-buttons">
                             <a href="#" class="titlebar-button-minimize" id="window-${windowID}-minimize"></a>
@@ -1589,9 +1591,9 @@ let acr = new function() {
                             </div>
                             <div class="apps-about-grid-title">
                                 <h2>Acrylic (acrylicOS)</h2>
-                                <b>Version ${version}</b>
+                                <b>Version ${acr.version}</b>
                                 <br>
-                                (${versionDate})
+                                (${acr.versionDate})
                             </div>
                             <div class="apps-about-grid-useragent">
                                 <b>User agent:</b>
@@ -1668,7 +1670,8 @@ let acr = new function() {
             {
                 "display": "Calculator",
                 "type": "gui",
-                "category": "utilities"
+                "category": "utilities",
+                "icon": "iconol/calculator.svg"
             },
             {
                 "run": (windowID) => {

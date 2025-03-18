@@ -1,9 +1,7 @@
 /*
-    Acrylic is NOT open. If you aren't Anpang, you're not supposed to be here.
     Acrylic is (c) Anpang 2024 - 2025
+    https://github.com/acrylic-os/core
 */
-
-/* If no themes are applied, basic themes from here will be used. */
 
 /*region ━━━━━━━━━━━━━━━        Z-INDEXES         ━━━━━━━━━━━━━━━ */
 /*
@@ -449,9 +447,9 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 .startmenu-app-tile{
     background-color: rgba(255, 255, 255, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.2);
-    width: 4em;
-    height: 4em;
-    padding: 1em;
+    width: 5em;
+    height: 5em;
+    padding: 0.5em;
     color: #fff;
     border-radius: 0.5em;
     text-align: center;
@@ -460,6 +458,7 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     background-color: rgba(255, 255, 255, 0.05);
     color: #fff;
 }
+.startmenu-app-tile-icon{ width: 3.45em; }
 
 #startmenu-power{
     grid-column: 1 / 3;
@@ -534,9 +533,14 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 .titlebar{
     border-radius: 0.75em 0.75em 0 0;
     background-color: rgba(0, 0, 0, 0.65);
-    padding: 0.35em 1.5em 0.15em 1.5em;
+    padding: 0.35em 1.5em 0.15em 1em;
     cursor: move;
     flex: 0 1 auto;
+}
+.titlebar-icon{
+    width: 1.5em;
+    float: left;
+    margin: 0.1em 0.5em 0 0;
 }
 .titlebar-text{
     margin-top: 0.25em;
