@@ -6,7 +6,7 @@
 <br>
 [![](https://img.shields.io/discord/1312024058358923264?label=discord)](https://discord.com/invite/tznE5yCFHQ) ![](https://img.shields.io/badge/donut-🍩-f90)
 
-<img src="/docs/readme/acrylic_0.1.0_showcase.png" width="500">
+<img src="/.github/readme/acrylic_0.1.0_showcase.png">
 
 # Acrylic
 
