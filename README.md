@@ -1,7 +1,7 @@
 
 ---
 
-![](https://img.shields.io/badge/stable-0.1.6--r04-f65) ![](https://img.shields.io/badge/beta-0.2.0--b12-0c2) ![](https://img.shields.io/github/issues-raw/acrylic-os/core
+![](https://img.shields.io/badge/stable-0.1.6--r04-f65) ![](https://img.shields.io/badge/beta-0.2.0--b13-0c2) ![](https://img.shields.io/github/issues-raw/acrylic-os/core
 ) ![](https://img.shields.io/badge/dependencies-none!-04f) ![](https://img.shields.io/badge/license-PolyForm--Noncommercial--1.0.0-90e)
 <br>
 [![](https://img.shields.io/discord/1312024058358923264?label=discord)](https://discord.com/invite/tznE5yCFHQ) ![](https://img.shields.io/badge/donut-🍩-f90)

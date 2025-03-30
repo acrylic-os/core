@@ -6,8 +6,8 @@
 
 let acr = new function() {
 
-    this.version = "0.2.0-b12";
-    this.versionDate = "18 Mar 2025";
+    this.version = "0.2.0-b13";
+    this.versionDate = "30 Mar 2025";
 
     //region ━━━━━━━━━━━━━━━    FUNCTIONS/CONSTANTS   ━━━━━━━━━━━━━━━
 
@@ -758,7 +758,7 @@ let acr = new function() {
             for(const match of searchMatches) {
                 append("searchmenu", `
                     <button class="searchentry" id="searchentry-${match.ID}">
-                        <img src="iconol/notepad.svg" alt="${match.name}" class="searchentry-icon" />
+                        <img src="${acr.apps[match.ID.substring(4)].icon}" alt="${match.name}" class="searchentry-icon" />
                         <span class="searchentry-name">${match.name}</span>
                         <span class="searchentry-type">${searchTypeNames[match.type]}</span>
                         <span class="searchentry-match">${Math.round(match.score * 100)}% match</span>
@@ -1852,7 +1852,8 @@ let acr = new function() {
             {
                 "display": "Notepad",
                 "type": "gui",
-                "category": "utilities"
+                "category": "utilities",
+                "icon": "iconol/notepad.svg"
             },
             {
                 "run": (windowID) => {
@@ -1878,7 +1879,8 @@ let acr = new function() {
             {
                 "display": "Sandbox",
                 "type": "gui",
-                "category": "utilities"
+                "category": "utilities",
+                "icon": "iconol/sandbox.svg"
             },
             {
                 "run": function (windowID) {
@@ -2048,7 +2050,8 @@ let acr = new function() {
             {
                 "display": "Settings",
                 "type": "gui",
-                "category": "system"
+                "category": "system",
+                "icon": "iconol/settings.svg"
             },
             {
                 "run": (process) => {
@@ -2198,7 +2201,8 @@ let acr = new function() {
             {
                 "display": "System Monitor",
                 "type": "gui",
-                "category": "system"
+                "category": "system",
+                "icon": "iconol/system_monitor.svg"
             },
             {
                 "run": function (windowID) {
@@ -2279,7 +2283,8 @@ let acr = new function() {
             {
                 "display": "Terminal",
                 "type": "gui",
-                "category": "system"
+                "category": "system",
+                "icon": "iconol/display_black.svg"
             },
             {
                 "run": (process) => {
