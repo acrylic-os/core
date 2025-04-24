@@ -6,24 +6,24 @@
 
 let acr = new function() {
 
-    this.version = "0.2.0-b13";
-    this.versionDate = "30 Mar 2025";
+    this.version = "0.2.0-b14";
+    this.versionDate = "24 Apr 2025";
 
     //region ━━━━━━━━━━━━━━━    FUNCTIONS/CONSTANTS   ━━━━━━━━━━━━━━━
 
     //region ──────────      DOM shorthand functions       ──────────
 
-    function id(name) {
-        return document.getElementById(name);
-    }
-    function onclick(id, action) {
-        document.getElementById(id).addEventListener("click", action);
-    }
-    function append(id, html) {
-        document.getElementById(id).insertAdjacentHTML("beforeend", html);
-    }
+        function id(name) {
+            return document.getElementById(name);
+        }
+        function onclick(id, action) {
+            document.getElementById(id).addEventListener("click", action);
+        }
+        function append(id, html) {
+            document.getElementById(id).insertAdjacentHTML("beforeend", html);
+        }
 
-//endregion
+    //endregion
 
     //region ──────────          other functions           ──────────
 
@@ -143,6 +143,7 @@ let acr = new function() {
     this.logs = [];
     let startTime = window.performance.now();
 
+    // print an initial piece of text into the JS console
     function initializeLogging() {
         const plainText = `Acrylic ${acr.version}`;
         let coloredText = "\n";
@@ -158,9 +159,9 @@ let acr = new function() {
 
     this.log = function(type, text, zeroTime = false) {
         let time;
-        if(zeroTime) {
+        if(zeroTime) {    // first log, so use 0
             time = (0).toFixed(6);
-        } else {
+        } else {    // not the first log, so use the actual time
             time = ((window.performance.now() / 1000) - (startTime / 1000)).toFixed(6);
         }
         const logContent = `[${time}] [${type}] ${text}`;
@@ -227,11 +228,13 @@ let acr = new function() {
 
     //region ──────────          other functions           ──────────
 
+        // save config and files to localStorage
         function saveData() {
             localStorage.setItem("config", JSON.stringify(config));
             localStorage.setItem("files", JSON.stringify(files));
         }
 
+        // generate a random acrylic-themed color (used in the bootscreen and initial log message)
         function randomAcrylicColor() {
             return `hsl(${randomFloat(40, 280)}deg 100% ${randomFloat(60, 90)}%)`
         }
@@ -392,7 +395,7 @@ let acr = new function() {
                 this.name = name;
                 this.app = app;
                 this.parent = parent;
-                this.type = type ? type : acr.apps[app]["type"];
+                this.type = type? type: acr.apps[app]["type"];
                 this.additionalData = additionalData ? additionalData : {};
                 this.storage = {};
 
@@ -419,9 +422,9 @@ let acr = new function() {
                     return;
                 }
 
-                // check if there's an onKill hook
-                if ("onKill" in acr.apps[acr.processes[this.PID]["app"]]) {
-                    acr.apps[acr.processes[this.PID]["app"]]["onKill"](this.PID);
+                // check if there's a kill hook
+                if ("kill" in acr.apps[acr.processes[this.PID]["app"]]) {
+                    acr.apps[acr.processes[this.PID]["app"]]["kill"](this.PID);
                 }
 
                 // delete any windows of the process
@@ -468,9 +471,9 @@ let acr = new function() {
                 this.type = info.type;
                 this.category = info.category;
                 this.icon = "icon" in info? info.icon: "iconol/square_%3F.svg";
-                this.run = hooks.run;
-                this.action = hooks.action;
-                this.onKill = hooks.kill;
+                this.run = "run" in hooks? hooks.run: function() {};
+                this.action = "action" in hooks? hooks.action: function() {};
+                this.kill = "kill" in hooks? hooks.kill: function() {};
 
             }
 
@@ -1224,8 +1227,8 @@ let acr = new function() {
         }
 
         dragWindow(event) {
-            if (windows[windowDragData["id"]]["maximized"]) {
-                unmaximize(windowDragData["id"]);
+            if(windows[windowDragData["id"]]["maximized"]) {
+                this.unmaximize(windowDragData["id"]);
             }
             id(`window-${windowDragData["id"]}`).style.left = `${event.clientX - windowDragData["xOffset"]}px`;
             id(`window-${windowDragData["id"]}`).style.top = `${event.clientY - windowDragData["yOffset"]}px`;
@@ -1241,6 +1244,10 @@ let acr = new function() {
             "error": {
                 "name": "Error",
                 "icon": "iconol/circle_no.png"
+            },
+            "unknown": {
+                "name": "Unknown",
+                "icon": "iconol/square_?.svg"
             }
         };
 
@@ -1253,7 +1260,7 @@ let acr = new function() {
             }
 
             let popupProcessID = new Process("Popup", processes[parentProcess]["app"], parentProcess);
-            spawnWindow(popupTypes[type]["name"], `
+                new Window (popupTypes[type]["name"], `
                 <div class="popup-grid">
                     <div class="popup-grid-icon">
                         <img src="${popupTypes[type]["icon"]}" class="popup-icon">
@@ -1453,16 +1460,19 @@ let acr = new function() {
 
     this.Acrsh = class{
 
+        // construct a new acrsh session
         constructor(PID) {
             this.PID = PID;
         }
 
+        // a token
         static Token = class{
             constructor(type, value) {
                 
             }
         }
 
+        // tokenize the command
         tokenize() {
             let tokens = [];
             let thisToken = "";
@@ -1480,6 +1490,7 @@ let acr = new function() {
             this.tokens = tokens;
         }
 
+        // process the tokenized command
         process() {
             let prefix = "-";
             let result = "";
@@ -1490,6 +1501,7 @@ let acr = new function() {
             this.result = result;
         }
 
+        // run (tokenize and process) a command
         run(command) {
             this.command = command;
             this.tokenize();
@@ -1602,60 +1614,64 @@ let acr = new function() {
                             </div>
                             <div class="apps-about-grid-copyright">
                                 <section>
-                                    <button class="bflat" id="window-about-${windowID}">Credits</button>
-                                    <button class="bflat" onclick="appAction(${windowID}, 'donut')">Donut</button>
+                                    <button class="bflat" id="window-about-${windowID}-credits">Credits</button>
+                                    <button class="bflat" id="window-about-${windowID}-donut">Donut</button>
                                 </section>
                                 <section>
                                     &copy; 2024 - 2025 Anpang54
                                 </section>
                             </div>
                         </div>
-                    `, windowID);
+                    `, process, ["500px", "400px"]);
 
-                    id(`window-${windowID}`).style.width = "500px";
-
+                    onclick(`window-about-${windowID}-credits`, () => {
+                        process.action("credits");
+                    });
+                    onclick(`window-about-${windowID}-donut`, () => {
+                        process.action("donut");
+                    });
                 },
                 "action": (windowID, action) => {
                     switch (action) {
 
                         case "credits":
-                            new this.Window("Credits", `
-                            <h2>Main development</h2>
-                            <ul>
-                                <li>
-                                    <b>Anpang54</b> (anpang.fun) - Literally everything
-                                </li>
-                            </ul>
-                            <h2>Small elements</h2>
-                            <ul>
-                                <li>
-                                    <b>patrickoliveras</b> - <a href="https://github.com/patrickoliveras/js-text-donut">Spinning donut</a>
-                                </li>
-                            </ul>
-                            <h2>Wallpapers</h2>
-                            <ul>
-                                <li>
-                                    <b>Anpang54</b> (anpang.fun) - <a href="https://wiki.anpang.fun/acr/Default_wallpaper">"Acrylic"</a>
-                                </li>
-                                <li>
-                                    <b>IdaT</b> - <a href="https://pixabay.com/photos/baltic-sea-sunset-poland-colours-7434540/">"Baltic sea"</a>
-                                </li>
-                                <li>
-                                    <b>Pexels</b> - <a href="https://pixabay.com/photos/cosmos-milky-way-night-sky-stars-1853491/">"Cosmos"</a>
-                                </li>
-                            </ul>
-                        `, new Process("Credits", "about"));
+                            new acr.Window("Credits", `
+                                <h2>Main development</h2>
+                                <ul>
+                                    <li>
+                                        <b>Anpang54</b> (anpang.fun) - Literally everything
+                                    </li>
+                                </ul>
+                                <h2>Small elements</h2>
+                                <ul>
+                                    <li>
+                                        <b>patrickoliveras</b> - <a href="https://github.com/patrickoliveras/js-text-donut">Spinning donut</a>
+                                    </li>
+                                </ul>
+                                <h2>Wallpapers</h2>
+                                <ul>
+                                    <li>
+                                        <b>Anpang54</b> (anpang.fun) - <a href="https://wiki.anpang.fun/acr/Default_wallpaper">"Acrylic"</a>
+                                    </li>
+                                    <li>
+                                        <b>IdaT</b> - <a href="https://pixabay.com/photos/baltic-sea-sunset-poland-colours-7434540/">"Baltic sea"</a>
+                                    </li>
+                                    <li>
+                                        <b>Pexels</b> - <a href="https://pixabay.com/photos/cosmos-milky-way-night-sky-stars-1853491/">"Cosmos"</a>
+                                    </li>
+                                </ul>
+                            `, new acr.Process("Credits", "about"));
                             break;
 
                         case "donut":
-                            if (activeDonuts > 100) {
+                            if(activeDonuts > 100) {
                                 bsod("Too many donuts");
                             }
-                            const newPID = new Process("Donut", "about");
-                            new this.Window("Donut", `
-                            <pre class="apps-about-donut" id="window-${newPID}-about-donut"></pre>
-                        `, newPID);
-                            showSpinningDonut(id(`window-${newPID}-about-donut`));
+                            let newProcess = new acr.Process("Donut", "about");
+                            new acr.Window("Donut", `
+                                <pre class="apps-about-donut" id="window-${newProcess.PID}-about-donut"></pre>
+                            `, newProcess);
+                            showSpinningDonut(id(`window-${newProcess.PID}-about-donut`));
                             ++activeDonuts;
                             break;
 
@@ -1883,39 +1899,49 @@ let acr = new function() {
                 "icon": "iconol/sandbox.svg"
             },
             {
-                "run": function (windowID) {
-                    spawnWindow("Sandbox", `
-                    <h2>Sandbox</h2>
-                    <section>
-                        Welcome to the Acrylic Sandbox, a place where things can be tested.
-                        <br>
-                        There are a few tools here.
-                    </section>
-                    <section>
-                        <b>Dump variables</b>
-                        <br>
-                        <button class="bflat" onclick="appAction(${windowID}, 'dump', { 'variable': 'apps' })">apps</button>
-                        <button class="bflat" onclick="appAction(${windowID}, 'dump', { 'variable': 'processes' })">processes</button>
-                        <button class="bflat" onclick="appAction(${windowID}, 'dump', { 'variable': 'files' })">files</button>
-                        <button class="bflat" onclick="appAction(${windowID}, 'dump', { 'variable': 'config' })">config</button>
-                    </section>
-                    <section>
-                        <b>Miscellaneous tools</b>
-                        <br>
-                        <button onclick="appAction(${windowID}, 'change_build_number')" class="bflat">
-                            Change build number
-                        </button>
-                        <button onclick="appAction(${windowID}, 'elements_test')" class="bflat">
-                            Elements test
-                        </button>
-                    </section>
-                    <section>
-                        <b>Commonly used apps</b>
-                        <br>
-                        <button onclick="openApp('about')" class="bflat">Open about</button>
-                        <button onclick="openApp('terminal')" class="bflat">Open terminal</button>
-                    </section>
-                `, windowID);
+                "run": function (process) {
+
+                    // show initial window
+                    new acr.Window("Sandbox", `
+                        <h2>Sandbox</h2>
+                        <section>
+                            Welcome to the Acrylic Sandbox, a place where things can be tested.
+                            <br>
+                            There are a few tools here.
+                        </section>
+                        <section>
+                            <b>Dump variables</b>
+                            <div id="window-${process.PID}-dump-variables"></div>
+                        </section>
+                        <section>
+                            <b>Miscellaneous tools</b>
+                            <br>
+                            <button onclick="appAction(${process.PID}, 'change_build_number')" class="bflat">
+                                Change build number
+                            </button>
+                            <button onclick="appAction(${process.PID}, 'elements_test')" class="bflat">
+                                Elements test
+                            </button>
+                        </section>
+                        <section>
+                            <b>Commonly used apps</b>
+                            <br>
+                            <button onclick="openApp('about')" class="bflat">Open about</button>
+                            <button onclick="openApp('terminal')" class="bflat">Open terminal</button>
+                        </section>
+                    `, process);
+
+                    // show dump buttons
+                    const dumpButtons = ["apps", "processes", "files", "config"];
+                    for(const variable of dumpButtons) {
+                        append(`window-${process.PID}-dump-variables`, `
+                            <button class="bflat" id="window-${process.PID}-dump-variables-${variable}">${variable}</button>
+                        `);
+                        onclick(`window-${process.PID}-dump-variables-${variable}`, () => {
+                            process.action("dump", {"variable": variable});
+                        });
+                    }
+
                 },
                 "action": function (windowID, action, data) {
                     switch (action) {
@@ -2055,35 +2081,31 @@ let acr = new function() {
             },
             {
                 "run": (process) => {
-                let windowID = process.PID;
+                    let windowID = process.PID;
 
-                // spawn window
-                new acr.Window("Settings", `
-                    <section id="window-${windowID}-settings-tab-buttons"></section>
-                    <h2 id="window-${windowID}-settings-tab-title"></h2>
-                    <div id="window-${windowID}-settings-content"></div>
-                `, windowID);
+                    // spawn window
+                    new acr.Window("Settings", `
+                        <section id="window-${windowID}-settings-tab-buttons"></section>
+                        <h2 id="window-${windowID}-settings-tab-title"></h2>
+                        <div id="window-${windowID}-settings-content"></div>
+                    `, process);
 
-                // render tab selector
-                for (const [tabID, tabData] of Object.entries(settingsData)) {
-                    append(`window-${windowID}-settings-tab-buttons`,
-                        `<button class="bflat" id="window-${windowID}-settings-tab-button-${tabID}">${tabData["name"]}</button>`
-                    );
-                    id(`window-${windowID}-settings-tab-button-${tabID}`).addEventListener("click",
-                        function (tab) {
-                            process.action("switch_tab", {"tab": tab})
-                        }.bind(null, tabID)
-                    );
-                }
+                    // render tab selector
+                    for (const [tabID, tabData] of Object.entries(settingsData)) {
+                        append(`window-${windowID}-settings-tab-buttons`,
+                            `<button class="bflat" id="window-${windowID}-settings-tab-button-${tabID}">${tabData["name"]}</button>`
+                        );
+                        id(`window-${windowID}-settings-tab-button-${tabID}`).addEventListener("click",
+                            function (tab) {
+                                process.action("switch_tab", {"tab": tab})
+                            }.bind(null, tabID)
+                        );
+                    }
 
-                // add eventlisteners to tabs
-                for(const [tabID, tabData] of Object.entries(settingsData)) {
-                    id(``)
-                }
-                // render the general tab
-                process.action("switch_tab", {"tab": "general"});
+                    // render the general tab
+                    process.action("switch_tab", {"tab": "general"});
 
-            },
+                },
                 "action": (process, action, data) => {
                     let windowID = process.PID;
 
@@ -2205,7 +2227,8 @@ let acr = new function() {
                 "icon": "iconol/system_monitor.svg"
             },
             {
-                "run": function (windowID) {
+                "run": function (process) {
+                    let windowID = process.PID;
 
                     const typeDisplayNames = {
                         "none": "Hidden",
@@ -2213,14 +2236,16 @@ let acr = new function() {
                         "term": "Terminal"
                     };
 
-                    spawnWindow("System Monitor", `
+                    new acr.Window("System Monitor", `
                         <span id="window-${windowID}-live" class="apps-system-monitor-live">Live</span>
                         <h2>Processes</h2>
                         <table id="window-${windowID}-process-table"></table>
-                    `, windowID);
+                    `, process);
 
-                    function updateTable(windowID) {
-                        let table = `
+                    function updateTable(process) {
+
+                        // make initial table
+                        id(`window-${windowID}-process-table`).innerHTML = `
                             <thead>
                                 <tr>
                                     <th>PID</th>
@@ -2230,49 +2255,50 @@ let acr = new function() {
                                     <th>Options</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="window-${windowID}-process-table-body"></tbody>
                         `;
-                        for (const [PID, processInfo] of Object.entries(processes)) {
-                            table += `
+
+                        // make entries
+                        for (const [PID, processInfo] of Object.entries(acr.processes)) {
+                            append(`window-${windowID}-process-table-body`, `
                                 <tr>
                                     <td>${PID}</td>
                                     <td>${processInfo["app"]}</td>
                                     <td>${processInfo["name"]}</td>
                                     <td>${typeDisplayNames[processInfo["type"]]}</td>
                                     <td class="apps-system-monitor-kill-td">
-                                        <button class="bflat"
-                                           onclick="appAction(${windowID}, 'kill_process', { 'pid': ${PID} })"
-                                        >
+                                        <button class="bflat" id="window-${process.PID}-kill-${PID}">
                                             Kill
                                         </button>
                                     </td>
                                 </tr>
-                            `;
+                            `);
+                            onclick(`window-${process.PID}-kill-${PID}`, () => {
+                                process.action("kill_process", {"pid": PID});
+                            });
                         }
-                        table += "</tbody>";
 
-                        id(`window-${windowID}-process-table`).innerHTML = table;
-
+                        // update "Live" indicator
                         id(`window-${windowID}-live`).style.display =
                             (id(`window-${windowID}-live`).style.display === "none") ? "block" : "none";
 
                     }
 
-                    updateTable(windowID);
-                    processes[windowID]["interval"] = setInterval(() => {
-                        updateTable(windowID);
+                    updateTable(process);
+                    acr.processes[windowID].storage["interval"] = setInterval(() => {
+                        updateTable(process);
                     }, 500);
 
                 },
                 "action": function (windowID, action, data) {
                     switch (action) {
                         case "kill_process":
-                            killProcess(data["pid"]);
+                            acr.processes[data["pid"]].kill();
                             break;
                     }
                 },
-                "kill": function (windowID) {
-                    clearInterval(processes[windowID]["interval"]);
+                "kill": function(windowID) {
+                    clearInterval(acr.processes[windowID].storage["interval"]);
                 }
             }
         ),
@@ -2300,12 +2326,12 @@ let acr = new function() {
                                 &gt; <input class="apps-terminal-input" id="window-${windowID}-terminal-input"></input> 
                             </div>
                         </div>
-                    `, windowID);
+                    `, process);
 
                     process.storage.acrsh = new acr.Acrsh(windowID);
                     process.storage.initialTerminalText = `
                         <br>
-                        &nbsp;&nbsp;<b>Acrylic v${version} - JS console</b>
+                        &nbsp;&nbsp;<b>Acrylic v${acr.version} - acrsh console</b>
                         <br>
                         &nbsp;&nbsp;Run "help()" for help
                         <br>
@@ -2621,11 +2647,5 @@ let acr = new function() {
     //endregion
 
 }
-
-/*
-if(window.location.origin !== "https://anpang.fun") {
-    document.body.innerText = "";
-}
-*/
 
 acr.boot();
