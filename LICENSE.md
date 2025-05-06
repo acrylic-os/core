@@ -2,7 +2,7 @@
 ---
 
 Acrylic is licensed under version 1.0 of the **PolyForm Noncommercial License**.\
-You probably haven't heard of Polyform licenses, but some software like [Sodium](https://github.com/CaffeineMC/sodium) is licensed under them.
+You probably haven't heard of Polyform licenses, but some software like [Sodium](https://github.com/CaffeineMC/sodium) are licensed under them.
 
 **TL;DR:**
 * You can use and modify Acrylic.
