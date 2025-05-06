@@ -680,7 +680,6 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 }
 .app-calculator-options-types{ display: inline-block; }
 .app-calculator-options-history-toggle{
-    display: inline-block;
     float: right;
 }
 .app-calculator-history{

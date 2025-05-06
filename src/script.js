@@ -6,12 +6,24 @@
 
 let acr = new function() {
 
-    this.version = "0.2.0-b14";
-    this.versionDate = "24 Apr 2025";
 
-    //region ━━━━━━━━━━━━━━━    FUNCTIONS/CONSTANTS   ━━━━━━━━━━━━━━━
+    // #region ━ FUNCTIONS/CONSTANTS
 
-    //region ──────────      DOM shorthand functions       ──────────
+    // #region ─ constants
+
+        this.version = "0.2.0-b15";
+        this.versionDate = "6 May 2025";
+
+        const dayNames = [
+            "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+        ];
+        const monthNames = [
+            "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+        ];
+
+    // #endregion
+
+    // #region ─ DOM shorthand functions
 
         function id(name) {
             return document.getElementById(name);
@@ -23,9 +35,9 @@ let acr = new function() {
             document.getElementById(id).insertAdjacentHTML("beforeend", html);
         }
 
-    //endregion
+    // #endregion
 
-    //region ──────────          other functions           ──────────
+    // #region ─ other functions
 
         function pad(number, length) {
             return String(number).padStart(length, "0");
@@ -90,20 +102,9 @@ let acr = new function() {
         }
         // based on https://gist.github.com/IceCreamYou/8396172 and https://gist.github.com/croneter/19d9ffb8e41dd4584465128b49485dcf
 
-    //endregion
+    // #endregion
 
-    //region ──────────               other                ──────────
-
-        const dayNames = [
-            "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-        ];
-        const monthNames = [
-            "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-        ];
-
-    //endregion
-
-    //region ──────────           basic classes            ──────────
+    // #region ─ basic classes
 
         class Vector2{
             constructor(x, y) {
@@ -119,9 +120,9 @@ let acr = new function() {
             }
         }
 
-    //endregion
+    // #endregion
 
-    //region ──────────             mouse down             ──────────
+    // #region ─ mouse down
 
         let mouseDown = false;
 
@@ -132,13 +133,14 @@ let acr = new function() {
             mouseDown = false;
         });
 
-    //endregion
+    // #endregion
 
-    //endregion
+    // #endregion
 
-    //region ━━━━━━━━━━━━━━━           BOOT           ━━━━━━━━━━━━━━━
 
-    //region ──────────              logging               ──────────
+    // #region ━ BOOT
+
+    // #region ─ logging
 
     this.logs = [];
     let startTime = window.performance.now();
@@ -169,9 +171,9 @@ let acr = new function() {
         console.log(logContent);
     }
 
-    //endregion
+    // #endregion
 
-    //region ──────────           boot function            ──────────
+    // #region ─ boot function
 
     let booting = true;
 
@@ -224,9 +226,9 @@ let acr = new function() {
 
     }
 
-    //endregion
+    // #endregion
 
-    //region ──────────          other functions           ──────────
+    // #region ─ other functions
 
         // save config and files to localStorage
         function saveData() {
@@ -239,9 +241,9 @@ let acr = new function() {
             return `hsl(${randomFloat(40, 280)}deg 100% ${randomFloat(60, 90)}%)`
         }
 
-    //endregion
+    // #endregion
 
-    //region ──────────             bootscreen             ──────────
+    // #region ─ bootscreen
 
         function showBootScreen() {
 
@@ -304,19 +306,20 @@ let acr = new function() {
 
         }
 
-    //endregion
+    // #endregion
 
-    //endregion
+    // #endregion
 
-    //region ━━━━━━━━━━━━━━━    FILESYSTEM/CONFIGS    ━━━━━━━━━━━━━━━
 
-    //region ──────────               files                ──────────
+    // #region ━ FILESYSTEM/CONFIGS
+
+    // #region ─ files
 
     let files = {};
 
-    //endregion
+    // #endregion
 
-    //region ──────────              configs               ──────────
+    // #region ─ configs
 
         let config = {};
 
@@ -375,13 +378,14 @@ let acr = new function() {
             saveData();
         }
 
-    //endregion
+    // #endregion
 
-    //endregion
+    // #endregion
 
-    //region ━━━━━━━━━━━━━━━      PROCESSES/APPS      ━━━━━━━━━━━━━━━
 
-    //region ──────────         process management         ──────────
+    // #region ━ PROCESSES/APPS
+
+    // #region ─ process management
 
         let currentPID = -1;
         this.processes = {};
@@ -453,9 +457,9 @@ let acr = new function() {
 
         }
 
-    //endregion
+    // #endregion
 
-    //region ──────────           app management           ──────────
+    // #region ─ app management
 
         this.apps = {};
 
@@ -486,13 +490,14 @@ let acr = new function() {
         }
 
 
-    //endregion
+    // #endregion
 
-    //endregion
+    // #endregion
 
-    //region ━━━━━━━━━━━━━━━       SETUP/LOGIN        ━━━━━━━━━━━━━━━
 
-    //region ──────────             show setup             ──────────
+    // #region ━ SETUP/LOGIN
+
+    // #region ─ show setup
 
         function showSetup() {
 
@@ -512,9 +517,9 @@ let acr = new function() {
             showSetupStage(1);
         }
 
-    //endregion
+    // #endregion
 
-    //region ──────────            setup stages            ──────────
+    // #region ─ setup stages
 
         let setupStage = 1;
         const setupStageNames = {
@@ -592,9 +597,9 @@ let acr = new function() {
             }
         }
 
-    //endregion
+    // #endregion
 
-    //region ──────────         show login screen          ──────────
+    // #region ─ show login screen
 
         let user;
         let skippedLogin;
@@ -634,9 +639,9 @@ let acr = new function() {
 
         }
 
-    //endregion
+    // #endregion
 
-    //region ──────────           login function           ──────────
+    // #region ─ login function
 
         function login(username, password) {
             if (username in config["users"]) {
@@ -653,13 +658,14 @@ let acr = new function() {
             }
         }
 
-    //endregion
+    // #endregion
 
-    //endregion
+    // #endregion
 
-    //region ━━━━━━━━━━━━━━━         DESKTOP          ━━━━━━━━━━━━━━━
 
-    //region ──────────            show desktop            ──────────
+    // #region ━ DESKTOP
+
+    // #region ─ show desktop
 
         function setDesktopWallpaper() {
             id("desktop").style.backgroundImage = `url(${getUserConfig("wallpaper")})`;
@@ -719,9 +725,28 @@ let acr = new function() {
 
         }
 
-    //endregion
+        function enableDesktopShortcuts() {
+            window.addEventListener("keyup", (event) => {
+                if (selectedWindow === undefined) {
+                    switch (event.key) {
+                        case "q":
+                            quit("logout");
+                            break;
+                        case "w":
+                            id("searchbar").focus()
+                            break;
+                        case "z":
+                            toggleStart();
+                            break;
+                    }
+                    event.preventDefault();
+                }
+            });
+        }
 
-    //region ──────────             searchbar              ──────────
+    // #endregion
+
+    // #region ─ searchbar
 
         const searchTypeNames = {
             "app": "App"
@@ -778,9 +803,9 @@ let acr = new function() {
 
         }
 
-    //endregion
+    // #endregion
 
-    //region ──────────                time                ──────────
+    // #region ─ time
 
         let timeUpdateInterval;
 
@@ -821,15 +846,15 @@ let acr = new function() {
             startUpdatingTime();
         }
 
-    //endregion
+    // #endregion
 
-    //region ──────────                dock                ──────────
+    // #region ─ dock
 
         // lol
 
-    //endregion
+    // #endregion
 
-    //region ──────────             start menu             ──────────
+    // #region ─ start menu
 
     // toggle opening/closing
 
@@ -923,32 +948,9 @@ let acr = new function() {
 
         }
 
-    //endregion
+    // #endregion
 
-    //region ──────────     desktop keyboard shortcuts     ──────────
-
-        function enableDesktopShortcuts() {
-            window.addEventListener("keyup", (event) => {
-                if (selectedWindow === undefined) {
-                    switch (event.key) {
-                        case "q":
-                            quit("logout");
-                            break;
-                        case "w":
-                            id("searchbar").focus()
-                            break;
-                        case "z":
-                            toggleStart();
-                            break;
-                    }
-                    event.preventDefault();
-                }
-            });
-        }
-
-    //endregion
-
-    //region ──────────           click confetti           ──────────
+    // #region ─ click confetti
 
         function spawnClickConfettiClick(event) {
             spawnClickConfetti(event, 12);
@@ -1062,9 +1064,9 @@ let acr = new function() {
 
         }
 
-    //endregion
+    // #endregion
 
-    //region ──────────           blue rectangle           ──────────
+    // #region ─ blue rectangle
 
         let blueRectangleOrigin;
         let blueRectangleOn = false;
@@ -1106,13 +1108,14 @@ let acr = new function() {
 
         }
 
-    //endregion
+    // #endregion
 
-    //endregion
+    // #endregion
 
-    //region ━━━━━━━━━━━━━━━        WINDOWING         ━━━━━━━━━━━━━━━
 
-    //region ──────────         window management          ──────────
+    // #region ━ WINDOWING
+
+    // #region ─ window management
 
     let windows = {};
     let selectedWindow;
@@ -1236,9 +1239,9 @@ let acr = new function() {
 
     }
 
-    //endregion
+    // #endregion
 
-    //region ──────────            spawn popup             ──────────
+    // #region ─ spawn popup
 
         const popupTypes = {
             "error": {
@@ -1278,13 +1281,14 @@ let acr = new function() {
 
         }
 
-    //endregion
+    // #endregion
 
-    //endregion
+    // #endregion
 
-    //region ━━━━━━━━━━━━━━━        CORE APPS         ━━━━━━━━━━━━━━━
 
-    //region ──────────          donut utilities           ──────────
+    // #region ━ CORE APPS
+
+    // #region ─ donut utilities
 
     function showSpinningDonut(element) {
 
@@ -1368,9 +1372,9 @@ let acr = new function() {
 
     let activeDonuts = 0;
 
-    //endregion
+    // #endregion
 
-    //region ──────────           settings data            ──────────
+    // #region ─ settings data
 
     const settingsData = {
         "general": {
@@ -1454,9 +1458,9 @@ let acr = new function() {
         }
     };
 
-    //endregion
+    // #endregion
 
-    //region ──────────               acrsh                ──────────
+    // #region ─ acrsh
 
     this.Acrsh = class{
 
@@ -1537,9 +1541,9 @@ let acr = new function() {
          */
     }
 
-    //endregion
+    // #endregion
 
-    //region ──────────           core utilities           ──────────
+    // #region ─ core utilities
 
     const coreUtilities = {
 
@@ -1577,9 +1581,9 @@ let acr = new function() {
 
     };
 
-    //endregion
+    // #endregion
 
-    //region ──────────          actual core apps          ──────────
+    // #region ─ actual core apps
 
     const coreApps = {
 
@@ -2498,19 +2502,20 @@ let acr = new function() {
 
     }
 
-    //endregion
+    // #endregion
 
-    //region ──────────            add the apps            ──────────
+    // #region ─ add the apps
 
     this.apps = {...this.apps, ...coreUtilities, ...coreApps};
 
-    //endregion
+    // #endregion
 
-    //endregion
+    // #endregion
 
-    //region ━━━━━━━━━━━━━━━           BSOD           ━━━━━━━━━━━━━━━
 
-    //region ──────────           bsod function            ──────────
+    // #region ━ SPECIAL SCREENS
+
+    // #region ─ bsod
 
         function bsod(text, givenOptions) {
 
@@ -2541,23 +2546,9 @@ let acr = new function() {
             id("bsod").style.display = "none";
         }
 
-    //endregion
+    // #endregion
 
-    //region ──────────          js error handler          ──────────
-
-        function addJSErrorHandler() {
-            window.addEventListener("error", (message) => {
-                bsod(message.message, {"js_error": true});
-            });
-        }
-
-    //endregion
-
-    //endregion
-
-    //region ━━━━━━━━━━━━━━━       QUIT SCREEN        ━━━━━━━━━━━━━━━
-
-    //region ──────────            message data            ──────────
+    // #region ─ quit message data
 
         const quitActionText = {
             "logout": {
@@ -2587,9 +2578,9 @@ let acr = new function() {
             }
         };
 
-    //endregion
+    // #endregion
 
-    //region ──────────           quit functions           ──────────
+    // #region ─ quit screen
 
         let quitAction;
 
@@ -2642,10 +2633,21 @@ let acr = new function() {
             id("quit-areyousure").style.display = "none";
         }
 
-    //endregion
+    // #endregion
 
-    //endregion
+    // #region ─ error handler
 
+    function addJSErrorHandler() {
+        window.addEventListener("error", (message) => {
+            bsod(message.message, {"js_error": true});
+        });
+    }
+
+    // #endregion
+
+    // #endregion
+
+    
 }
 
 acr.boot();
