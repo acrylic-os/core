@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b15";
-        this.versionDate = "6 May 2025";
+        this.version = "0.2.0-b16";
+        this.versionDate = "10 May 2025";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -39,10 +39,17 @@ let acr = new function() {
 
     // #region ─ other functions
 
+        // run code in the acr scope
+        this.eval = (code) => {
+            eval(code);
+        }
+
+        // pad zeros at the start of a number
         function pad(number, length) {
             return String(number).padStart(length, "0");
         }
 
+        // random number generators
         function randomFloat(min, max) {
             return Math.random() * (max - min) + min;
         }
@@ -410,6 +417,9 @@ let acr = new function() {
                 // add to processes
                 acr.processes[currentPID] = this;
 
+                // change dock
+                regenerateDock();
+
             }
 
             // run an app action
@@ -452,6 +462,9 @@ let acr = new function() {
 
                 // self-destruct
                 delete acr.processes[this.PID];
+
+                // change dock
+                regenerateDock();
 
             }
 
@@ -850,7 +863,44 @@ let acr = new function() {
 
     // #region ─ dock
 
-        // lol
+        function regenerateDock() {
+
+            // generate list of icons to show
+            let icons = {}
+            for(const [PID, processInfo] of Object.entries(acr.processes)) {
+                if(PID == 0) {    // core process
+                    continue;
+                }
+                if(icons.hasOwnProperty(processInfo.app)) {    // icon already exists for app
+                    icons[processInfo.app].push(PID);
+                } else {    // app doesn't have icon yet
+                    icons[processInfo.app] = [PID];
+                }
+            }
+
+            // show the icons
+            id("dock-apps").innerHTML = "";
+            for(const [app, PIDs] of Object.entries(icons)) {
+                append("dock-apps", `
+                    <a
+                        href="#" class="dock-app" id="dock-app-${app}"
+                        style='background-image: url("${acr.apps[app].icon}")'
+                    ></a>
+                `);
+                onclick(`dock-app-${app}`, () => {
+                    dockClick(app, PIDs);
+                });
+            }
+        }
+
+        // when a dock button is clicked
+        function dockClick(app, PIDs) {
+            for(const PID of PIDs) {
+                if(!windows[PID].shown) {
+                    windows[PID].unminimize();
+                }
+            }
+        }
 
     // #endregion
 
@@ -1165,14 +1215,17 @@ let acr = new function() {
 
             // make the buttons actually do stuff
             onclick(`window-${windowID}-minimize`, () => {
-                this.shown = false;
-                id(`window-${windowID}`).style.display = "none";
+                if(this.shown) {
+                    this.minimize(windowID);
+                } else {
+                    this.unminimize(windowID);
+                }
             });
             onclick(`window-${windowID}-toggle`, () => {
                 if(this.maximized) {
-                    this.unmaximize(windowID);
+                    this.unmaximize();
                 } else {
-                    this.maximize(windowID);
+                    this.maximize();
                 }
             });
             onclick(`window-${windowID}-close`, () => {
@@ -1183,13 +1236,7 @@ let acr = new function() {
             id(`window-${windowID}-titlebar`).addEventListener("mousedown", (event) => {
 
                 // select
-                if (selectedWindow !== windowID) {    // if the selected window isn't this window
-                    id(`window-${windowID}`).classList.add("selected");
-                    if (typeof selectedWindow !== "undefined") {
-                        id(`window-${selectedWindow}`).classList.remove("selected");
-                    }
-                    selectedWindow = windowID;
-                }
+                this.select();
 
                 // make draggable
                 let titlebarRect = id(`window-${windowID}-titlebar`).getBoundingClientRect();
@@ -1210,6 +1257,18 @@ let acr = new function() {
 
         }
 
+        // select
+        select() {
+            if (selectedWindow !== this.windowID) {    // if the selected window isn't this window
+                id(`window-${this.windowID}`).classList.add("selected");
+                if (typeof selectedWindow !== "undefined") {
+                    id(`window-${selectedWindow}`).classList.remove("selected");
+                }
+                selectedWindow = this.windowID;
+            }
+        }
+
+        // maximize/unmaximize
         maximize() {
             windows[this.windowID]["maximized"] = true;
             id(`window-${this.windowID}`).classList.add("maximized");
@@ -1217,7 +1276,6 @@ let acr = new function() {
             windows[this.windowID]["topStyle"] = id(`window-${this.windowID}`).style.top;
             id(`window-${this.windowID}`).removeAttribute("style");
         }
-
         unmaximize() {
             windows[this.windowID]["maximized"] = false;
             id(`window-${this.windowID}`).classList.remove("maximized");
@@ -1229,6 +1287,25 @@ let acr = new function() {
             id(`window-${this.windowID}`).style.top = windows[this.windowID]["topStyle"];
         }
 
+        // minimize/unminimize
+        minimize() {
+            id(`window-${this.windowID}`).classList.add("window-animation-close");
+            setTimeout(() => {
+                id(`window-${this.windowID}`).style.display = "none";
+                id(`window-${this.windowID}`).classList.remove("window-animation-close");
+            }, 250);
+            this.shown = false;
+        }
+        unminimize() {
+            id(`window-${this.windowID}`).style.display = "block";
+            id(`window-${this.windowID}`).classList.add("window-animation-open");
+            setTimeout(() => {
+                id(`window-${this.windowID}`).classList.remove("window-animation-open");
+            }, 250);
+            this.shown = true;
+        }
+
+        // drag
         dragWindow(event) {
             if(windows[windowDragData["id"]]["maximized"]) {
                 this.unmaximize(windowDragData["id"]);
