@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b16";
-        this.versionDate = "10 May 2025";
+        this.version = "0.2.0-b17";
+        this.versionDate = "25 May 2025";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -891,14 +891,19 @@ let acr = new function() {
                     dockClick(app, PIDs);
                 });
             }
+
         }
 
         // when a dock button is clicked
         function dockClick(app, PIDs) {
             for(const PID of PIDs) {
+
+                // window minimized, so unminimize it
                 if(!windows[PID].shown) {
                     windows[PID].unminimize();
+                    continue;
                 }
+                
             }
         }
 
@@ -1325,37 +1330,71 @@ let acr = new function() {
                 "name": "Error",
                 "icon": "iconol/circle_no.png"
             },
+            "warning": {
+                "name": "Warning",
+                "icon": "iconol/square_?.svg"
+            },
+            "info": {
+                "name": "Info",
+                "icon": "iconol/square_?.svg"
+            },
             "unknown": {
                 "name": "Unknown",
                 "icon": "iconol/square_?.svg"
             }
         };
 
+        // spawn a popup
         function spawnPopup(type, content, buttons, parentProcess = 0) {
             // the parent process defaults to 0 (the acrylic core process)
 
-            let buttonsDisplay = "";
+            let popupProcess = new acr.Process("Popup", acr.processes[parentProcess]["app"], parentProcess);
+            let popupPID = popupProcess.PID;
+
+            new acr.Window(
+                popupTypes[type]["name"],
+                `
+                    <div class="popup-grid">
+                        <div class="popup-grid-icon" id="window-${popupPID}-popup-icon">
+                            <img src="${popupTypes[type]["icon"]}" class="popup-icon">
+                        </div>
+                        <div class="popup-grid-content">
+                            <span class="popup-content" id="window-${popupPID}-popup-content">
+                                ${content}
+                            </span>
+                        </div>
+                        <div class="popup-grid-buttons" id="window-${popupPID}-popup-buttons">
+                        </div>
+                    </div>
+                `,
+                popupProcess, ["24em", "12em"]
+            );
+
+            let i = 0;
             for (const [buttonText, buttonAction] of Object.entries(buttons)) {
-                buttonsDisplay += `<button class="bflat" onclick="${buttonAction}">${buttonText}</button>`;
+                append(`window-${popupPID}-popup-buttons`, `
+                    <button class="bflat" id="window-${popupPID}-popup-buttons-${i}">${buttonText}</button>
+                `);
+                onclick(`window-${popupPID}-popup-buttons-${i}`, buttonAction.bind(null, popupProcess));
+                ++i;
             }
 
-            let popupProcessID = new Process("Popup", processes[parentProcess]["app"], parentProcess);
-                new Window (popupTypes[type]["name"], `
-                <div class="popup-grid">
-                    <div class="popup-grid-icon">
-                        <img src="${popupTypes[type]["icon"]}" class="popup-icon">
-                    </div>
-                    <div class="popup-grid-content">
-                        <span class="popup-content">
-                            ${content}
-                        </span>
-                    </div>
-                    <div class="popup-grid-buttons">
-                        ${buttonsDisplay}
-                    </div>
-                </div>
-            `, popupProcessID, ["24em", "12em"]);
+        }
 
+        // spawn a debug popup
+        function debugPopup(content) {
+            spawnPopup(
+                "info",
+                `
+                    <b>Debug information:</b>
+                    <pre>${JSON.stringify(content)}</pre>
+                `,
+                {
+                    "OK": function(process) {
+                        process.kill();
+                    }
+                }
+            );
         }
 
     // #endregion
