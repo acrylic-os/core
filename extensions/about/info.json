@@ -1,0 +1,23 @@
+{
+
+    "id": "about",
+    "type": "app",
+    "appInfo": {
+        "display": "About",
+        "type": "gui",
+        "category": "system"
+    },
+
+    "version": {
+        "number": "0.2.0-b18",
+        "date": [2025, 5, 29],
+        "acrylic": "0.2.0"
+    },
+    "authors": [
+        "Anpang (https://anpang.lol/)"
+    ],
+
+    "steps": ["run", "action"],
+    "hooks": []
+
+}

@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b17";
-        this.versionDate = "25 May 2025";
+        this.version = "0.2.0-b18";
+        this.versionDate = "29 May 2025";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -144,7 +144,7 @@ let acr = new function() {
 
     // #endregion
 
-
+    
     // #region ━ BOOT
 
     // #region ─ logging
@@ -406,7 +406,7 @@ let acr = new function() {
                 this.name = name;
                 this.app = app;
                 this.parent = parent;
-                this.type = type? type: acr.apps[app]["type"];
+                this.type = type;
                 this.additionalData = additionalData ? additionalData : {};
                 this.storage = {};
 
@@ -1703,103 +1703,6 @@ let acr = new function() {
 
     const coreApps = {
 
-        // about
-        "about": new this.App(
-            "about",
-            {
-                "display": "About",
-                "type": "gui",
-                "category": "system"
-            },
-            {
-                "run": (process) => {
-
-                    let windowID = process.PID;
-
-                    new this.Window("About", `
-                        <div class="apps-about-grid">
-                            <div class="apps-about-grid-logo">
-                                <img src="assets/acrylic_logo.png" class="apps-about-logo">
-                            </div>
-                            <div class="apps-about-grid-title">
-                                <h2>Acrylic (acrylicOS)</h2>
-                                <b>Version ${acr.version}</b>
-                                <br>
-                                (${acr.versionDate})
-                            </div>
-                            <div class="apps-about-grid-useragent">
-                                <b>User agent:</b>
-                                <br>
-                                ${window.navigator.userAgent}
-                            </div>
-                            <div class="apps-about-grid-copyright">
-                                <section>
-                                    <button class="bflat" id="window-about-${windowID}-credits">Credits</button>
-                                    <button class="bflat" id="window-about-${windowID}-donut">Donut</button>
-                                </section>
-                                <section>
-                                    &copy; 2024 - 2025 Anpang54
-                                </section>
-                            </div>
-                        </div>
-                    `, process, ["500px", "400px"]);
-
-                    onclick(`window-about-${windowID}-credits`, () => {
-                        process.action("credits");
-                    });
-                    onclick(`window-about-${windowID}-donut`, () => {
-                        process.action("donut");
-                    });
-                },
-                "action": (windowID, action) => {
-                    switch (action) {
-
-                        case "credits":
-                            new acr.Window("Credits", `
-                                <h2>Main development</h2>
-                                <ul>
-                                    <li>
-                                        <b>Anpang54</b> (anpang.fun) - Literally everything
-                                    </li>
-                                </ul>
-                                <h2>Small elements</h2>
-                                <ul>
-                                    <li>
-                                        <b>patrickoliveras</b> - <a href="https://github.com/patrickoliveras/js-text-donut">Spinning donut</a>
-                                    </li>
-                                </ul>
-                                <h2>Wallpapers</h2>
-                                <ul>
-                                    <li>
-                                        <b>Anpang54</b> (anpang.fun) - <a href="https://wiki.anpang.fun/acr/Default_wallpaper">"Acrylic"</a>
-                                    </li>
-                                    <li>
-                                        <b>IdaT</b> - <a href="https://pixabay.com/photos/baltic-sea-sunset-poland-colours-7434540/">"Baltic sea"</a>
-                                    </li>
-                                    <li>
-                                        <b>Pexels</b> - <a href="https://pixabay.com/photos/cosmos-milky-way-night-sky-stars-1853491/">"Cosmos"</a>
-                                    </li>
-                                </ul>
-                            `, new acr.Process("Credits", "about"));
-                            break;
-
-                        case "donut":
-                            if(activeDonuts > 100) {
-                                bsod("Too many donuts");
-                            }
-                            let newProcess = new acr.Process("Donut", "about");
-                            new acr.Window("Donut", `
-                                <pre class="apps-about-donut" id="window-${newProcess.PID}-about-donut"></pre>
-                            `, newProcess);
-                            showSpinningDonut(id(`window-${newProcess.PID}-about-donut`));
-                            ++activeDonuts;
-                            break;
-
-                    }
-                }
-            }
-        ),
-
         // calculator
         "calculator": new this.App(
             "calculator",
@@ -2622,7 +2525,54 @@ let acr = new function() {
 
     // #region ─ add the apps
 
-    this.apps = {...this.apps, ...coreUtilities, ...coreApps};
+    //this.apps = {...this.apps, ...coreUtilities, ...coreApps};
+
+    async function loadExtension(path) {
+        
+        // get info.json
+        let request = await fetch(`${path}/info.json`);
+        let info = await request.json();
+        let text;
+
+        // load steps
+        let steps = {};
+        for(const step of info.steps) {
+            request = await fetch(`${path}/steps/${step}.js`);
+            text = await request.text();
+            steps[step] = new Function(`${text}; return ${step};`)();
+        }
+
+        // load hooks
+        let hooks = {};
+        for(const hook of info.hooks) {
+            request = await fetch(`${path}/hooks/${hook}.js`);
+            text = await request.text();
+            hooks[hook] = new Function(`${text}; return hook-${hook};`)();
+        }
+
+        // register
+        switch(info.type) {
+            
+            case "app":
+                acr.apps[info.id] = new acr.App(
+                    info.id,
+                    info.appInfo,
+                    steps
+                );
+                break;
+            
+            case "theme":
+                append("head", `
+                    <link rel="stylesheet" href="${path}/styles.css">
+                `);
+                break;
+
+        }
+
+    }
+
+    loadExtension("../extensions/about");
+    loadExtension("../extensions/acrylic-wme");
 
     // #endregion
 

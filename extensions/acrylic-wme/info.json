@@ -1,0 +1,18 @@
+{
+
+    "id": "acrylic-wme",
+    "type": "theme",
+
+    "version": {
+        "number": "0.2.0-b18",
+        "date": [2025, 5, 29],
+        "acrylic": "0.2.0"
+    },
+    "authors": [
+        "Anpang (https://anpang.lol/)"
+    ],
+
+    "steps": [],
+    "hooks": []
+
+}
