@@ -1,0 +1,20 @@
+
+.apps-sandbox-dump-output{
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 24em;
+    height: 24em;
+    overflow: auto;
+}
+.apps-sandbox-elements-box {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    overflow-x: scroll;
+}
+.apps-sandbox-elements-box > div{
+    grid-row: 1;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 1.5em;
+    border-radius: 1em;
+    margin-right: 0.25em;
+}

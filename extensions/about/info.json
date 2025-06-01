@@ -18,6 +18,7 @@
     ],
 
     "steps": ["run", "action"],
-    "hooks": []
+    "hooks": [],
+    "styles": true
 
 }

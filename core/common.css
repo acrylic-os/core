@@ -3,27 +3,8 @@
     https://github.com/acrylic-os/core
 */
 
-/*region ━━━━━━━━━━━━━━━        Z-INDEXES         ━━━━━━━━━━━━━━━ */
-/*
-    Z-INDEX
-          0: everything
-          5: desktop click
-          6: topbar
-          7: dock
-         10: version indicator
-         15: blue rectangle
-         20: windows
-         30: selected windows
-         40: start menu
-         41: search menu
-         43: start button
-         90: quit screen
-        100: bsod
-        200: click confetti
-*/
-/*endregion*/
 
-/*region ━━━━━━━━━━━━━━━          THEME           ━━━━━━━━━━━━━━━ */
+/* #region ━ COLORS */
 
 :root{
     --link: #c4edff;
@@ -31,9 +12,10 @@
     --bsod: rgba(0, 34, 255, 0.5);
 }
 
-/*endregion*/
+/* #endregion */
 
-/*region ━━━━━━━━━━━━━━━       BODY/LAYOUT        ━━━━━━━━━━━━━━━ */
+
+/* #region ━ BODY/LAYOUT */
 
 body{
     margin: 0;
@@ -56,11 +38,12 @@ body{
     box-sizing: border-box;
 }
 
-/*endregion*/
+/* #endregion */
 
-/*region ━━━━━━━━━━━━━━━         ELEMENTS         ━━━━━━━━━━━━━━━ */
 
-/*region ──────────          actual elements           ──────────*/
+/* #region ━ ELEMENTS */
+
+/* #region ─ actual elements */
 
 /* headings */
 h1, h2, h3, h4, h5, h6{ font-family: "Schibsted Grotesk", sans-serif; }
@@ -108,9 +91,9 @@ td, th{
 td{ background-color: rgba(255, 255, 255, 0.025); }
 th{ background-color: rgba(255, 255, 255, 0.05); }
 
-/*endregion*/
+/* #endregion */
 
-/*region ──────────          text formatting           ──────────*/
+/* #region ─ text formatting */
 
 /* code */
 code, pre{
@@ -126,9 +109,9 @@ code, pre{
     margin-top: 0.5em;
 }
 
-/*endregion*/
+/* #endregion */
 
-/*region ──────────           buttons/inputs           ──────────*/
+/* #region ─ buttons/inputs */
 
 /* common rectangle design */
 button, select, .textbox, input[type=text], input[type=datetime-local], input[type=date], input[type=time], input[type=file]{
@@ -188,11 +171,12 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     filter: opacity(0.9);
 }
 
-/*endregion*/
+/* #endregion */
 
-/*endregion*/
+/* #endregion */
 
-/*region ━━━━━━━━━━━━━━━    VERSION INDICATOR     ━━━━━━━━━━━━━━━ */
+
+/* #region ━ VERSION INDICATOR */
 
 #version{
     position: absolute;
@@ -205,9 +189,10 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 .version-boot{ top: 2em; }
 .version-desktop{ top: 4em; }
 
-/*endregion*/
+/* #endregion */
 
-/*region ━━━━━━━━━━━━━━━        BOOTSCREEN        ━━━━━━━━━━━━━━━ */
+
+/* #region ━ BOOTSCREEN */
 
 #bootscreen{ cursor: none; }
 #bootscreen-title{
@@ -227,9 +212,10 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     font-size: 1.5em;
 }
 
-/*endregion*/
+/* #endregion */
 
-/*region ━━━━━━━━━━━━━━━   LOGIN/SETUP SCREENS    ━━━━━━━━━━━━━━━ */
+
+/* #region ━ LOGIN/SETUP SCREENS */
 
 #loginscreen, #setupscreen{ background-size: cover; }
 #loginbox, #setupscreen-box{
@@ -247,17 +233,14 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 
 #setupscreen-box > div{ display: none; }
 
-/*endregion*/
+/* #endregion */
 
-/*region ━━━━━━━━━━━━━━━         DESKTOP          ━━━━━━━━━━━━━━━ */
 
-/*region ──────────           desktop itself           ──────────*/
+/* #region ━ DESKTOP */
 
 #desktop{ background-size: cover; }
 
-/*endregion */
-
-/*region ──────────               topbar               ──────────*/
+/* #region ─ topbar */
 
 #topbar{
     position: absolute;
@@ -345,9 +328,9 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 #timebar{ font-variant-numeric: tabular-nums; }
 
 
-/*endregion*/
+/* #endregion */
 
-/*region ──────────                dock                ──────────*/
+/* #region ─ dock */
 
 #dock{
     position: absolute;
@@ -387,9 +370,9 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     transition-duration: 0.2s;
 }
 
-/*endregion*/
+/* #endregion */
 
-/*region ──────────             start menu             ──────────*/
+/* #region ─ start menu */
 
 #startmenu{
     display: none;
@@ -465,9 +448,9 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     text-align: right;
 }
 
-/*endregion*/
+/* #endregion */
 
-/*region ──────────           blue rectangle           ──────────*/
+/* #region ─ blue rectangle */
 
 #desktop-click{
     position: absolute;
@@ -486,9 +469,9 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     z-index: 15;
 }
 
-/*endregion*/
+/* #endregion */
 
-/*region ──────────             windowing              ──────────*/
+/* #region ─ windowing */
 
 #windows {
     position: absolute;
@@ -586,9 +569,9 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 .selected{ z-index: 30; }
 .window:not(.selected) { filter: opacity(0.75); }
 
-/*endregion*/
+/* #endregion */
 
-/*region ──────────               popups               ──────────*/
+/* #region ─ popups */
 
 .popup-grid{
     display: grid;
@@ -608,9 +591,9 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 .popup-content{ width: 100%; }
 .popup-grid-buttons{ grid-column: 1 / 3; }
 
-/*endregion*/
+/* #endregion */
 
-/*region ──────────           click confetti           ──────────*/
+/* #region ─ click confetti */
 
 #click-confetti{
     position: absolute;
@@ -626,193 +609,12 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     border: 3px solid rgba(255, 255, 255, 0.1);
 }
 
-/*endregion*/
+/* #endregion */
 
-/*endregion*/
-
-/*region ━━━━━━━━━━━━━━━        CORE APPS         ━━━━━━━━━━━━━━━ */
-
-/*region ──────────               about                ──────────*/
-
-.apps-about-grid{
-    display: grid;
-    text-align: center;
-    grid-template-columns: auto auto;
-    gap: 1em;
-    height: 100%;
-}
-.apps-about-grid-logo{ margin-left: calc(50% - 2em); }
-.apps-about-grid-title{ margin-right: calc(50% - 2em); }
-.apps-about-grid-useragent, .apps-about-grid-copyright{ grid-column: 1 / 3; }
-.apps-about-logo{
-    width: 6em;
-    margin-top: 1em;
-}
-
-.apps-about-donut{
-    font-size: 0.5em;
-    margin-bottom: 2em;
-}
-.apps-about-donut-exit-box{ text-align: center; }
+/* #endregion */
 
 
-/*endregion*/
-
-/*region ──────────              calendar              ──────────*/
-
-.app-calculator-grid{
-    display: grid;
-    gap: 1em;
-}
-.app-calculator-grid-history-hidden{ grid-template-columns: auto; }
-.app-calculator-grid-history-shown{ grid-template-columns: auto auto; }
-.app-calculator-bases{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    row-gap: 0.25em;
-    column-gap: 1em;
-}
-.app-calculator-number{
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 0.5em 1em;
-    border-radius: 1em;
-}
-.app-calculator-result{
-    font-size: 1.5em;
-    font-weight: bold;
-    text-align: right;
-    margin-right: 1em;
-    display: block;
-}
-.app-calculator-options-types{ display: inline-block; }
-.app-calculator-options-history-toggle{
-    float: right;
-}
-.app-calculator-history{
-    display: none;
-    grid-column: 2;
-    grid-row: 1 / 5;
-}
-.app-calculator-buttons{
-    display: grid;
-    gap: 0.25em;
-    text-align: center;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(6, 1fr);
-}
-.app-calculator-button{
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 0.25em;
-    border-radius: 0.5em;
-    color: #fff;
-}
-.app-calculator-button:hover{ background-color: rgba(255, 255, 255, 0.2); }
-.app-calculator-button-equals{ grid-column: span 2; }
-
-/*endregion*/
-
-/*region ──────────              notepad               ──────────*/
-
-.apps-notepad-textarea{
-    background-color: rgba(255, 255, 255, 0.1);
-    border: none;
-    font-family: "Inter", sans-serif;
-    padding: 1em;
-    border-radius: 0.5em;
-    color: #fff;
-    font-size: 1em;
-    width: calc(100% - 2em);
-    height: calc(100% - 5em);
-    resize: none;
-}
-
-/*endregion*/
-
-/*region ──────────              sandbox               ──────────*/
-
-.apps-sandbox-dump-output{
-    background-color: rgba(0, 0, 0, 0.5);
-    width: 24em;
-    height: 24em;
-    overflow: auto;
-}
-.apps-sandbox-elements-box {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    overflow-x: scroll;
-}
-.apps-sandbox-elements-box > div{
-    grid-row: 1;
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 1.5em;
-    border-radius: 1em;
-    margin-right: 0.25em;
-}
-
-/*endregion*/
-
-/*region ──────────              settings              ──────────*/
-
-.apps-settings-tab-content{ display: none; }
-
-/*endregion*/
-
-/*region ──────────           system monitor           ──────────*/
-
-.apps-system-monitor-live{ float: right; }
-.apps-system-monitor-kill-td{ padding: 0 0.5em; }
-
-/*endregion*/
-
-/*region ──────────              terminal              ──────────*/
-
-.apps-terminal-box{
-    background-color: rgba(0, 0, 0, 0.5);
-    font-family: monospace;
-    padding: 1em;
-    border-radius: 0.5em;
-    height: 100%;
-}
-.apps-terminal-result{ margin-bottom: 1em; }
-.apps-terminal-input{
-    background-color: transparent;
-    border: none;
-    color: #fff;
-    font-size: 1em;
-    font-family: monospace;
-    padding: 0;
-    outline: none;
-}
-
-/*endregion*/
-
-/*region ──────────              weather               ──────────*/
-
-.apps-weather-has-location, .apps-weather-no-location{ display: none; }
-.apps-weather-loading, .apps-weather-no-location{ padding: 2em 1em 3em 2em; }
-.apps-weather-boxes{
-    white-space: nowrap;
-    width: min(75em, 50vw);
-    overflow-x: scroll;
-    padding-bottom: 0.5em;
-    margin-bottom: 1em;
-}
-.apps-weather-box{
-    display: inline-block;
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 0.25em 1.5em;
-    border-radius: 0.5em;
-    color: #fff;
-    margin-right: 0.25em;
-}
-.apps-weather-box > .subtitle{ margin-bottom: 1em; }
-
-/*endregion*/
-
-/*endregion*/
-
-/*region ━━━━━━━━━━━━━━━       DEATH SCREEN       ━━━━━━━━━━━━━━━ */
+/* #region ━ DEATH SCREEN */
 
 #bsod{
     background-color: var(--bsod);
@@ -824,9 +626,10 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     display: none;
 }
 
-/*endregion*/
+/* #endregion */
 
-/*region ━━━━━━━━━━━━━━━       QUIT SCREEN        ━━━━━━━━━━━━━━━ */
+
+/* #region ━ QUIT SCREEN */
 
 #quitscreen{
     background-color: rgba(0, 0, 0, 0.75);
@@ -844,4 +647,5 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 #quit-areyousure{ text-align: center; }
 .quit-button{ font-size: 1rem; }
 
-/*endregion*/
+/* #endregion */
+

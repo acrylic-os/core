@@ -1,16 +1,15 @@
 {
 
-    "id": "setings",
+    "id": "weather",
     "type": "app",
     "appInfo": {
-        "display": "Settings",
+        "display": "Weather",
         "type": "gui",
-        "category": "system",
-        "icon": "iconol/settings.svg"
+        "category": "utilities"
     },
 
     "version": {
-        "number": "0.2.0-b19",
+        "number": "0.2.0-b20",
         "date": [2025, 6, 1],
         "acrylic": "0.2.0"
     },
@@ -18,7 +17,7 @@
         "Anpang (https://anpang.lol/)"
     ],
 
-    "steps": ["common", "run", "action"],
+    "steps": ["run", "action"],
     "hooks": [],
     "styles": true
 

@@ -1,0 +1,13 @@
+
+.apps-notepad-textarea{
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    font-family: "Inter", sans-serif;
+    padding: 1em;
+    border-radius: 0.5em;
+    color: #fff;
+    font-size: 1em;
+    width: calc(100% - 2em);
+    height: calc(100% - 5em);
+    resize: none;
+}

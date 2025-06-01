@@ -1,0 +1,19 @@
+
+.apps-weather-has-location, .apps-weather-no-location{ display: none; }
+.apps-weather-loading, .apps-weather-no-location{ padding: 2em 1em 3em 2em; }
+.apps-weather-boxes{
+    white-space: nowrap;
+    width: min(75em, 50vw);
+    overflow-x: scroll;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+}
+.apps-weather-box{
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.25em 1.5em;
+    border-radius: 0.5em;
+    color: #fff;
+    margin-right: 0.25em;
+}
+.apps-weather-box > .subtitle{ margin-bottom: 1em; }

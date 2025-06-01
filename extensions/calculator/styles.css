@@ -1,0 +1,49 @@
+
+.app-calculator-grid{
+    display: grid;
+    gap: 1em;
+}
+.app-calculator-grid-history-hidden{ grid-template-columns: auto; }
+.app-calculator-grid-history-shown{ grid-template-columns: auto auto; }
+.app-calculator-bases{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 0.25em;
+    column-gap: 1em;
+}
+.app-calculator-number{
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.5em 1em;
+    border-radius: 1em;
+}
+.app-calculator-result{
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: right;
+    margin-right: 1em;
+    display: block;
+}
+.app-calculator-options-types{ display: inline-block; }
+.app-calculator-options-history-toggle{
+    float: right;
+}
+.app-calculator-history{
+    display: none;
+    grid-column: 2;
+    grid-row: 1 / 5;
+}
+.app-calculator-buttons{
+    display: grid;
+    gap: 0.25em;
+    text-align: center;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+}
+.app-calculator-button{
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.25em;
+    border-radius: 0.5em;
+    color: #fff;
+}
+.app-calculator-button:hover{ background-color: rgba(255, 255, 255, 0.2); }
+.app-calculator-button-equals{ grid-column: span 2; }

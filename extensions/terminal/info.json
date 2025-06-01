@@ -1,24 +1,24 @@
 {
 
-    "id": "example",
+    "id": "terminal",
     "type": "app",
     "appInfo": {
-        "display": "Example",
+        "display": "Terminal",
         "type": "gui",
         "category": "system",
-        "icon": "iconol/square_?.svg"
+        "icon": "iconol/display_black.svg"
     },
 
     "version": {
-        "number": "0.2.0-?",
+        "number": "0.2.0-b20",
         "date": [2025, 6, 1],
         "acrylic": "0.2.0"
     },
     "authors": [
-        "Very Real Person (https://example.com/)"
+        "Anpang (https://anpang.lol/)"
     ],
 
-    "steps": ["common", "run", "action"],
+    "steps": ["run", "action"],
     "hooks": [],
     "styles": true
 

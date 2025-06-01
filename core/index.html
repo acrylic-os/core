@@ -4,27 +4,42 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
+
     <head id="head">
+
+        <!-- title -->
         <title>Acrylic</title>
+
+        <!-- google fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter&family=Roboto+Mono&family=Schibsted+Grotesk&display=swap" rel="stylesheet">
+        
+        <!-- assets -->
         <link rel="stylesheet" href="common.css">
         <link rel="icon" href="https://anpang.fun/acrylic/assets/acrylic_logo.png">
         <link rel="prefetch" href="https://anpang.fun/acrylic/assets/acrylic_wallpaper.png">
+
     </head>
+
     <body id="body">
+
+        <!-- version indicator in top left -->
         <div id="version" class="version-boot">
             Acrylic v<span id="version-number"></span>
             <br>
             (<span id="version-date"></span>)
         </div>
+
+        <!-- boot screen -->
         <div id="bootscreen" class="screen">
             <div id="bootscreen-title">
                 <span>a</span><span>c</span><span>r</span><span>y</span><span>l</span><span>i</span><span>c</span><span>O</span><span>S</span>
             </div>
             <div id="bootscreen-text">Booting up...</div>
         </div>
+
+        <!-- setup screen -->
         <div id="setupscreen" class="screen">
             <div id="setupscreen-box">
                 Stage <span id="setup-stage-number"></span> - <span id="setup-stage-name"></span>
@@ -96,6 +111,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- login screen -->
         <div id="loginscreen" class="screen">
             <div id="loginbox">
                 <h1>Welcome to Acrylic!</h1>
@@ -115,9 +132,17 @@
                 <button class="bfull" id="loginbox-create">Create an account</button>
             </div>
         </div>
+
+        <!-- desktop -->
         <div id="desktop" class="screen">
+
+            <!-- blue rectangle hitbox -->
             <div id="desktop-click"></div>
+
+            <!-- windows -->
             <div id="windows"></div>
+
+            <!-- topbar -->
             <div id="topbar">
                 <div id="topbar-left"></div>
                 <div id="topbar-center">
@@ -130,11 +155,15 @@
                     <button id="timebar" class="bflat"></button>
                 </div>
             </div>
+
+            <!-- dock -->
             <div id="dock">
                 <a href="#" id="start-button"></a>
                 <div id="dock-apps">
                 </div>
             </div>
+
+            <!-- start menu -->
             <div id="startmenu">
                 <div id="startmenu-name">
                     <b>Start</b>
@@ -151,8 +180,13 @@
                     <button onclick="quit('quit')" class="bflat">Quit</button>
                 </div>
             </div>
+
+            <!-- the actual blue rectangle -->
             <div id="bluerectangle"></div>
+
         </div>
+
+        <!-- bluescreen -->
         <div id="bsod" class="screen">
             <h1>Something went wrong!</h1>
             <section>
@@ -174,6 +208,8 @@
                 Please report this bug!
             </section>
         </div>
+
+        <!-- quit overlay -->
         <div id="quitscreen" class="screen">
             <div id="quit-areyousure" class="quit-box">
                 <section>
@@ -191,7 +227,12 @@
                 You may now close this tab.
             </span>
         </div>
+
+        <!-- click confetti -->
         <div id="click-confetti"></div>
+
+        <!-- load script -->
         <script src="script.js"></script>
+        
     </body>
 </html>

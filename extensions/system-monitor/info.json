@@ -1,24 +1,24 @@
 {
 
-    "id": "example",
+    "id": "system-monitor",
     "type": "app",
     "appInfo": {
-        "display": "Example",
+        "display": "System Monitor",
         "type": "gui",
         "category": "system",
-        "icon": "iconol/square_?.svg"
+        "icon": "iconol/system_monitor.svg"
     },
 
     "version": {
-        "number": "0.2.0-?",
+        "number": "0.2.0-b20",
         "date": [2025, 6, 1],
         "acrylic": "0.2.0"
     },
     "authors": [
-        "Very Real Person (https://example.com/)"
+        "Anpang (https://anpang.lol/)"
     ],
 
-    "steps": ["common", "run", "action"],
+    "steps": ["run", "action", "kill"],
     "hooks": [],
     "styles": true
 

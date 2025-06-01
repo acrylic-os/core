@@ -11,7 +11,7 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b19";
+        this.version = "0.2.0-b20";
         this.versionDate = "1 Jun 2025";
 
         const dayNames = [
@@ -446,7 +446,7 @@ let acr = new function() {
 
                 // check if there's a kill hook
                 if ("kill" in acr.apps[acr.processes[this.PID]["app"]]) {
-                    acr.apps[acr.processes[this.PID]["app"]]["kill"](this.PID);
+                    acr.apps[acr.processes[this.PID]["app"]]["kill"](this);
                 }
 
                 // delete any windows of the process
@@ -501,12 +501,54 @@ let acr = new function() {
 
             // launch a new instance of the app
             launch(additionalData) {
-                let process = new acr.Process(this.display, this.id, null, additionalData);
+                let process = new acr.Process(this.display, this.id, null, this.type, additionalData);
                 this.run(process);
             }
 
         }
 
+
+    // #endregion
+
+    // #region ─ core utilities
+
+    const coreUtilities = {
+
+        // acrylic core process
+        "acrylic": new this.App(
+            "acrylic",
+            {
+                "display": "Acrylic core",
+                "type": "none",
+                "category": "none"
+            },
+            {
+                "run": () => {
+                    bsod("There's obviously already an Acrylic core process. Why the hell would you want to spawn another one?");
+                }
+            }
+        ),
+
+        // file picker
+        "file-picker": new this.App(
+            "file-picker",
+            {
+                "display": "File picker",
+                "type": "gui",
+                "category": "none"
+            },
+            {
+                "run": (windowID) => {
+                    new acr.Window("File picker", `
+                    Hello! I'm the file picker!
+                `, windowID);
+                }
+            }
+        )
+
+    };
+
+    this.apps = {...this.apps, ...coreUtilities};
 
     // #endregion
 
@@ -812,7 +854,12 @@ let acr = new function() {
                     </button>
                 `);
                 id(`searchentry-${match.ID}`).addEventListener("click", () => {
-                    alert(match.ID);
+                    const split = match.ID.split(":");
+                    switch(split[0]) {
+                        case "app":
+                            acr.apps[split[1]].launch();
+                            break;
+                    }
                 });
             }
 
@@ -1441,32 +1488,29 @@ let acr = new function() {
             hooks[hook] = new Function(`${domShorthandFunctions} ${common} ${text}; return hook-${hook};`)();
         }
 
-        // register
-        switch(info.type) {
-            
-            case "app":
-                acr.apps[info.id] = new acr.App(
-                    info.id,
-                    info.appInfo,
-                    steps
-                );
-                break;
-            
-            case "theme":
-                append("head", `
-                    <link rel="stylesheet" href="${path}/styles.css">
-                `);
-                break;
+        // load styles
+        if(info.styles) {
+            append("head", `
+                <link rel="stylesheet" href="${path}/styles.css">
+            `);
+        }
 
+        // register if app
+        if(info.type === "app") {
+            acr.apps[info.id] = new acr.App(
+                info.id,
+                info.appInfo,
+                steps
+            );
         }
 
     }
 
     // #endregion
 
-    // #region ─ expose functions to acr
+    // #region ─ expose things to acr
 
-    // functions to expose to the public API so that others (extensions, devtools, ...) can use them as acr.(function name)
+    // things to expose to the public API so that others (extensions, devtools, ...) can use them as acr.(name)
     const exposeFunctions = [
         getUserConfig, setUserConfig, getGlobalConfig, setGlobalConfig,
         enableClickConfetti, disableClickConfetti
@@ -1480,521 +1524,13 @@ let acr = new function() {
 
     // #region ─ load core apps
 
-    const coreApps = ["about", "calculator", "notepad", "settings"];
+    const coreApps = ["about", "calculator", "notepad", "sandbox", "settings", "system-monitor", "terminal", "weather"];
     
     for(const coreApp of coreApps) {
         loadExtension(`../extensions/${coreApp}`);
     }
     
     // #endregion
-
-    // #endregion
-
-
-    // #region ━ CORE APPS (LEGACY)
-
-    // tba: convert these into extensions
-    // these apps currently aren't actually being loaded
-
-    const coreUtilitiesLegacy = {
-
-        // acrylic core process
-        "acrylic": new this.App(
-            "acrylic",
-            {
-                "display": "Acrylic core",
-                "type": "none",
-                "category": ""
-            },
-            {
-                "run": () => {
-                    bsod("There's obviously already an Acrylic core process. Why the hell would you want to spawn another one?");
-                }
-            }
-        ),
-
-        // file picker
-        "file-picker": new this.App(
-            "file-picker",
-            {
-                "display": "File picker",
-                "type": "gui",
-                "category": "none"
-            },
-            {
-                "run": (windowID) => {
-                    new acr.Window("File picker", `
-                    Hello! I'm the file picker!
-                `, windowID);
-                }
-            }
-        )
-
-    };
-
-    const coreAppsLegacy = {
-
-        // sandbox
-        "sandbox": new this.App(
-            "sandbox",
-            {
-                "display": "Sandbox",
-                "type": "gui",
-                "category": "utilities",
-                "icon": "iconol/sandbox.svg"
-            },
-            {
-                "run": function (process) {
-
-                    // show initial window
-                    new acr.Window("Sandbox", `
-                        <h2>Sandbox</h2>
-                        <section>
-                            Welcome to the Acrylic Sandbox, a place where things can be tested.
-                            <br>
-                            There are a few tools here.
-                        </section>
-                        <section>
-                            <b>Dump variables</b>
-                            <div id="window-${process.PID}-dump-variables"></div>
-                        </section>
-                        <section>
-                            <b>Miscellaneous tools</b>
-                            <br>
-                            <button onclick="appAction(${process.PID}, 'change_build_number')" class="bflat">
-                                Change build number
-                            </button>
-                            <button onclick="appAction(${process.PID}, 'elements_test')" class="bflat">
-                                Elements test
-                            </button>
-                        </section>
-                        <section>
-                            <b>Commonly used apps</b>
-                            <br>
-                            <button onclick="openApp('about')" class="bflat">Open about</button>
-                            <button onclick="openApp('terminal')" class="bflat">Open terminal</button>
-                        </section>
-                    `, process);
-
-                    // show dump buttons
-                    const dumpButtons = ["apps", "processes", "files", "config"];
-                    for(const variable of dumpButtons) {
-                        append(`window-${process.PID}-dump-variables`, `
-                            <button class="bflat" id="window-${process.PID}-dump-variables-${variable}">${variable}</button>
-                        `);
-                        onclick(`window-${process.PID}-dump-variables-${variable}`, () => {
-                            process.action("dump", {"variable": variable});
-                        });
-                    }
-
-                },
-                "action": function (windowID, action, data) {
-                    switch (action) {
-
-                        case "dump": {
-                            const newPID = new Process("Variable dump", "sandbox", windowID);
-                            const dumpOutput = JSON.stringify(eval(data["variable"]), null, 2);
-                            spawnWindow("Variable dump", `
-                            <b>Dump of ${data["variable"]}:</b>
-                            <pre class="apps-sandbox-dump-output">${dumpOutput}</pre>
-                        `, newPID);
-                            break;
-                        }
-
-                        case "change_build_number": {
-                            const newPID = new Process("Change build number", "sandbox", windowID);
-                            spawnWindow("Change build number", `
-                            <section>
-                                Current build number: ${version.split("-")[0]}-<b>${version.split("-")[1]}</b>
-                            </section>
-                            <section>
-                                <input type="text" class="textbox" id="window-${newPID}-sandbox-change-build-number" placeholder="New build number">
-                            </section>
-                            <section>
-                                <button onclick="appAction(${newPID}, 'change_build_number_done', { 'pid': ${newPID} })"
-                                        class="bflat">Done</button>
-                            </section>
-                        `, newPID);
-                            break;
-                        }
-                        case "change_build_number_done": {
-                            const newPID = data["pid"];
-                            const newBuildNumber = id(`window-${newPID}-sandbox-change-build-number`).value;
-                            let version = `${version.split("-")[0]}-${newBuildNumber}*`;
-                            killProcess(newPID);
-                            break;
-                        }
-
-                        case "elements_test": {
-                            const newPID = new Process("Elements test", "sandbox", windowID);
-                            spawnWindow("Elements test", `
-                            <div class="apps-sandbox-elements-box">
-                                <div>
-                                    <h1>Heading 1</h1>
-                                    <h2>Heading 2</h2>
-                                    <h3>Heading 3</h3>
-                                    <h4>Heading 4</h4>
-                                    <h5>Heading 5</h5>
-                                    <h6>Heading 6</h6>
-                                </div>
-                                <div>
-                                    <section>
-                                        <span>Normal text</span>
-                                        <br>
-                                        <b>Bold</b>
-                                        <br>
-                                        <i>Italic</i>
-                                        <br>
-                                        <u>Underline</u>
-                                        <br>
-                                        <s>Strikethrough</s>
-                                    </section>
-                                    <section>
-                                        <code>Inline code</code>
-                                        <pre>Block of code</pre>
-                                    </section>
-                                    <section>
-                                        <a href="#">Link</a>
-                                    </section>
-                                    <section>
-                                        <button class="bflat">Flat button</button>
-                                        <br>
-                                        <button class="bfull">Full button</button>
-                                    </section>
-                                </div>
-                                <div>
-                                    <section>
-                                        <input type="text" class="textbox bflat" placeholder="Flat textbox"></input>
-                                        <br>
-                                        <input type="text" class="textbox bfull" placeholder="Full textbox"></input>
-                                    </section>
-                                    <section>
-                                        <input type="checkbox"> Checkbox
-                                        <br>
-                                        <input type="radio"> Radio
-                                    </section>
-                                    <section>
-                                        <input type="range">
-                                    </section>
-                                    <section>
-                                        <input type="color">
-                                    </section>
-                                    <section>
-                                        <input type="datetime-local">
-                                        <br>
-                                        <input type="date">
-                                        <br>
-                                        <input type="time">
-                                    </section>
-                                    <section>
-                                        <input type="file" class="textbox bflat">
-                                    </section>
-                                </div>
-                                <div>
-                                    <ul>
-                                        <li>List item 1</li>
-                                        <ul>
-                                            <li>List item 1.1</li>
-                                        </ul>
-                                        <li>List item 2</li>
-                                    </ul>
-                                    <ol>
-                                        <li>List item 1</li>
-                                        <ol>
-                                            <li>List item 1.1</li>
-                                        </ol>
-                                        <li>List item 2</li>
-                                    </ol>
-                                </div>
-                            </div>
-                        `, newPID, ["40em", "25em"]);
-                        }
-
-                    }
-                }
-            }
-        ),
-
-        // system monitor
-        "system-monitor": new this.App(
-            "system-monitor",
-            {
-                "display": "System Monitor",
-                "type": "gui",
-                "category": "system",
-                "icon": "iconol/system_monitor.svg"
-            },
-            {
-                "run": function (process) {
-                    let windowID = process.PID;
-
-                    const typeDisplayNames = {
-                        "none": "Hidden",
-                        "gui": "Graphical",
-                        "term": "Terminal"
-                    };
-
-                    new acr.Window("System Monitor", `
-                        <span id="window-${windowID}-live" class="apps-system-monitor-live">Live</span>
-                        <h2>Processes</h2>
-                        <table id="window-${windowID}-process-table"></table>
-                    `, process);
-
-                    function updateTable(process) {
-
-                        // make initial table
-                        id(`window-${windowID}-process-table`).innerHTML = `
-                            <thead>
-                                <tr>
-                                    <th>PID</th>
-                                    <th>Process</th>
-                                    <th>Name</th>
-                                    <th>Type</th>
-                                    <th>Options</th>
-                                </tr>
-                            </thead>
-                            <tbody id="window-${windowID}-process-table-body"></tbody>
-                        `;
-
-                        // make entries
-                        for (const [PID, processInfo] of Object.entries(acr.processes)) {
-                            append(`window-${windowID}-process-table-body`, `
-                                <tr>
-                                    <td>${PID}</td>
-                                    <td>${processInfo["app"]}</td>
-                                    <td>${processInfo["name"]}</td>
-                                    <td>${typeDisplayNames[processInfo["type"]]}</td>
-                                    <td class="apps-system-monitor-kill-td">
-                                        <button class="bflat" id="window-${process.PID}-kill-${PID}">
-                                            Kill
-                                        </button>
-                                    </td>
-                                </tr>
-                            `);
-                            onclick(`window-${process.PID}-kill-${PID}`, () => {
-                                process.action("kill_process", {"pid": PID});
-                            });
-                        }
-
-                        // update "Live" indicator
-                        id(`window-${windowID}-live`).style.display =
-                            (id(`window-${windowID}-live`).style.display === "none") ? "block" : "none";
-
-                    }
-
-                    updateTable(process);
-                    acr.processes[windowID].storage["interval"] = setInterval(() => {
-                        updateTable(process);
-                    }, 500);
-
-                },
-                "action": function (windowID, action, data) {
-                    switch (action) {
-                        case "kill_process":
-                            acr.processes[data["pid"]].kill();
-                            break;
-                    }
-                },
-                "kill": function(windowID) {
-                    clearInterval(acr.processes[windowID].storage["interval"]);
-                }
-            }
-        ),
-
-        // terminal
-        "terminal": new this.App(
-            "terminal",
-            {
-                "display": "Terminal",
-                "type": "gui",
-                "category": "system",
-                "icon": "iconol/display_black.svg"
-            },
-            {
-                "run": (process) => {
-
-                    let windowID = process.PID;
-
-                    new acr.Window("Terminal", `
-                        <div class="apps-terminal-box">
-                            <div id="window-${windowID}-terminal-result" class="apps-terminal-result"
-                                 onclick="appAction(${windowID}, 'select')"></div>
-                            <div>
-                                <label for="window-${windowID}-terminal-input">Input command</label>
-                                &gt; <input class="apps-terminal-input" id="window-${windowID}-terminal-input"></input> 
-                            </div>
-                        </div>
-                    `, process);
-
-                    process.storage.acrsh = new acr.Acrsh(windowID);
-                    process.storage.initialTerminalText = `
-                        <br>
-                        &nbsp;&nbsp;<b>Acrylic v${acr.version} - acrsh console</b>
-                        <br>
-                        &nbsp;&nbsp;Run "help()" for help
-                        <br>
-                    `;
-                    id(`window-${windowID}-terminal-result`).innerHTML = process.storage.initialTerminalText;
-
-                    process.action(windowID, "reset");
-                    process.action(windowID, "select");
-                    id(`window-${windowID}-terminal-input`).addEventListener("keyup", (event) => {
-                        if (event.key === "Enter") {
-                            process.action("run_command");
-                        }
-                    });
-
-                },
-                "action": (process, action) => {
-
-                    switch (action) {
-
-                        case "reset":
-                            id(`window-${process.PID}-terminal-result`).innerHTML = process.storage.initialTerminalText;
-                            break;
-
-                        case "select":
-                            id(`window-${process.PID}-terminal-input`).focus();
-                            break;
-
-                        case "run_command":
-
-                            const command = id(`window-${process.PID}-terminal-input`).value;
-                            id(`window-${process.PID}-terminal-input`).value = "";
-
-                            process.storage.acrsh.run(command);
-                            let result = process.storage.acrsh.result;
-                            let prefix = process.storage.acrsh.prefix;
-                            console.log(result);
-
-                            id(`window-${process.PID}-terminal-result`).innerHTML += `<br>&gt; ${command}<br>${prefix} ${result}<br>`;
-                            break;
-
-                    }
-                }
-            }
-        ),
-
-        // weather
-        "weather": new this.App(
-            "weather",
-            {
-                "display": "Weather",
-                "type": "gui",
-                "category": "utilities",
-            },
-            {
-                "run": (windowID) => {
-
-                    // make window
-                    spawnWindow("Weather", `
-                        <div class="centered apps-weather-loading" id="window-${windowID}-weather-loading">
-                            <h1>Loading...</h1>
-                        </div>
-                        <div class="centered apps-weather-has-location" id="window-${windowID}-weather-has-location">
-                            <h1>Weather</h1>
-                            <div class="apps-weather-boxes" id="window-${windowID}-weather-boxes"></div>
-                            <span class="subtitle">
-                                Weather data provided by <a href="https://open-meteo.com/">Open-Meteo</a>.
-                            </span>
-                        </div>
-                        <div class="centered apps-weather-no-location" id="window-${windowID}-weather-no-location">
-                            <h1>No location info available</h1>
-                            <button class="bfull" onclick="appAction(${windowID}, 'update')">
-                                Give location permissions
-                            </button>
-                        </div>
-                    `, windowID);
-
-                    // update it for the first time
-                    processStorage[windowID] = {};
-                    appAction(windowID, "update");
-
-                },
-                "action": (windowID, action) => {
-
-                    switch (action) {
-
-                        case "update":
-
-                            // get location info
-                        function getLocationInfo() {
-                            navigator.geolocation.watchPosition(
-                                // success
-                                function (position) {
-                                    processStorage[windowID]["longitude"] = position.coords.longitude;
-                                    processStorage[windowID]["latitude"] = position.coords.latitude;
-                                    getWeatherInfo().then(function (success) {
-                                        if (success) {
-                                            updateBoxes();
-                                        }
-                                    });
-                                },
-
-                                // error
-                                () => {
-                                    id(`window-${windowID}-weather-loading`).style.display = "none";
-                                    id(`window-${windowID}-weather-no-location`).style.display = "block";
-                                },
-
-                                {enableHighAccuracy: true}
-                            );
-                        }
-
-                            // get weather info
-                            let weatherInfo;
-
-                        async function getWeatherInfo() {
-                            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                            const response = await fetch(
-                                `https://api.open-meteo.com/v1/forecast?latitude=${processStorage[windowID]["latitude"]}&longitude=${processStorage[windowID]["longitude"]}&timezone=${timezone}&hourly=temperature_2m,relative_humidity_2m,rain,cloud_cover,uv_index&past_days=1&forecast_days=1`
-                            );
-                            if (response.ok) {
-                                weatherInfo = await response.json();
-                                processStorage[windowID]["info_gathered"] = true;
-                                return true;
-                            }
-                            return false;
-                        }
-
-                            // update and show boxes
-                        function updateBoxes() {
-                            const hourlyData = weatherInfo["hourly"];
-                            let generated = "";
-                            for (let i = 0; i < Object.keys(hourlyData["time"]).length; ++i) {
-                                generated += `
-                                        <a href="#" class="apps-weather-box" id="window-${windowID}-weather-box-${i}"
-                                           onclick="appAction(${windowID}, 'select_box', { "box": ${i} )">
-                                            <span class="subtitle">
-                                                ${hourlyData["time"][i].replace("T", "<br>")}
-                                            </span>
-                                            &#x1f321;&#xfe0f; ${hourlyData["temperature_2m"][i]}&deg;C
-                                            <br>
-                                            &#x1f327;&#xfe0f; ${hourlyData["rain"][i]}%
-                                            <br>
-                                            &#x1f4a7; ${hourlyData["relative_humidity_2m"][i]}%
-                                            <br>
-                                            &#x2601;&#xfe0f; ${hourlyData["cloud_cover"][i]}%
-                                            <br>
-                                            &#x2600;&#xfe0f; ${hourlyData["uv_index"][i]}
-                                        </a>
-                                    `;
-                            }
-                            id(`window-${windowID}-weather-boxes`).innerHTML = generated;
-                            id(`window-${windowID}-weather-loading`).style.display = "none";
-                            id(`window-${windowID}-weather-has-location`).style.display = "block";
-                            id(`window-${windowID}-weather-boxes`).scrollLeft = id(`window-${windowID}-weather-boxes`).offsetWidth * 3;
-                        }
-
-                            getLocationInfo();
-                            break;
-
-                    }
-                }
-            }
-        )
-
-    }
 
     // #endregion
 

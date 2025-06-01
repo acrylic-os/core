@@ -1,0 +1,21 @@
+
+.apps-about-grid{
+    display: grid;
+    text-align: center;
+    grid-template-columns: auto auto;
+    gap: 1em;
+    height: 100%;
+}
+.apps-about-grid-logo{ margin-left: calc(50% - 2em); }
+.apps-about-grid-title{ margin-right: calc(50% - 2em); }
+.apps-about-grid-useragent, .apps-about-grid-copyright{ grid-column: 1 / 3; }
+.apps-about-logo{
+    width: 6em;
+    margin-top: 1em;
+}
+
+.apps-about-donut{
+    font-size: 0.5em;
+    margin-bottom: 2em;
+}
+.apps-about-donut-exit-box{ text-align: center; }
