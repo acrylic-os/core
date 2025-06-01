@@ -648,7 +648,13 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     width: 6em;
     margin-top: 1em;
 }
-.apps-about-donut{ font-size: 0.5em; }
+
+.apps-about-donut{
+    font-size: 0.5em;
+    margin-bottom: 2em;
+}
+.apps-about-donut-exit-box{ text-align: center; }
+
 
 /*endregion*/
 

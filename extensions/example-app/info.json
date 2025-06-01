@@ -1,11 +1,12 @@
 {
 
-    "id": "about",
+    "id": "example",
     "type": "app",
     "appInfo": {
-        "display": "About",
+        "display": "Example",
         "type": "gui",
-        "category": "system"
+        "category": "system",
+        "icon": "iconol/square_?.svg"
     },
 
     "version": {
@@ -17,7 +18,7 @@
         "Anpang (https://anpang.lol/)"
     ],
 
-    "steps": ["run", "action"],
+    "steps": ["common", "run", "action"],
     "hooks": []
 
 }

@@ -1,11 +1,12 @@
 {
 
-    "id": "about",
+    "id": "setings",
     "type": "app",
     "appInfo": {
-        "display": "About",
+        "display": "Settings",
         "type": "gui",
-        "category": "system"
+        "category": "system",
+        "icon": "iconol/settings.svg"
     },
 
     "version": {
@@ -17,7 +18,7 @@
         "Anpang (https://anpang.lol/)"
     ],
 
-    "steps": ["run", "action"],
+    "steps": ["common", "run", "action"],
     "hooks": []
 
 }

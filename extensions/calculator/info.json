@@ -1,11 +1,12 @@
 {
 
-    "id": "about",
+    "id": "calculator",
     "type": "app",
     "appInfo": {
-        "display": "About",
+        "display": "Calculator",
         "type": "gui",
-        "category": "system"
+        "category": "utilities",
+        "icon": "iconol/calculator.svg"
     },
 
     "version": {

@@ -1,6 +1,3 @@
-function onclick(id, action) {
-    document.getElementById(id).addEventListener("click", action);
-}
 
 function run(process) {
     

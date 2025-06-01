@@ -1,11 +1,12 @@
 {
 
-    "id": "about",
+    "id": "notepad",
     "type": "app",
     "appInfo": {
-        "display": "About",
+        "display": "Notepad",
         "type": "gui",
-        "category": "system"
+        "category": "utilities",
+        "icon": "iconol/notepad.svg"
     },
 
     "version": {

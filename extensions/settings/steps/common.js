@@ -1,0 +1,82 @@
+
+const settingsData = {
+    "general": {
+        "name": "General",
+        "options": {
+            "welcome": {
+                "type": "html",
+                "html": "<b>Welcome to the settings app!</b>"
+            },
+            "general_coming_soon": {
+                "type": "html",
+                "html": "General settings currently aren't available."
+            }
+        }
+    },
+    "appearance": {
+        "name": "Appearance",
+        "options": {
+            "wallpaper": {
+                "type": "select",
+                "name": "Wallpaper",
+                "subtitle": "Currently you can only select between 3 wallpapers.",
+                "options": {
+                    "assets/wallpapers/acrylic.png": '"Acrylic"',
+                    "assets/wallpapers/baltic_sea.jpg": '"Baltic sea"',
+                    "assets/wallpapers/cosmos.jpg": '"Cosmos"'
+                },
+                "selected": ["user", "wallpaper"],
+                "set": function (newValue) {
+                    acr.setUserConfig("wallpaper", newValue);
+                    setDesktopWallpaper();
+                }
+            },
+            "transparent_topbar": {
+                "type": "checkbox",
+                "name": "Transparent topbar",
+                "subtitle": "Make the topbar appear transparent.",
+                "selected": ["user", "click_confetti"],
+                "set": function (newValue) {
+                    acr.setUserConfig("transparent_topbar", newValue);
+                    if (newValue) {
+                        id("topbar").classList.add("topbar-transparent");
+                    } else {
+                        id("topbar").classList.remove("topbar-transparent");
+                    }
+                }
+            }
+        }
+    },
+    "effects": {
+        "name": "Effects",
+        "options": {
+            "click_confetti": {
+                "type": "checkbox",
+                "name": "Click confetti",
+                "subtitle": "When you click or drag, it'll spawn confetti. Note that this can be laggy.",
+                "selected": ["user", "click_confetti"],
+                "set": function (newValue) {
+                    acr.setUserConfig("click_confetti", newValue);
+                    if (newValue) {
+                        enableClickConfetti();
+                    } else {
+                        disableClickConfetti();
+                    }
+                }
+            }
+        }
+    },
+    "system": {
+        "name": "System",
+        "options": {
+            "reset": {
+                "type": "button",
+                "name": "Reset Acrylic",
+                "subtitle": "Resetting Acrylic means all Acrylic data will be deleted, including users, settings, and files.",
+                "click": () => {
+                    quit("reset");
+                }
+            }
+        }
+    }
+};

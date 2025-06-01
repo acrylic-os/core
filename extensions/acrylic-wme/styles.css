@@ -1,53 +1,63 @@
 
+
+/* colors */
+
+:root{
+    --black: #000;
+    --purple: #9663ff;
+    --purple-hover: #6342a5;
+}
+
+
 /* desktop */
 
-#topbar{
-    background-color: #000;
+#topbar:not(.topbar-transparent){
+    background-color: var(--black);
     box-shadow: none;
-    border-bottom: 3px solid #9663ff;
+    border-bottom: 3px solid var(--purple);
     height: 2.5em;
 }
 #searchbar{ transform: translateY(3px); }
 #timebar{ transform: translateY(1px); }
 
 #dock, #startmenu, .window{
-    background-color: #000;
+    background-color: var(--black);
     box-shadow: none;
-    border: 3px solid #9663ff;
+    border: 3px solid var(--purple);
     border-radius: 0;
 }
-#start-button{ border: 3px solid #6342a5; }
+#start-button{ border: 3px solid ; }
 #start-button:hover{
-    background-color: #9663ff;
-    border: 3px solid #9663ff;
+    background-color: var(--purple);
+    border: 3px solid var(--purple);
     transform: none;
 }
 
 .titlebar{
     border-radius: 0;
-    background-color: #000;
-    border-bottom: 3px solid #9663ff;
-    color: #9663ff;
+    background-color: var(--black);
+    border-bottom: 3px solid var(--purple);
+    color: var(--purple);
 }
-.window-content{ border-top: 3px solid #9663ff; }
+.window-content{ border-top: 3px solid var(--purple); }
 .titlebar-buttons > a{
-    background-color: #9663ff;
+    background-color: var(--purple);
     box-shadow: none;
     border-radius: 0;
     transform: scale(1.25);
     margin-left: 0.5em;
 }
-.titlebar-buttons > a:hover{ background-color: #6342a5; }
+.titlebar-buttons > a:hover{ background-color: var(--purple-hover); }
 
 
 /* buttons and textboxes */
 
 .startmenu-category, .startmenu-app-tile, button, input[type=text], input[type=datetime-local], input[type=date], input[type=time], input[type=file]{
-    background-color: #000;
+    background-color: var(--black);
     box-shadow: none;
-    border: 3px solid #9663ff;
+    border: 3px solid var(--purple);
     border-radius: 0;
 }
 .startmenu-category:hover, .startmenu-app-tile:hover, button:hover, input[type=text]:hover, input[type=datetime-local]:hover, input[type=date]:hover, input[type=time]:hover, input[type=file]:hover{
-    background-color: #9663ff;
+    background-color: var(--purple);
 }
