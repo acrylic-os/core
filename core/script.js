@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b20";
-        this.versionDate = "1 Jun 2025";
+        this.version = "0.2.0-b21";
+        this.versionDate = "5 Jun 2025";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -219,11 +219,7 @@ let acr = new function() {
         }
         config = JSON.parse(localStorage.getItem("config"));
         if (!localStorage.hasOwnProperty("files")) {
-            localStorage.setItem("files", JSON.stringify({
-                "acrylic": {},
-                "apps": {},
-                "users": {}
-            }));
+            localStorage.setItem("files", JSON.stringify(initialFilesystem));
         }
         files = JSON.parse(localStorage.getItem("files"));
 
@@ -328,9 +324,133 @@ let acr = new function() {
 
     // #region ━ FILESYSTEM/CONFIGS
 
-    // #region ─ files
+    // #region ─ filesystem classes
 
-    let files = {};
+    // basic inode
+    class Inode{
+
+        // constructor
+        constructor(path, description, owner) {
+
+            // basic file info
+            this.path = path;
+            this.description = description;
+            this.owner = owner;
+            this.name = path.split("/").slice(-1)[0];
+            
+            // set all 3 dates to now
+            this.lastAccessed = Date.now();
+            this.lastChanged = Date.now();
+            this.lastModified = Date.now();
+
+        }
+    }
+
+    // files
+    class File extends Inode{
+
+        // constructor
+        constructor(path, description, owner, content) {
+            super(path, description, owner);
+            this.content = content;
+        }
+
+        // read/write file
+        read() {
+            return this.content;
+        }
+        write(content) {
+            this.content = content;
+        }
+
+    }
+
+    // folders
+    class Folder extends Inode{
+
+        // constructor
+        constructor(path, description, owner, contents) {
+            super(path, description, owner);
+            this.contents = contents;
+        }
+
+    }
+
+    // symlinks
+    class Symlink extends Inode{
+
+        // constructor
+        constructor(path, description, owner, target) {
+            super(path);
+            super(description);
+            super(owner);
+            this.target = target;
+        }
+
+        // read/write (does it with the target file)
+        read() {
+            const file = getInode(target);
+            return file.read();
+        }
+        write(content) {
+            let file = getInode(target);
+            return file.write(content);
+        }
+
+    }
+
+    // #endregion
+
+    // #region ─ filesystem functions
+
+    let files;
+
+    // initial filesystem for new users
+    const initialFilesystem = new Folder(
+        "/", "The root of the Acrylic filesystem.", "admin",
+        {
+            "README.md": new File("/README.md", "Some explaining to do here", "admin", "Welcome!"),
+            "acrylic": new Folder("/acrylic", "Files for Acrylic itself", "admin", {}),
+            "apps": new Folder("/apps", "System-wide files for apps", "admin", {}),
+            "cache": new Folder("/cache", "System cache", "admin", {}),
+            "users": new Folder("/users", "Users' personal files", "admin", {})
+        }
+    );
+
+    // get the Inode-derived object from the path
+    function getInode(path) {
+        
+        // split path
+        let splitted = path.split("/");
+        splitted.shift();
+
+        // go through filesystem
+        let currentObject = files;
+        for(const part of splitted) {
+            switch(currentObject.constructor.name) {
+
+                // file, can't go any deeper so return it
+                case "File":
+                    return currentObject;
+                
+                // folder, can go deeper
+                case "Folder":
+                    if(part in currentObject.contents) {
+                        currentObject = currentObject.contents[part];
+                    } else {
+                        return "error - file not found"; // TBA
+                    }
+                    break;
+                
+                // symlink, not implemented
+                case "Symlink":
+                    return "error - symlink not implemented";
+
+            }
+
+        }
+        return currentObject;
+    }
 
     // #endregion
 
@@ -1512,12 +1632,21 @@ let acr = new function() {
 
     // things to expose to the public API so that others (extensions, devtools, ...) can use them as acr.(name)
     const exposeFunctions = [
+
+        // configs
         getUserConfig, setUserConfig, getGlobalConfig, setGlobalConfig,
-        enableClickConfetti, disableClickConfetti
+        enableClickConfetti, disableClickConfetti,
+
+        // filesystem
+        Inode, File, Folder, Symlink,
+        getInode
+
     ];
 
+    let name;
     for(const functionObject of exposeFunctions) {
-        this[functionObject.name] = functionObject;
+        name = typeof functionObject === "function"? functionObject.name: functionObject.constructor.name;
+        this[name] = functionObject;
     }
 
     // #endregion
