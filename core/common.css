@@ -171,6 +171,43 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     filter: opacity(0.9);
 }
 
+/* button groups */
+.button-group{ margin: 2px; }
+.button-group > button{ margin: 0; }
+
+.button-group.horizontal{
+    white-space: nowrap;
+    display: flex;    /* else there'll be spaces between the buttons */
+}
+.button-group.horizontal > button:first-child{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+}
+.button-group.horizontal > button:not(:first-child):not(:last-child) {
+    border-radius: 0;
+    border-right: none;
+}
+.button-group.horizontal > button:last-child{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.button-group.vertical > button{ width: 100%; }
+.button-group.vertical > button:first-child{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: none;
+}
+.button-group.vertical > button:not(:first-child):not(:last-child) {
+    border-radius: 0;
+    border-bottom: none;
+}
+.button-group.vertical > button:last-child{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
 /* #endregion */
 
 /* #endregion */

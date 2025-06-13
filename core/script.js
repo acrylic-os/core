@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b21";
-        this.versionDate = "5 Jun 2025";
+        this.version = "0.2.0-b22";
+        this.versionDate = "13 Jun 2025";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"

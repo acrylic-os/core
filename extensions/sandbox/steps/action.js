@@ -97,6 +97,18 @@ function action(process, action, data) {
                             <li>List item 2</li>
                         </ol>
                     </div>
+                    <div>
+                        <div class="button-group horizontal">
+                            <button>cat</button>
+                            <button>dog</button>
+                            <button>rabbit</button>
+                        </div>
+                        <div class="button-group vertical">
+                            <button>cat</button>
+                            <button>dog</button>
+                            <button>rabbit</button>
+                        </div>
+                    </div>
                 </div>
             `, newProcess, ["40em", "25em"]);
 

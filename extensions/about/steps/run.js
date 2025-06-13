@@ -6,7 +6,7 @@ function run(process) {
     new acr.Window("About", `
         <div class="apps-about-grid">
             <div class="apps-about-grid-logo">
-                <img src="assets/acrylic_logo.png" class="apps-about-logo">
+                <img src="assets/acrylic_logo.svg" class="apps-about-logo">
             </div>
             <div class="apps-about-grid-title">
                 <h2>Acrylic (acrylicOS)</h2>
