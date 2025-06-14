@@ -460,6 +460,7 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 #startmenu-apps{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);    /* still only supports 4 rows */
     gap: 0.5em;
     width: 25em;
     height: 25em;

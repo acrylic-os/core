@@ -1,0 +1,18 @@
+
+.app-files-grid{
+    display: grid;
+    grid-template-columns: 7.5em auto 4em;
+    grid-template-rows: 2em auto;
+    gap: 1em;
+}
+
+.app-files-left{ grid-row: 1 / 3; }
+.app-files-locations-group{ margin-bottom: 0.75em; }
+
+.app-files-path > button{ padding: 0.25em 0.5em; }
+
+.app-files-main{ width: 100%; }
+.app-files-filerow{ cursor: pointer; }
+.app-files-filerow:hover{
+    background-color: rgba(255, 255, 255, 0.05);
+}

@@ -5,7 +5,7 @@ function run(process) {
 
     // spawn window
     new acr.Window("Settings", `
-        <section id="window-${windowID}-settings-tab-buttons"></section>
+        <section id="window-${windowID}-settings-tab-buttons" class="button-group horizontal"></section>
         <h2 id="window-${windowID}-settings-tab-title"></h2>
         <div id="window-${windowID}-settings-content"></div>
     `, process);

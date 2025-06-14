@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b22";
-        this.versionDate = "13 Jun 2025";
+        this.version = "0.2.0-b23";
+        this.versionDate = "14 Jun 2025";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -211,17 +211,18 @@ let acr = new function() {
         // spawn acrylic core process
         new acr.Process("Acrylic core", "acrylic");
 
-        // get data in localStorage
+        // get/make config
         if (!localStorage.hasOwnProperty("config")) {
             localStorage.setItem("config", JSON.stringify({
                 "setup": false
             }));
         }
         config = JSON.parse(localStorage.getItem("config"));
-        if (!localStorage.hasOwnProperty("files")) {
-            localStorage.setItem("files", JSON.stringify(initialFilesystem));
+
+        // get/make files
+        if(localStorage.hasOwnProperty("files")) {
+            files = deserializeInode(localStorage.getItem("files"));
         }
-        files = JSON.parse(localStorage.getItem("files"));
 
         // add error handler
         addJSErrorHandler();
@@ -338,12 +339,28 @@ let acr = new function() {
             this.owner = owner;
             this.name = path.split("/").slice(-1)[0];
             
-            // set all 3 dates to now
+            // set both dates to now
             this.lastAccessed = Date.now();
-            this.lastChanged = Date.now();
             this.lastModified = Date.now();
 
         }
+
+        // serialize
+        toJSON() {
+            this["!type"] = this.constructor.name;
+            return this;
+        }
+
+        // set dates
+        setDates(accessed, modified) {
+            if(accessed) {
+                this.lastAccessed = accessed;
+            }
+            if(modified) {
+                this.lastModified = modified;
+            }
+        }
+
     }
 
     // files
@@ -406,20 +423,56 @@ let acr = new function() {
     let files;
 
     // initial filesystem for new users
-    const initialFilesystem = new Folder(
-        "/", "The root of the Acrylic filesystem.", "admin",
-        {
-            "README.md": new File("/README.md", "Some explaining to do here", "admin", "Welcome!"),
-            "acrylic": new Folder("/acrylic", "Files for Acrylic itself", "admin", {}),
-            "apps": new Folder("/apps", "System-wide files for apps", "admin", {}),
-            "cache": new Folder("/cache", "System cache", "admin", {}),
-            "users": new Folder("/users", "Users' personal files", "admin", {})
+    function getInitialFilesystem(user) {
+
+        // make root and admin's home folder
+        let filesystem = new Folder(
+            "/", "The root of the Acrylic filesystem.", "admin",
+            {
+                "README.md": new File("/README.md", "Some explaining to do here", "admin", "Welcome!"),
+                "acrylic": new Folder("/acrylic", "Files for Acrylic itself", "admin", {}),
+                "apps": new Folder("/apps", "System-wide files for apps", "admin", {}),
+                "cache": new Folder("/cache", "System cache", "admin", {}),
+                "users": new Folder("/users", "Users' personal files", "admin", {
+                    "admin": new Folder("/users/admin", "The admin's home directory", "admin", {})
+                })
+            }
+        );
+
+        // make home folders
+        const homeFolders = ["Documents", "Downloads", "Images", "Sounds", "Videos", "Trash"];
+        let finishedHomeFolders = {};
+        for(const homeFolder of homeFolders) {
+            finishedHomeFolders[homeFolder] = new Folder(
+                `/users/${user}/${homeFolder}`,
+                `${user}'s ${homeFolder.toLowerCase()} folder`,
+                user,
+                {}
+            );
         }
-    );
+
+        // put user's home folder
+        filesystem.contents["users"].contents[user] = new Folder(
+            `/users/${user}`, `${user}'s home directory`, user, finishedHomeFolders
+        );
+
+        return filesystem;
+
+    }
 
     // get the Inode-derived object from the path
     function getInode(path) {
-        
+
+        // add / if not in input
+        if(path.charAt(0) !== "/") {
+            path = `/${path}`;
+        }
+
+        // return root if /
+        if(path === "/") {
+            return files;
+        }
+
         // split path
         let splitted = path.split("/");
         splitted.shift();
@@ -450,6 +503,49 @@ let acr = new function() {
 
         }
         return currentObject;
+    }
+
+    // deserialize
+    function deserializeInode(serialized) {
+        let deserialized = JSON.parse(serialized);
+        deserialized = classifyInode(deserialized);
+        return deserialized;
+    }
+    function classifyInode(inode) {    // turn an object into one of the Inode classes
+        let done;
+
+        // make object with basic values
+        switch(inode["!type"]) {
+
+            case "File":
+                done = new File(inode.path, inode.description, inode.owner, inode.content);
+                break;
+
+            case "Folder":
+                
+                // recursively classify contents
+                let classifiedContents = {};
+                for(const [name, innerInode] of Object.entries(inode.contents)) {
+                    classifiedContents[name] = classifyInode(innerInode);
+                }
+
+                done = new Folder(inode.path, inode.description, inode.owner, classifiedContents);
+                break;
+
+            case "Symlink":
+                done = new Symlink(inode.path, inode.description, inode.owner, inode.target);
+                break;
+
+            default:
+                console.log("No");
+                
+        }
+
+        // set date
+        done.setDates(inode.lastAccessed, inode.lastModified);
+
+        return done;
+
     }
 
     // #endregion
@@ -735,12 +831,19 @@ let acr = new function() {
 
                 case 2:
                     onclick("setup-2-create", () => {
+
+                        // set user
                         let users = {};
                         users[id("setup-2-username").value] = {
                             "display_name": id("setup-2-username").value,
                             "password": id("setup-2-password").value
                         };
                         config["users"] = users;
+
+                        // make filesystem
+                        const user = id("setup-2-username").value;
+                        files = getInitialFilesystem(user);
+
                         showSetupStage(3);
                     });
                     onclick("setup-2-back", () => {
@@ -1630,16 +1733,27 @@ let acr = new function() {
 
     // #region ─ expose things to acr
 
-    // things to expose to the public API so that others (extensions, devtools, ...) can use them as acr.(name)
+    // helper functions
+    function getUser() {
+        return user;
+    }
+
+    // functions and classes to expose to the public API so that others (extensions, devtools, ...) can use them as acr.(name)
     const exposeFunctions = [
 
         // configs
         getUserConfig, setUserConfig, getGlobalConfig, setGlobalConfig,
         enableClickConfetti, disableClickConfetti,
 
+        // users
+        getUser,
+
         // filesystem
         Inode, File, Folder, Symlink,
-        getInode
+        getInitialFilesystem, getInode, deserializeInode,
+        
+        // other
+        debugPopup
 
     ];
 
@@ -1653,7 +1767,7 @@ let acr = new function() {
 
     // #region ─ load core apps
 
-    const coreApps = ["about", "calculator", "notepad", "sandbox", "settings", "system-monitor", "terminal", "weather"];
+    const coreApps = ["about", "calculator", "files", "notepad", "sandbox", "settings", "system-monitor", "terminal", "weather"];
     
     for(const coreApp of coreApps) {
         loadExtension(`../extensions/${coreApp}`);
