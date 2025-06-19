@@ -5,21 +5,80 @@ function action(process, action, data) {
 
     switch(action) {
 
+
+        // arrow navigation
+        case "navigate-arrow":
+
+            let path;
+
+            switch(data.arrow) {
+
+                case "up":
+                    path = process.storage["path"].split("/");
+                    path.pop();
+                    path = path.join("/");
+                    process.action("navigate-path", {"path": path});
+                    break;
+
+                case "back":
+                    if(process.storage.historyCursor <= 1) {    // no history to navigate to
+                        break;
+                    }
+                    path = process.storage["history"][process.storage["historyCursor"] - 2];
+                    process.action("navigate-path", {"path": path, "fromBack": true});
+                    break;
+
+                case "forward":
+                    if(process.storage.historyCursor >= process.storage["history"].length) {    // no history to navigate to
+                        break;
+                    }
+                    path = process.storage["history"][process.storage["historyCursor"]];
+                    process.action("navigate-path", {"path": path, "fromForward": true});
+                    break;
+
+            }
+
+            break;
+
+
+        // reload (shorthand)
+        case "reload":
+            process.action("navigate-path", {"path": process.storage["path"]});
+            break;
+
+
         // navigate to a path
-        case "navigate":
+        case "navigate-path":
             
             // get files data
             const fileData = acr.getInode(data.path);
 
+            // put updated path
+            if(process.storage["path"] !== data.path) {
+                if(data.fromBack) {
+                    --process.storage["historyCursor"];
+                } else if(data.fromForward) {
+                    ++process.storage["historyCursor"];
+                } else {
+                    process.storage["history"].push(data.path);
+                    ++process.storage["historyCursor"];
+                }
+            }
+            process.storage["path"] = data.path;
+
             // put rows
             id(`window-${windowID}-files-table`).innerHTML = "";
             for(const [name, inode] of Object.entries(fileData.contents)) {
+
+                // add row
                 append(`window-${windowID}-files-table`, `
                     <tr class="app-files-filerow" id="window-${windowID}-files-table-${name}">
                         <td>${name}</td>
                         <td>${inode.owner}</td>
                     </tr>
                 `);
+
+                // onclick
                 onclick(`window-${windowID}-files-table-${name}`, () => {
                     switch(inode.constructor.name) {
                     
@@ -30,11 +89,56 @@ function action(process, action, data) {
 
                         case "Folder":
                             // navigate into that folder
-                            process.action("navigate", {"path": "/"})
+                            process.action("navigate-path", {"path": "/"})
                             break;
 
                     }
                 });
+
+                // context menu
+                acr.contextMenu(`window-${windowID}-files-table-${name}`, {
+                    "Rename": () => {
+
+                        let dialogProcess = new acr.Process("Rename file", "files", windowID);
+
+                        // put dialog
+                        new acr.Window("Rename file", `
+                            <div class="centered">
+                                <section>
+                                    Rename <b>${name}</b> to:
+                                </section>
+                                <section>
+                                    <input type="text" id="window-${windowID}-files-renamebox"></input>
+                                </section>
+                                <section>
+                                    <button id="window-${windowID}-files-rename">Rename</button>
+                                    <button id="window-${windowID}-files-cancel">Cancel</button>
+                                </section>
+                            </div>
+                        `, dialogProcess);
+
+                        // buttons
+                        onclick(`window-${windowID}-files-rename`, () => {
+
+                            // get new path/name
+                            let splitted = inode.path.split("/");
+                            splitted.pop();
+                            splitted = splitted.join("/");
+                            const newName = id(`window-${windowID}-files-renamebox`).value;
+
+                            // move and reload
+                            inode.move(`${splitted}/${newName}`);
+                            process.action("reload");
+
+                        });
+                        onclick(`window-${windowID}-files-cancel`, () => {
+                            dialogProcess.kill();
+                        });
+
+                    },
+                    "Delete": () => {}
+                });
+
             }
 
             // make splitted path for path bar
@@ -57,7 +161,7 @@ function action(process, action, data) {
                 `);
                 onclick(`window-${windowID}-files-path-part-${i}`, function(path) {
                     let cutPath = path.substring(2);    // remove slash
-                    process.action("navigate", {"path": cutPath})
+                    process.action("navigate-path", {"path": cutPath})
                 }.bind(null, combinedPath));
                 ++i;
             }

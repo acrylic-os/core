@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b23";
-        this.versionDate = "14 Jun 2025";
+        this.version = "0.2.0-b24";
+        this.versionDate = "19 Jun 2025";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -351,14 +351,56 @@ let acr = new function() {
             return this;
         }
 
+        // copy
+        copy(newPath) {
+
+            // get folder and name of new path
+            let newPathFolder = newPath.split("/");
+            let newPathName = newPathFolder.pop();
+            newPathFolder = newPathFolder.join("/");
+
+            // copy to there
+            let newLocation = getInode(newPathFolder);
+            let newObject = Object.assign({}, this);
+            newObject.path = newPath;
+            newLocation.contents[newPathName] = newObject;
+
+            saveData();
+
+        }
+
+        // delete
+        delete() {
+
+            // todo: using eval is dirty so find a better solution
+
+            let splitted = this.path.split("/");
+            splitted.shift();
+            const statement = `delete files.contents["${splitted.join(`"].contents["`)}"]`;
+            eval(statement);
+
+            saveData();
+
+        }
+
+        // move (shorthand for copy then delete)
+        move(newPath) {
+            this.copy(newPath);
+            this.delete();
+        }
+
         // set dates
         setDates(accessed, modified) {
+
             if(accessed) {
                 this.lastAccessed = accessed;
             }
             if(modified) {
                 this.lastModified = modified;
             }
+
+            saveData();
+
         }
 
     }
@@ -1253,12 +1295,19 @@ let acr = new function() {
 
         function startSwitchCategory(category) {
 
+            // select new selected category
             id(`startmenu-category-${startSelectedCategory}`).classList.remove("startmenu-category-selected");
             id(`startmenu-category-${category}`).classList.add("startmenu-category-selected");
             startSelectedCategory = category;
 
+            // show apps
+            let sortedApps = Object.keys(acr.apps).sort();
+            let appData;
+
             id("startmenu-apps").innerHTML = "";
-            for (const [app, appData] of Object.entries(acr.apps)) {
+            for (const app of sortedApps) {
+                appData = acr.apps[app];
+
                 if ("category" in appData) {
                     if (appData["category"] === category) {
                         append("startmenu-apps", `
@@ -1274,6 +1323,7 @@ let acr = new function() {
                         ++appTileID;
                     }
                 }
+
             }
 
         }
@@ -1437,6 +1487,42 @@ let acr = new function() {
             });
 
         }
+
+    // #endregion
+
+    // #region ─ context menu
+        
+        // add context menu
+        function contextMenu(elementID, buttons) {
+            id(elementID).addEventListener("contextmenu", (event) => {
+
+                // show and position context menu
+                id("contextmenu").style.left = `${event.clientX}px`;
+                id("contextmenu").style.top = `${event.clientY}px`;
+                id("contextmenu").style.display = "block";
+
+                // put buttons
+                let i = 0;
+                id("contextmenu").innerHTML = "";
+                for(const [button, run] of Object.entries(buttons)) {
+                    append("contextmenu", `
+                        <button id="contextmenu-${i}">${button}</button>
+                    `);
+                    onclick(`contextmenu-${i}`, run);
+                }
+
+            })
+        }
+
+        // remove default context menu
+        id("body").addEventListener("contextmenu", (event) => {
+            event.preventDefault();
+        });
+
+        // click anywhere = hide context menu
+        onclick("body", () => {
+            id("contextmenu").style.display = "none";
+        });
 
     // #endregion
 
@@ -1752,8 +1838,8 @@ let acr = new function() {
         Inode, File, Folder, Symlink,
         getInitialFilesystem, getInode, deserializeInode,
         
-        // other
-        debugPopup
+        // interface
+        debugPopup, contextMenu
 
     ];
 

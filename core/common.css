@@ -179,31 +179,31 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     white-space: nowrap;
     display: flex;    /* else there'll be spaces between the buttons */
 }
-.button-group.horizontal > button:first-child{
+.button-group.horizontal > button:first-child:not(:only-child){
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     border-right: none;
 }
-.button-group.horizontal > button:not(:first-child):not(:last-child) {
+.button-group.horizontal > button:not(:first-child):not(:last-child):not(:only-child) {
     border-radius: 0;
     border-right: none;
 }
-.button-group.horizontal > button:last-child{
+.button-group.horizontal > button:last-child:not(:only-child){
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
 
 .button-group.vertical > button{ width: 100%; }
-.button-group.vertical > button:first-child{
+.button-group.vertical > button:first-child:not(:only-child){
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     border-bottom: none;
 }
-.button-group.vertical > button:not(:first-child):not(:last-child) {
+.button-group.vertical > button:not(:first-child):not(:last-child):not(:only-child) {
     border-radius: 0;
     border-bottom: none;
 }
-.button-group.vertical > button:last-child{
+.button-group.vertical > button:last-child:not(:only-child){
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
@@ -646,6 +646,32 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     position: absolute;
     border: 3px solid rgba(255, 255, 255, 0.1);
 }
+
+/* #endregion */
+
+/* #region ─ context menu */
+
+#contextmenu{
+    display: none;
+    position: fixed;
+    z-index: 220;
+    background-color: rgba(0, 0, 0, 0.25);
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    padding: 0.5em 0;
+    border-radius: 0.5em;
+    width: min-content;
+}
+#contextmenu > button{
+    margin: 0;
+    width: 100%;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    background-color: transparent;
+}
+#contextmenu > button:not(:last-child) { border-bottom: none; }
+#contextmenu > button:hover{ background-color: rgba(255, 255, 255, 0.1); }
 
 /* #endregion */
 
