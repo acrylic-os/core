@@ -9,7 +9,6 @@
 :root{
     --link: #c4edff;
     --link-hover: #e3f7ff;
-    --bsod: rgba(0, 34, 255, 0.5);
 }
 
 /* #endregion */
@@ -512,11 +511,8 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 /* #region ─ windowing */
 
 #windows {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    display: block;
+    pointer-events: none;
 }
 .window{
     position: absolute;
@@ -524,6 +520,7 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     overflow: hidden;
     display: flex;
     flex-flow: column;
+    pointer-events: auto;
     z-index: 20;
     backdrop-filter: blur(1px);
 }
@@ -674,21 +671,6 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 #contextmenu > button:hover{ background-color: rgba(255, 255, 255, 0.1); }
 
 /* #endregion */
-
-/* #endregion */
-
-
-/* #region ━ DEATH SCREEN */
-
-#bsod{
-    background-color: var(--bsod);
-    padding: 4em;
-    z-index: 100;
-}
-#bsod-fatal-text{
-    font-weight: bold;
-    display: none;
-}
 
 /* #endregion */
 

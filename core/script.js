@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b24";
-        this.versionDate = "19 Jun 2025";
+        this.version = "0.2.0-b25";
+        this.versionDate = "20 Jun 2025";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -399,7 +399,9 @@ let acr = new function() {
                 this.lastModified = modified;
             }
 
-            saveData();
+            if(!booting) {
+                saveData();
+            }
 
         }
 
@@ -782,7 +784,7 @@ let acr = new function() {
             },
             {
                 "run": () => {
-                    bsod("There's obviously already an Acrylic core process. Why the hell would you want to spawn another one?");
+                    error("There's obviously already an Acrylic core process. Why the hell would you want to spawn another one?");
                 }
             }
         ),
@@ -867,7 +869,7 @@ let acr = new function() {
                         showSetupStage(2);
                     });
                     onclick("setup-1-import", () => {
-                        bsod("Importing data not implemented");
+                        error("Importing data not implemented");
                     });
                     break;
 
@@ -946,7 +948,7 @@ let acr = new function() {
                 login(id("loginbox-username").value, id("loginbox-password").value);
             });
             onclick("loginbox-create", () => {
-                bsod("Account creation is currently not implemented yet.");
+                error("Account creation is currently not implemented yet.");
             });
 
             // show login screen
@@ -976,10 +978,10 @@ let acr = new function() {
                     sessionStorage.setItem("password", password);
                     showDesktop();
                 } else {
-                    bsod("Incorrect password.");
+                    error("Incorrect password.");
                 }
             } else {
-                bsod("User doesn't exist.");
+                error("User doesn't exist.");
             }
         }
 
@@ -1866,39 +1868,6 @@ let acr = new function() {
 
     // #region ━ SPECIAL SCREENS
 
-    // #region ─ bsod
-
-        function bsod(text, givenOptions) {
-
-            const defaultOptions = {
-                "js_error": false,
-                "fatal": false
-            };
-            const options = {...defaultOptions, ...givenOptions};
-
-            id("bsod").style.display = "block";
-            id("bsod-type").innerText = options["js_error"] ? "JavaScript" : "Induced";
-            id("bsod-error").innerText = text;
-
-            if (options["fatal"]) {
-                id("bsod-ignore").style.display = "none";
-                id("bsod-fatal-text").style.display = "block";
-            } else {
-                onclick("bsod-ignore", ignoreBsod);
-            }
-            onclick("bsod-restart", () => {
-                saveData();
-                window.location.reload();
-            });
-
-        }
-
-        function ignoreBsod() {
-            id("bsod").style.display = "none";
-        }
-
-    // #endregion
-
     // #region ─ quit message data
 
         const quitActionText = {
@@ -1972,7 +1941,7 @@ let acr = new function() {
                         break;
 
                     case "kill_core_process":
-                        bsod("Acrylic core process killed", {"fatal": true});
+                        window.location.reload();
                         break;
 
                 }
@@ -1986,13 +1955,34 @@ let acr = new function() {
 
     // #endregion
 
-    // #region ─ error handler
+    // #region ─ errors
 
-    function addJSErrorHandler() {
-        window.addEventListener("error", (message) => {
-            bsod(message.message, {"js_error": true});
-        });
-    }
+        // log and show popup for error
+        function error(content, JSerror=false) {
+            acr.log("error", content);
+            spawnPopup(
+                "error",
+                `
+                    <b>${JSerror? "A JavaScript":"An"} error occurred!</b>
+                    <pre>${content}</pre>
+                `,
+                {
+                    "OK": function(process) {
+                        process.kill();
+                    },
+                    "Restart": function() {
+                        window.location.reload();
+                    }
+                }
+            );
+        }
+
+        // JS error handler
+        function addJSErrorHandler() {
+            window.addEventListener("error", (message) => {
+                error(message.message, true);
+            });
+        }
 
     // #endregion
 
