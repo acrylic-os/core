@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b25";
-        this.versionDate = "20 Jun 2025";
+        this.version = "0.2.0-b26";
+        this.versionDate = "23 Jun 2025";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -602,9 +602,10 @@ let acr = new function() {
         const defaultWallpapers = [
             "assets/wallpapers/acrylic.png",
             "assets/wallpapers/baltic_sea.jpg",
-            "assets/wallpapers/cosmos.jpg"
+            "assets/wallpapers/cosmos.jpg",
+            "assets/wallpapers/rocinha.jpg"
         ];
-        const noUserWallpaper = defaultWallpapers[0];
+        const noUserWallpaper = defaultWallpapers[3];
         // wallpaper used when there's no user (setup, login, etc.)
 
         const defaultUserConfigs = {
@@ -1841,7 +1842,10 @@ let acr = new function() {
         getInitialFilesystem, getInode, deserializeInode,
         
         // interface
-        debugPopup, contextMenu
+        debugPopup, contextMenu,
+
+        // extensions
+        loadExtension
 
     ];
 
@@ -1861,6 +1865,8 @@ let acr = new function() {
         loadExtension(`../extensions/${coreApp}`);
     }
     
+    loadExtension("../../acrylic wme/src");
+
     // #endregion
 
     // #endregion

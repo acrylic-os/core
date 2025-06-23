@@ -21,13 +21,16 @@ function action(process, action, data) {
                 <h2>Wallpapers</h2>
                 <ul>
                     <li>
-                        <b>Anpang54</b> (anpang.fun) - <a href="https://wiki.anpang.fun/acr/Default_wallpaper">"Acrylic"</a>
+                        <b>Anpang54</b> (anpang.lol) - <a href="https://wiki.anpang.fun/acr/Default_wallpaper">"Acrylic"</a>
                     </li>
                     <li>
-                        <b>IdaT</b> - <a href="https://pixabay.com/photos/baltic-sea-sunset-poland-colours-7434540/">"Baltic sea"</a>
+                        <b>Chensiyuan</b> - <a href="https://commons.wikimedia.org/wiki/File:1_rocinha_night_2014_panorama.jpg">"Rocinha"</a> (CC BY-SA 3.0)
                     </li>
                     <li>
-                        <b>Pexels</b> - <a href="https://pixabay.com/photos/cosmos-milky-way-night-sky-stars-1853491/">"Cosmos"</a>
+                        <b>IdaT</b> - <a href="https://pixabay.com/photos/baltic-sea-sunset-poland-colours-7434540/">"Baltic sea"</a> (Pixabay License)
+                    </li>
+                    <li>
+                        <b>Pexels</b> - <a href="https://pixabay.com/photos/cosmos-milky-way-night-sky-stars-1853491/">"Cosmos"</a> (Pixabay License)
                     </li>
                 </ul>
             `, new acr.Process("Credits", "about"));
