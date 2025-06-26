@@ -67,24 +67,26 @@ function action(process, action, data) {
             process.storage["path"] = data.path;
 
             // put rows
-            id(`window-${windowID}-files-table`).innerHTML = "";
+            id(`window-${windowID}-file-picker-table`).innerHTML = "";
             for(const [name, inode] of Object.entries(fileData.contents)) {
 
                 // add row
-                append(`window-${windowID}-files-table`, `
-                    <tr class="app-files-filerow" id="window-${windowID}-files-table-${name}">
+                append(`window-${windowID}-file-picker-table`, `
+                    <tr class="app-file-picker-filerow" id="window-${windowID}-file-picker-table-${name}">
                         <td>${name}</td>
                         <td>${inode.owner}</td>
                     </tr>
                 `);
 
                 // onclick
-                onclick(`window-${windowID}-files-table-${name}`, () => {
+                onclick(`window-${windowID}-file-picker-table-${name}`, () => {
                     switch(inode.constructor.name) {
                     
                         case "File":
-                            // no way to open files yet
-                            acr.debugPopup(`Open file "${inode.path}"`);
+                            // since this is the file picker, run the completion function
+                            const pickedPath = `${process.storage["path"]}/${name}`;
+                            process.storage["completion"](pickedPath);
+                            process.kill();
                             break;
 
                         case "Folder":
@@ -96,7 +98,7 @@ function action(process, action, data) {
                 });
 
                 // context menu
-                acr.contextMenu(`window-${windowID}-files-table-${name}`, {
+                acr.contextMenu(`window-${windowID}-file-picker-table-${name}`, {
                     "Rename": () => {
 
                         let dialogProcess = new acr.Process("Rename file", "files", windowID);
@@ -108,30 +110,30 @@ function action(process, action, data) {
                                     Rename <b>${name}</b> to:
                                 </section>
                                 <section>
-                                    <input type="text" id="window-${windowID}-files-renamebox"></input>
+                                    <input type="text" id="window-${windowID}-file-picker-renamebox"></input>
                                 </section>
                                 <section>
-                                    <button id="window-${windowID}-files-rename">Rename</button>
-                                    <button id="window-${windowID}-files-cancel">Cancel</button>
+                                    <button id="window-${windowID}-file-picker-rename">Rename</button>
+                                    <button id="window-${windowID}-file-picker-cancel">Cancel</button>
                                 </section>
                             </div>
                         `, dialogProcess);
 
                         // buttons
-                        onclick(`window-${windowID}-files-rename`, () => {
+                        onclick(`window-${windowID}-file-picker-rename`, () => {
 
                             // get new path/name
                             let splitted = inode.path.split("/");
                             splitted.pop();
                             splitted = splitted.join("/");
-                            const newName = id(`window-${windowID}-files-renamebox`).value;
+                            const newName = id(`window-${windowID}-file-picker-renamebox`).value;
 
                             // move and reload
                             inode.move(`${splitted}/${newName}`);
                             process.action("reload");
 
                         });
-                        onclick(`window-${windowID}-files-cancel`, () => {
+                        onclick(`window-${windowID}-file-picker-cancel`, () => {
                             dialogProcess.kill();
                         });
 
@@ -155,15 +157,15 @@ function action(process, action, data) {
             }
 
             // update path bar
-            id(`window-${windowID}-files-path`).innerHTML = "";
+            id(`window-${windowID}-file-picker-path`).innerHTML = "";
             let combinedPath = "";
             let i = 0;
             for(const part of splitted) {
                 combinedPath += `/${part}`;
-                append(`window-${windowID}-files-path`, `
-                    <button id="window-${windowID}-files-path-part-${i}">${part}</button>
+                append(`window-${windowID}-file-picker-path`, `
+                    <button id="window-${windowID}-file-picker-path-part-${i}">${part}</button>
                 `);
-                onclick(`window-${windowID}-files-path-part-${i}`, function(path) {
+                onclick(`window-${windowID}-file-picker-path-part-${i}`, function(path) {
                     let cutPath = path.substring(2);    // remove slash
                     process.action("navigate-path", {"path": cutPath})
                 }.bind(null, combinedPath));

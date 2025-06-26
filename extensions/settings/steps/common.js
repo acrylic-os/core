@@ -21,9 +21,10 @@ const settingsData = {
                 "name": "Wallpaper",
                 "subtitle": "Currently you can only select between 3 wallpapers.",
                 "options": {
-                    "assets/wallpapers/acrylic.png": '"Acrylic"',
-                    "assets/wallpapers/baltic_sea.jpg": '"Baltic sea"',
-                    "assets/wallpapers/cosmos.jpg": '"Cosmos"'
+                    "assets/wallpapers/acrylic.png": "Acrylic",
+                    "assets/wallpapers/baltic_sea.jpg": "Baltic sea",
+                    "assets/wallpapers/cosmos.jpg": "Cosmos",
+                    "assets/wallpapers/rocinha.jpg": "Rocinha"
                 },
                 "selected": ["user", "wallpaper"],
                 "set": function (newValue) {
@@ -44,6 +45,20 @@ const settingsData = {
                         id("topbar").classList.remove("topbar-transparent");
                     }
                 }
+            },
+            "darken_wallpaper": {
+                "type": "checkbox",
+                "name": "Darken wallpaper",
+                "subtitle": "Darken the wallpaper by 25%.",
+                "selected": ["user", "darken_wallpaper"],
+                "set": function(newValue) {
+                    acr.setUserConfig("darken_wallpaper", newValue);
+                    if(newValue) {
+                        id("desktop").classList.add("darken-wallpaper");
+                    } else {
+                        id("desktop").classList.remove("darken-wallpaper");
+                    }
+                }
             }
         }
     },
@@ -58,9 +73,9 @@ const settingsData = {
                 "set": function (newValue) {
                     acr.setUserConfig("click_confetti", newValue);
                     if (newValue) {
-                        enableClickConfetti();
+                        acr.enableClickConfetti();
                     } else {
-                        disableClickConfetti();
+                        acr.disableClickConfetti();
                     }
                 }
             }
@@ -74,7 +89,7 @@ const settingsData = {
                 "name": "Reset Acrylic",
                 "subtitle": "Resetting Acrylic means all Acrylic data will be deleted, including users, settings, and files.",
                 "click": () => {
-                    quit("reset");
+                    acr.quit("reset");
                 }
             }
         }

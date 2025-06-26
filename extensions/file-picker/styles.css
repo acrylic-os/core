@@ -1,0 +1,32 @@
+
+
+/* grid */
+
+.app-file-picker-grid{
+    display: grid;
+    grid-template-columns: 7.5em auto;
+    grid-template-rows: 2em auto;
+    gap: 1em;
+}
+
+
+/* left */
+
+.app-file-picker-navigation > button{ padding: 0.25em 0.7em; }
+
+.app-file-picker-left{ grid-row: 2 / 4; }
+.app-file-picker-locations-group{ margin-bottom: 0.75em; }
+
+
+/* top */
+
+.app-file-picker-path > button{ padding: 0.25em 0.5em; }
+
+
+/* main */
+
+.app-file-picker-table{ width: 100%; }
+.app-file-picker-filerow{ cursor: pointer; }
+.app-file-picker-filerow:hover{
+    background-color: rgba(255, 255, 255, 0.05);
+}

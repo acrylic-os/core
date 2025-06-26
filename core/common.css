@@ -274,7 +274,16 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 
 /* #region ━ DESKTOP */
 
+/* #region ─ wallpaper */
+
 #desktop{ background-size: cover; }
+
+.darken-wallpaper{
+    background-color: rgba(0, 0, 0, 0.25);
+    background-blend-mode: darken;
+}
+
+/* #endregion */
 
 /* #region ─ topbar */
 

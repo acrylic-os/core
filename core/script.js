@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b26";
-        this.versionDate = "23 Jun 2025";
+        this.version = "0.2.0-b27";
+        this.versionDate = "26 Jun 2025";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -462,7 +462,7 @@ let acr = new function() {
 
     // #endregion
 
-    // #region ─ filesystem functions
+    // #region ─ internal filesystem functions
 
     let files;
 
@@ -594,6 +594,19 @@ let acr = new function() {
 
     // #endregion
 
+    // #region ─ file picker function
+
+    function openFilePicker() {
+        return new Promise((resolve) => {
+            let process = acr.apps["file-picker"].launch();
+            process.storage["completion"] = (pickedPath) => {
+                resolve(pickedPath);
+            };
+        })
+    }
+
+    // #endregion
+    
     // #region ─ configs
 
         let config = {};
@@ -616,7 +629,8 @@ let acr = new function() {
             // customization
             "wallpaper": noUserWallpaper,
             "click_confetti": false,
-            "transparent_topbar": false
+            "transparent_topbar": false,
+            "darken_wallpaper": true
 
         };
 
@@ -764,6 +778,7 @@ let acr = new function() {
             launch(additionalData) {
                 let process = new acr.Process(this.display, this.id, null, this.type, additionalData);
                 this.run(process);
+                return process;
             }
 
         }
@@ -771,45 +786,21 @@ let acr = new function() {
 
     // #endregion
 
-    // #region ─ core utilities
+    // #region ─ core process app
 
-    const coreUtilities = {
-
-        // acrylic core process
-        "acrylic": new this.App(
-            "acrylic",
-            {
-                "display": "Acrylic core",
-                "type": "none",
-                "category": "none"
-            },
-            {
-                "run": () => {
-                    error("There's obviously already an Acrylic core process. Why the hell would you want to spawn another one?");
-                }
+    this.apps["acrylic"] = new this.App(
+        "acrylic",
+        {
+            "display": "Acrylic core",
+            "type": "none",
+            "category": "none"
+        },
+        {
+            "run": () => {
+                error("There's obviously already an Acrylic core process. Why the hell would you want to spawn another one?");
             }
-        ),
-
-        // file picker
-        "file-picker": new this.App(
-            "file-picker",
-            {
-                "display": "File picker",
-                "type": "gui",
-                "category": "none"
-            },
-            {
-                "run": (windowID) => {
-                    new acr.Window("File picker", `
-                    Hello! I'm the file picker!
-                `, windowID);
-                }
-            }
-        )
-
-    };
-
-    this.apps = {...this.apps, ...coreUtilities};
+        }
+    );
 
     // #endregion
 
@@ -1048,6 +1039,10 @@ let acr = new function() {
                 id("topbar").classList.add("topbar-transparent");
             }
 
+            // enable darken wallpaper if enabled
+            if(getUserConfig("darken_wallpaper")) {
+                id("desktop").classList.add("darken-wallpaper");
+            }
             // enable blue rectangle
             enableBlueRectangle();
 
@@ -1309,10 +1304,19 @@ let acr = new function() {
 
             id("startmenu-apps").innerHTML = "";
             for (const app of sortedApps) {
+
                 appData = acr.apps[app];
 
+                // check if app in selected category
                 if ("category" in appData) {
                     if (appData["category"] === category) {
+
+                        // don't show if app is a core utility
+                        if(coreUtilities.includes(app)) {
+                            continue;
+                        }
+
+                        // put tile
                         append("startmenu-apps", `
                             <a href="#" id="startmenu-app-tile-${appTileID}" class="startmenu-app-tile">
                                 <img src="${appData["icon"]}" class="startmenu-app-tile-icon">
@@ -1323,7 +1327,9 @@ let acr = new function() {
                             acr.apps[appToOpen].launch();
                             toggleStart();
                         }.bind(null, app));
+
                         ++appTileID;
+
                     }
                 }
 
@@ -1840,9 +1846,11 @@ let acr = new function() {
         // filesystem
         Inode, File, Folder, Symlink,
         getInitialFilesystem, getInode, deserializeInode,
+        openFilePicker,
         
         // interface
         debugPopup, contextMenu,
+        quit,
 
         // extensions
         loadExtension
@@ -1860,12 +1868,11 @@ let acr = new function() {
     // #region ─ load core apps
 
     const coreApps = ["about", "calculator", "files", "notepad", "sandbox", "settings", "system-monitor", "terminal", "weather"];
-    
-    for(const coreApp of coreApps) {
-        loadExtension(`../extensions/${coreApp}`);
+    const coreUtilities = ["file-picker"];
+
+    for(const extensionID of [...coreApps, ...coreUtilities]) {
+        loadExtension(`../extensions/${extensionID}`);
     }
-    
-    loadExtension("../../acrylic wme/src");
 
     // #endregion
 
