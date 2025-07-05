@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b27";
-        this.versionDate = "26 Jun 2025";
+        this.version = "0.2.0-b28";
+        this.versionDate = "5 Jul 2025";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -266,6 +266,9 @@ let acr = new function() {
             id("version-number").innerText = acr.version;
             id("version-date").innerText = acr.versionDate;
             document.title = `Acrylic v${acr.version}`;
+
+            // fullscreen
+            registerFullscreen();
 
             // show title and text
             let counter = 0;
@@ -1023,6 +1026,17 @@ let acr = new function() {
                 }
             }, 10);
 
+            // put context menu
+            contextMenu("desktop-click", [
+                {
+                    "type": "button",
+                    "text": "Settings",
+                    "run": () => {
+                        acr.apps["settings"].launch();
+                    }
+                }
+            ]);
+
             // bind start button
             onclick("start-button", toggleStart);
 
@@ -1502,7 +1516,7 @@ let acr = new function() {
     // #region ─ context menu
         
         // add context menu
-        function contextMenu(elementID, buttons) {
+        function contextMenu(elementID, elements) {
             id(elementID).addEventListener("contextmenu", (event) => {
 
                 // show and position context menu
@@ -1510,14 +1524,51 @@ let acr = new function() {
                 id("contextmenu").style.top = `${event.clientY}px`;
                 id("contextmenu").style.display = "block";
 
-                // put buttons
+                // put elements
                 let i = 0;
                 id("contextmenu").innerHTML = "";
-                for(const [button, run] of Object.entries(buttons)) {
-                    append("contextmenu", `
-                        <button id="contextmenu-${i}">${button}</button>
-                    `);
-                    onclick(`contextmenu-${i}`, run);
+                for(const element of elements) {
+                    switch(element.type) {
+
+                        // button
+                        case "button":
+                            append("contextmenu", `
+                                <button id="contextmenu-${i}">${element.text}</button>
+                            `);
+                            onclick(`contextmenu-${i}`, element.run);
+                            break;
+
+                        // divider
+                        case "divider":
+                            append("contextmenu", `
+                                <hr id="contextmenu-${i}">
+                            `);
+                            break;
+
+                        // checkbox
+                        case "checkbox":
+                            append("contextmenu", `
+                                <div id="contextmenu-${i}">
+                                    <input type="checkbox" id="contextmenu-${i}-checkbox" ${element.checked? "checked":""}></input>
+                                    ${element.text}
+                                </div>
+                            `);
+                            onclick(`contextmenu-${i}-checkbox`, function(event, i) {
+                                event.stopPropagation();
+                                const newValue = id(`contextmenu-${i}-checkbox`).checked;
+                                element.run(newValue);
+                            }.bind(null, event, i));
+                            break;
+
+                        // html
+                        case "html":
+                            append("contextmenu", `
+                                <div id="contextmenu-${i}">${element.html}</div>
+                            `);
+                            break;
+
+                    }
+                    ++i;
                 }
 
             })
@@ -1836,6 +1887,9 @@ let acr = new function() {
     // functions and classes to expose to the public API so that others (extensions, devtools, ...) can use them as acr.(name)
     const exposeFunctions = [
 
+        // utility
+        isFullscreen,
+
         // configs
         getUserConfig, setUserConfig, getGlobalConfig, setGlobalConfig,
         enableClickConfetti, disableClickConfetti,
@@ -1996,6 +2050,53 @@ let acr = new function() {
                 error(message.message, true);
             });
         }
+
+    // #endregion
+
+    // #region ─ fullscreen
+
+    function isFullscreen() {
+        const userFullscreen = (screen.width === window.outerWidth) && (screen.height === window.outerHeight);
+        const jsFullscreen = document.fullscreenElement != null;
+        return userFullscreen || jsFullscreen;
+    }
+
+    function registerFullscreen() {
+
+        checkFullscreen();
+        window.addEventListener("resize", checkFullscreen);
+        window.addEventListener("fullscreenchange", checkFullscreen);
+
+        onclick("fullscreen", () => {
+            document.body.requestFullscreen();
+            hideFullscreenPopup();
+        });
+        onclick("fullscreen-cancel", hideFullscreenPopup);
+
+    }
+
+    let fullscreenExempted = false;
+
+    function checkFullscreen() {
+        if(!fullscreenExempted) {
+            if(isFullscreen()) {
+                hideFullscreenPopup();
+            } else {
+                showFullscreenPopup();
+            }
+        }
+    }
+
+    function showFullscreenPopup() {
+        id("fullscreen").style.display = "block";
+    }
+    function hideFullscreenPopup(event=null) {
+        id("fullscreen").style.display = "none";
+        if(event) {    // activated from cancel button
+            fullscreenExempted = true;
+            event.stopPropagation();
+        }
+    }
 
     // #endregion
 

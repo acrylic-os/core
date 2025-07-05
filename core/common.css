@@ -668,6 +668,7 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     border-radius: 0.5em;
     width: min-content;
 }
+
 #contextmenu > button{
     margin: 0;
     width: 100%;
@@ -676,15 +677,33 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     border-right: none;
     background-color: transparent;
 }
-#contextmenu > button:not(:last-child) { border-bottom: none; }
+#contextmenu > button + button{ border-top: none; }
 #contextmenu > button:hover{ background-color: rgba(255, 255, 255, 0.1); }
 
-/* #endregion */
+#contextmenu > hr{
+    border: none;
+    margin: 0.25em 0;
+    border-radius: 0;
+}
+
+#contextmenu > div{
+    white-space: nowrap;
+    margin-right: 0.75em;
+}
+
+#contextmenu input[type=checkbox] {
+    transform: scale(1.25);
+    outline: none;
+}
 
 /* #endregion */
 
+/* #endregion */
 
-/* #region ━ QUIT SCREEN */
+
+/* #region ━ OVERLAYS */
+
+/* #region ─ quit screen */
 
 #quitscreen{
     background-color: rgba(0, 0, 0, 0.75);
@@ -701,6 +720,34 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 }
 #quit-areyousure{ text-align: center; }
 .quit-button{ font-size: 1rem; }
+
+/* #endregion */
+
+/* #region ─ fullscreen */
+
+#fullscreen{
+    background-color: rgba(0, 0, 0, 0.25);
+    z-index: 300;
+    backdrop-filter: blur(2px);
+}
+#fullscreen-text{
+    background-color: rgba(0, 0, 0, 0.25);
+    padding: 1em 2em;
+    border-radius: 0.5em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% - 3em));
+    font-size: 1.25em;
+}
+#fullscreen-cancel{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% + 5em));
+}
+
+/* #endregion */
 
 /* #endregion */
 
