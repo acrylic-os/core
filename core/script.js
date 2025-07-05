@@ -11,7 +11,7 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b28";
+        this.version = "0.2.0-b29";
         this.versionDate = "5 Jul 2025";
 
         const dayNames = [
@@ -1090,13 +1090,34 @@ let acr = new function() {
         };
 
         class searchMatch{
+
+            // constructor
             constructor(type, ID, name, searchTerm) {
+
                 this.type = type;
                 this.ID = ID;
                 this.name = name;
-                this.score = damerauLevenshtein(searchTerm, name, "ratio");
+                this.score = this.calculateScore(searchTerm);
+
+            }
+
+            // calculate the score of the name with a search term
+            calculateScore(searchTerm) {
+
+                // lowercase versions of name and term
+                const lowerName = this.name.toLowerCase();
+                const lowerTerm = searchTerm.toLowerCase();
+
+                // calculate score
+                const damerauLevenshteinScore = damerauLevenshtein(lowerName, lowerTerm, "ratio") / 2;
+                const substringScore = (lowerName.includes(lowerTerm) || lowerTerm.includes(lowerName))? 0.5: 0;
+                console.log(lowerName, lowerTerm, damerauLevenshteinScore, substringScore);
+
+                return damerauLevenshteinScore + substringScore;
+
             }
         }
+
         function search(searchTerm) {
 
             let searchMatches = [];
@@ -1121,22 +1142,38 @@ let acr = new function() {
             // create entries
             id("searchmenu").innerHTML = "";
             for(const match of searchMatches) {
+
+                let matchText;
+                if(match.score === 100) {
+                    matchText = "Exact match";
+                } else {
+                    matchText = `${Math.round(match.score * 100)}% match`;
+                }
+
                 append("searchmenu", `
                     <button class="searchentry" id="searchentry-${match.ID}">
                         <img src="${acr.apps[match.ID.substring(4)].icon}" alt="${match.name}" class="searchentry-icon" />
                         <span class="searchentry-name">${match.name}</span>
                         <span class="searchentry-type">${searchTypeNames[match.type]}</span>
-                        <span class="searchentry-match">${Math.round(match.score * 100)}% match</span>
+                        <span class="searchentry-match">${matchText}</span>
                         <span class="searchentry-offset"></span>
                     </button>
                 `);
+
                 id(`searchentry-${match.ID}`).addEventListener("click", () => {
+
                     const split = match.ID.split(":");
+
+                    // action
                     switch(split[0]) {
                         case "app":
                             acr.apps[split[1]].launch();
                             break;
                     }
+
+                    // hide
+                    id("searchmenu").style.display = "none";
+
                 });
             }
 
@@ -1921,7 +1958,7 @@ let acr = new function() {
 
     // #region ─ load core apps
 
-    const coreApps = ["about", "calculator", "files", "notepad", "sandbox", "settings", "system-monitor", "terminal", "weather"];
+    const coreApps = ["about", "calculator", "files", "notepad", "paint", "sandbox", "settings", "system-monitor", "terminal", "weather"];
     const coreUtilities = ["file-picker"];
 
     for(const extensionID of [...coreApps, ...coreUtilities]) {

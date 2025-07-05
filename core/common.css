@@ -739,6 +739,7 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     left: 50%;
     transform: translate(-50%, calc(-50% - 3em));
     font-size: 1.25em;
+    text-align: center;
 }
 #fullscreen-cancel{
     position: absolute;

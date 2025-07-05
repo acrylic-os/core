@@ -79,7 +79,7 @@ function updateBoxes(process) {
     id(`window-${windowID}-weather-has-location`).style.display = "block";
 
     // scroll to center
-    id(`window-${windowID}-weather-boxes`).scrollLeft = id(`window-${windowID}-weather-boxes`).offsetWidth * 6;
+    id(`window-${windowID}-weather-boxes`).scrollLeft = id(`window-${windowID}-weather-boxes`).scrollWidth / 2;
 
 }
 

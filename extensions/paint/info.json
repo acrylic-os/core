@@ -1,0 +1,25 @@
+{
+
+    "id": "paint",
+    "type": "app",
+    "appInfo": {
+        "display": "Paint",
+        "type": "gui",
+        "category": "graphics",
+        "icon": "iconol/square_?.svg"
+    },
+
+    "version": {
+        "number": "0.2.0-b29",
+        "date": [2025, 7, 5],
+        "acrylic": "0.2.0"
+    },
+    "authors": [
+        "Anpang (https://anpang.lol/)"
+    ],
+
+    "steps": ["run", "action"],
+    "hooks": [],
+    "styles": true
+
+}
