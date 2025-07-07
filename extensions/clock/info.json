@@ -1,0 +1,25 @@
+{
+
+    "id": "clock",
+    "type": "app",
+    "appInfo": {
+        "display": "Clock",
+        "type": "gui",
+        "category": "utilities",
+        "icon": "iconol/square_?.svg"
+    },
+
+    "version": {
+        "number": "0.2.0-30",
+        "date": [2025, 7, 7],
+        "acrylic": "0.2.0"
+    },
+    "authors": [
+        "Anpang (https://anpang.lol/)"
+    ],
+
+    "steps": ["common", "run", "action", "kill"],
+    "hooks": [],
+    "styles": true
+
+}

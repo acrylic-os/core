@@ -1,0 +1,80 @@
+
+
+/* top */
+
+.app-clock-top{
+    position: relative;
+    height: 2em;
+}
+.app-clock-top-buttons{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+/* analog */
+
+.app-clock-analog, .app-clock-digital{
+    position: relative;
+    height: calc(100% - 4em);
+    display: none;
+}
+
+.app-clock-analog-face{
+    width: 12em;
+    height: 12em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 3px solid rgba(255, 255, 255, 0.75);
+}
+.app-clock-analog-dot{
+    position: absolute;
+    top: 5.75em;
+    left: 5.75em;
+    width: 0.5em;
+    height: 0.5em;
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 50%;
+}
+
+.app-clock-analog-hand{
+    position: absolute;
+    top: 5.75em;
+    left: 5.75em;
+    border-radius: 0.5em;
+    transform-origin: 0.25em 0.25em;
+}
+.app-clock-analog-hand-1{
+    width: 3.5em;
+    height: 0.5em;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.app-clock-analog-hand-2{
+    width: 4.25em;
+    height: 0.35em;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.app-clock-analog-hand-3{
+    width: 5em;
+    height: 0.25em;
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+
+/* digital */
+
+.app-clock-digital-text{
+    display: block;
+    font-size: 2.5em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    letter-spacing: 5px;
+    font-variant-numeric: tabular-nums;
+}

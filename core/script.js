@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b29";
-        this.versionDate = "5 Jul 2025";
+        this.version = "0.2.0-b30";
+        this.versionDate = "7 Jul 2025";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -1958,7 +1958,7 @@ let acr = new function() {
 
     // #region ─ load core apps
 
-    const coreApps = ["about", "calculator", "files", "notepad", "paint", "sandbox", "settings", "system-monitor", "terminal", "weather"];
+    const coreApps = ["about", "calculator", "clock", "files", "notepad", "paint", "sandbox", "settings", "system-monitor", "terminal", "weather"];
     const coreUtilities = ["file-picker"];
 
     for(const extensionID of [...coreApps, ...coreUtilities]) {
