@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b30";
-        this.versionDate = "7 Jul 2025";
+        this.version = "0.2.0-b31";
+        this.versionDate = "19 Jul 2025";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -722,7 +722,7 @@ let acr = new function() {
                     return;
                 }
 
-                // check if there's a kill hook
+                // check if there's a kill step
                 if ("kill" in acr.apps[acr.processes[this.PID]["app"]]) {
                     acr.apps[acr.processes[this.PID]["app"]]["kill"](this);
                 }
@@ -763,7 +763,7 @@ let acr = new function() {
         this.App = class{
 
             // register a new app
-            constructor(id, info, hooks) {
+            constructor(id, info, steps) {
 
                 // set values
                 this.id = id;
@@ -771,9 +771,9 @@ let acr = new function() {
                 this.type = info.type;
                 this.category = info.category;
                 this.icon = "icon" in info? info.icon: "iconol/square_%3F.svg";
-                this.run = "run" in hooks? hooks.run: function() {};
-                this.action = "action" in hooks? hooks.action: function() {};
-                this.kill = "kill" in hooks? hooks.kill: function() {};
+                this.run = "run" in steps? steps.run: function() {};
+                this.action = "action" in steps? steps.action: function() {};
+                this.kill = "kill" in steps? steps.kill: function() {};
 
             }
 
@@ -1891,7 +1891,7 @@ let acr = new function() {
         for(const hook of info.hooks) {
             request = await fetch(`${path}/hooks/${hook}.js`);
             text = await request.text();
-            hooks[hook] = new Function(`${domShorthandFunctions} ${common} ${text}; return hook-${hook};`)();
+            hooks[hook] = new Function(`${domShorthandFunctions} ${common} ${text}; return hook;`)();
         }
 
         // load styles
@@ -1901,7 +1901,7 @@ let acr = new function() {
             `);
         }
 
-        // register if app
+        // register app
         if(info.type === "app") {
             acr.apps[info.id] = new acr.App(
                 info.id,
@@ -1958,8 +1958,12 @@ let acr = new function() {
 
     // #region ─ load core apps
 
-    const coreApps = ["about", "calculator", "clock", "files", "notepad", "paint", "sandbox", "settings", "system-monitor", "terminal", "weather"];
-    const coreUtilities = ["file-picker"];
+    const coreApps = [
+        "about", "calculator", "clock", "files", "hooktest", "notepad", "paint", "sandbox", "settings", "system-monitor", "terminal", "weather"
+    ];
+    const coreUtilities = [
+        "file-picker"
+    ];
 
     for(const extensionID of [...coreApps, ...coreUtilities]) {
         loadExtension(`../extensions/${extensionID}`);

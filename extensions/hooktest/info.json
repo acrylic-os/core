@@ -1,0 +1,25 @@
+{
+
+    "id": "hooktest",
+    "type": "app",
+    "appInfo": {
+        "display": "Hooktest",
+        "type": "gui",
+        "category": "utilities",
+        "icon": "iconol/square_?.svg"
+    },
+
+    "version": {
+        "number": "0.2.0-b31",
+        "date": [2025, 7, 19],
+        "acrylic": "0.2.0"
+    },
+    "authors": [
+        "Anpang (https://anpang.lol/)"
+    ],
+
+    "steps": ["run"],
+    "hooks": [],
+    "styles": false
+
+}

@@ -28,10 +28,15 @@ function run(process) {
             <div class="button-group horizontal" id="window-${windowID}-paint-tools"></div>
         </section>
         <section>
-            <canvas id="window-${windowID}-paint-canvas" class="app-paint-canvas"></canvas>
+            <div class="app-paint-viewbox">
+                <canvas id="window-${windowID}-paint-canvas" class="app-paint-canvas"></canvas>
+            </div>
         </section>
         <section>
             Stroke width: <input type="range" min="0" max="25" step="1" value="3" id="window-${windowID}-paint-width">
+        </section>
+        <section>
+            Size: <span id="window-${windowID}-paint-size"></span>
         </section>
     `, process);
 
@@ -135,7 +140,8 @@ function run(process) {
     setStrokeWidth();
     id(`window-${windowID}-paint-width`).addEventListener("input", setStrokeWidth);
 
-    // set to default tool
+    // load new canvas and set to default tool
+    process.action("new", {"width": 720, "height": 480});
     currentTool = tools["pencil"];
 
 }

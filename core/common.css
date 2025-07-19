@@ -595,6 +595,7 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     padding: 1em 1.5em;
     border-radius: 0 0 0.75em 0.75em;
     flex: 1 1 auto;
+    overflow: auto;
 }
 
 .maximized{
