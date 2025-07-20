@@ -1,0 +1,17 @@
+{
+
+    "id": "default",
+    "type": "theme",
+
+    "version": {
+        "number": "0.2.0-b32",
+        "date": [2025, 7, 20],
+        "acrylic": "0.2.0"
+    },
+    "authors": [
+        "Anpang (https://anpang.lol/)"
+    ],
+
+    "styles": true
+
+}

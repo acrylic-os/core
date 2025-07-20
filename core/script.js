@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b31";
-        this.versionDate = "19 Jul 2025";
+        this.version = "0.2.0-b32";
+        this.versionDate = "20 Jul 2025";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -1876,22 +1876,26 @@ let acr = new function() {
 
         // load steps
         let steps = {};
-        for(const step of info.steps) {
-            request = await fetch(`${path}/steps/${step}.js`);
-            text = await request.text();
-            if(step === "common") {
-                common = text;
-            } else {
-                steps[step] = new Function(`${domShorthandFunctions} ${common} ${text}; return ${step};`)();
+        if(info.steps) {
+            for(const step of info.steps) {
+                request = await fetch(`${path}/steps/${step}.js`);
+                text = await request.text();
+                if(step === "common") {
+                    common = text;
+                } else {
+                    steps[step] = new Function(`${domShorthandFunctions} ${common} ${text}; return ${step};`)();
+                }
             }
         }
 
         // load hooks
         let hooks = {};
-        for(const hook of info.hooks) {
-            request = await fetch(`${path}/hooks/${hook}.js`);
-            text = await request.text();
-            hooks[hook] = new Function(`${domShorthandFunctions} ${common} ${text}; return hook;`)();
+        if(info.hooks) {
+            for(const hook of info.hooks) {
+                request = await fetch(`${path}/hooks/${hook}.js`);
+                text = await request.text();
+                hooks[hook] = new Function(`${domShorthandFunctions} ${common} ${text}; return hook;`)();
+            }
         }
 
         // load styles
@@ -1956,7 +1960,7 @@ let acr = new function() {
 
     // #endregion
 
-    // #region ─ load core apps
+    // #region ─ load core apps and themes
 
     const coreApps = [
         "about", "calculator", "clock", "files", "hooktest", "notepad", "paint", "sandbox", "settings", "system-monitor", "terminal", "weather"
@@ -1964,8 +1968,11 @@ let acr = new function() {
     const coreUtilities = [
         "file-picker"
     ];
+    const coreThemes = [
+        "default"
+    ];
 
-    for(const extensionID of [...coreApps, ...coreUtilities]) {
+    for(const extensionID of [...coreApps, ...coreUtilities, ...coreThemes]) {
         loadExtension(`../extensions/${extensionID}`);
     }
 
