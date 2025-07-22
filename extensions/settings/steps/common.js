@@ -1,21 +1,29 @@
 
 const settingsData = {
+
+
     "general": {
         "name": "General",
         "options": {
+
             "welcome": {
                 "type": "html",
                 "html": "<b>Welcome to the settings app!</b>"
             },
+
             "general_coming_soon": {
                 "type": "html",
                 "html": "General settings currently aren't available."
             }
+
         }
     },
+
+
     "appearance": {
         "name": "Appearance",
         "options": {
+
             "wallpaper": {
                 "type": "select",
                 "name": "Wallpaper",
@@ -32,6 +40,7 @@ const settingsData = {
                     setDesktopWallpaper();
                 }
             },
+
             "transparent_topbar": {
                 "type": "checkbox",
                 "name": "Transparent topbar",
@@ -46,6 +55,7 @@ const settingsData = {
                     }
                 }
             },
+
             "darken_wallpaper": {
                 "type": "checkbox",
                 "name": "Darken wallpaper",
@@ -60,11 +70,33 @@ const settingsData = {
                     }
                 }
             }
+
         }
     },
+
+
+    "behavior": {
+        "name": "Behavior",
+        "options": {
+
+            "fullscreen_overlay": {
+                "type": "checkbox",
+                "name": "Ask to enter fullscreen",
+                "subtitle": "Enable or disable the overlay that asks to become fullscreen.",
+                "selected": ["user", "fullscreen_overlay"],
+                "set": function (newValue) {
+                    acr.setUserConfig("fullscreen_overlay", newValue);
+                }
+            }
+
+        }
+    },
+
+
     "effects": {
         "name": "Effects",
         "options": {
+
             "click_confetti": {
                 "type": "checkbox",
                 "name": "Click confetti",
@@ -79,11 +111,15 @@ const settingsData = {
                     }
                 }
             }
+
         }
     },
+
+
     "system": {
         "name": "System",
         "options": {
+
             "reset": {
                 "type": "button",
                 "name": "Reset Acrylic",
@@ -92,6 +128,9 @@ const settingsData = {
                     acr.quit("reset");
                 }
             }
+
         }
     }
+
+
 };

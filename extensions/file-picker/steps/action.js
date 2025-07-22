@@ -83,67 +83,107 @@ function action(process, action, data) {
                     switch(inode.constructor.name) {
                     
                         case "File":
-                            // since this is the file picker, run the completion function
-                            const pickedPath = `${process.storage["path"]}/${name}`;
-                            process.storage["completion"](pickedPath);
-                            process.kill();
+                            // since this is the file picker, pick the file
+                            process.action("select", {"path": `${process.storage.path}/${name}`});
                             break;
 
                         case "Folder":
                             // navigate into that folder
-                            process.action("navigate-path", {"path": "/"})
+                            process.action("navigate-path", {"path": `${process.storage.path}/${name}`})
                             break;
 
                     }
                 });
 
                 // context menu
-                acr.contextMenu(`window-${windowID}-file-picker-table-${name}`, {
-                    "Rename": () => {
+                acr.contextMenu(`window-${windowID}-files-table-${name}`, [
+                    {
+                        "type": "button",
+                        "text": "Rename",
+                        "run": () => {
 
-                        let dialogProcess = new acr.Process("Rename file", "files", windowID);
+                            let dialogProcess = new acr.Process("Rename file", "files", windowID);
 
-                        // put dialog
-                        new acr.Window("Rename file", `
-                            <div class="centered">
-                                <section>
-                                    Rename <b>${name}</b> to:
-                                </section>
-                                <section>
-                                    <input type="text" id="window-${windowID}-file-picker-renamebox"></input>
-                                </section>
-                                <section>
-                                    <button id="window-${windowID}-file-picker-rename">Rename</button>
-                                    <button id="window-${windowID}-file-picker-cancel">Cancel</button>
-                                </section>
-                            </div>
-                        `, dialogProcess);
+                            // put dialog
+                            new acr.Window("Rename file", `
+                                <div class="centered">
+                                    <section>
+                                        Rename <b>${name}</b> to:
+                                    </section>
+                                    <section>
+                                        <input type="text" id="window-${windowID}-files-renamebox" value="${name}">
+                                    </section>
+                                    <section>
+                                        <button id="window-${windowID}-files-rename">Rename</button>
+                                        <button id="window-${windowID}-files-cancel">Cancel</button>
+                                    </section>
+                                </div>
+                            `, dialogProcess);
 
-                        // buttons
-                        onclick(`window-${windowID}-file-picker-rename`, () => {
+                            // buttons
+                            onclick(`window-${windowID}-files-rename`, () => {
 
-                            // get new path/name
-                            let splitted = inode.path.split("/");
-                            splitted.pop();
-                            splitted = splitted.join("/");
-                            const newName = id(`window-${windowID}-file-picker-renamebox`).value;
+                                // get new path/name
+                                let splitted = inode.path.split("/");
+                                splitted.pop();
+                                splitted = splitted.join("/");
+                                const newName = id(`window-${windowID}-files-renamebox`).value;
 
-                            // move and reload
-                            inode.move(`${splitted}/${newName}`);
-                            process.action("reload");
+                                // move
+                                inode.move(`${splitted}/${newName}`);
 
-                        });
-                        onclick(`window-${windowID}-file-picker-cancel`, () => {
-                            dialogProcess.kill();
-                        });
+                                // reload and remove popup
+                                process.action("reload");
+                                dialogProcess.kill();
 
+                            });
+                            onclick(`window-${windowID}-files-cancel`, () => {
+                                dialogProcess.kill();
+                            });
+
+                        },
                     },
-                    "Delete": () => {
+                    {
+                        "type": "button",
+                        "text": "Delete",
+                        "run": () => {
 
-                        // TBA
+                            let dialogProcess = new acr.Process("Delete file", "files", windowID);
 
+                            // put dialog
+                            new acr.Window("Delete file", `
+                                <div class="centered">
+                                    <section>
+                                        Are you sure you want to delete <b>${name}</b>?
+                                    </section>
+                                    <section>
+                                        <b>Note that the trash currently isn't implemented, so the file will be permanently deleted.</b>
+                                    </section>
+                                    <section>
+                                        <button id="window-${windowID}-files-confirm">Confirm</button>
+                                        <button id="window-${windowID}-files-cancel">Cancel</button>
+                                    </section>
+                                </div>
+                            `, dialogProcess);
+
+                            // buttons
+                            onclick(`window-${windowID}-files-confirm`, () => {
+
+                                // delete
+                                inode.delete();
+
+                                // reload and remove popup
+                                process.action("reload");
+                                dialogProcess.kill();
+
+                            });
+                            onclick(`window-${windowID}-files-cancel`, () => {
+                                dialogProcess.kill();
+                            });
+
+                        },
                     }
-                });
+                ]);
 
             }
 
@@ -172,6 +212,14 @@ function action(process, action, data) {
                 ++i;
             }
 
+            break;
+
+        
+        // select file
+        case "select":
+            process.storage["completion"](data["path"]);
+            process.kill();
+                // this instance of the file picker has fully served its purpose and therefore will now self-destruct
             break;
 
     }

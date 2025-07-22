@@ -1,7 +1,7 @@
 
-## Acrylic source code
+## Acrylic core
 
-This directory, `src`, contains the source code and assets of the Acrylic core, without the core extensions.
+This directory, `core`, contains the source code and assets of the Acrylic core, excluding the core extensions.
 
 **Structure**
 * `index.html` - The core HTML file

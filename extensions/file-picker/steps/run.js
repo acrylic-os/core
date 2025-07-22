@@ -26,6 +26,10 @@ function run(process) {
                     <tbody id="window-${windowID}-file-picker-table"></tbody>
                 </table>
             </div>
+            <div class="app-file-picker-input">
+                <input type="text">
+                <button id="window-${windowID}-file-picker-select">${process.additionalData.actionText}</button>
+            </div>
         </div>
     `, process);
 
@@ -35,6 +39,11 @@ function run(process) {
             process.action("navigate-arrow", { "arrow": arrow });
         });
     }
+
+    // put onclick on select button
+    onclick(`window-${windowID}-file-picker-select`, () => {
+        process.action("select", {"path": process.storage.path});
+    });
 
     // make location button info
     const home = `/users/${acr.getUser()}`;

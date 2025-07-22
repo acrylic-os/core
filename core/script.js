@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b32";
-        this.versionDate = "20 Jul 2025";
+        this.version = "0.2.0-b33";
+        this.versionDate = "22 Jul 2025";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -65,6 +65,7 @@ let acr = new function() {
             return Math.floor(randomFloat(min, max));
         }
 
+        // damerau-levenshtein distance
         function damerauLevenshtein(source, target, returnWhat) {
 
             if(!source) {
@@ -126,12 +127,18 @@ let acr = new function() {
                 this.x = x;
                 this.y = y;
             }
+            toArray() {
+                return [this.x, this.y];
+            }
         }
         class Vector3{
             constructor(x, y, z) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
+            }
+            toArray() {
+                return [this.x, this.y, this.z];
             }
         }
 
@@ -162,19 +169,29 @@ let acr = new function() {
 
     // print an initial piece of text into the JS console
     function initializeLogging() {
+
+        // plain version of main text
         const plainText = `Acrylic ${acr.version}`;
+
+        // generate colored version of main text
         let coloredText = "\n";
         let coloredStyles = [];
         for(let i = 0; i < plainText.length; ++i) {
             coloredText += `%c${plainText.charAt(i)}`;
             coloredStyles.push(`color: ${randomAcrylicColor()}; font-size: 1.5em; font-weight: bold`);
         }
+
+        // subtitle text and margin
         coloredText += "\n%cHi there! This is where Acrylic will log stuff. You can also run JS commands here.%c\n\n";
         coloredStyles.push("margin-top: 0.5em", "");
+
+        // log it
         console.log(coloredText, ...coloredStyles);
+
     }
 
-    this.log = function(type, text, zeroTime = false) {
+    // actual log function
+    function log(type, text, zeroTime = false) {
         let time;
         if(zeroTime) {    // first log, so use 0
             time = (0).toFixed(6);
@@ -206,7 +223,7 @@ let acr = new function() {
     // the actual things that need to be run on boot
     function runBoot() {
 
-        acr.log("info", "Started runBoot()");
+        log("info", "Started runBoot()");
 
         // spawn acrylic core process
         new acr.Process("Acrylic core", "acrylic");
@@ -219,9 +236,11 @@ let acr = new function() {
         }
         config = JSON.parse(localStorage.getItem("config"));
 
+        log("info", "Loaded config and files");
+
         // get/make files
         if(localStorage.hasOwnProperty("files")) {
-            files = deserializeInode(localStorage.getItem("files"));
+            files = deserializeInode(localStorage.getItem("files"), true);
         }
 
         // add error handler
@@ -234,7 +253,7 @@ let acr = new function() {
         // hide bootscreen
         hideBootScreen();
 
-        acr.log("info", "Finished runBoot()");
+        log("info", "Finished runBoot()");
 
     }
 
@@ -266,9 +285,6 @@ let acr = new function() {
             id("version-number").innerText = acr.version;
             id("version-date").innerText = acr.versionDate;
             document.title = `Acrylic v${acr.version}`;
-
-            // fullscreen
-            registerFullscreen();
 
             // show title and text
             let counter = 0;
@@ -309,10 +325,10 @@ let acr = new function() {
 
                     // start setup if no data exists, login if data exists
                     if (config["setup"]) {
-                        acr.log("info", "Finished boot, showing login screen");
+                        log("info", "Finished boot, showing login screen");
                         showLoginScreen();
                     } else {
-                        acr.log("info", "Finished boot, showing setup screen");
+                        log("info", "Finished boot, showing setup screen");
                         showSetup();
                     }
 
@@ -393,7 +409,7 @@ let acr = new function() {
         }
 
         // set dates
-        setDates(accessed, modified) {
+        setDates(accessed, modified, booting) {
 
             if(accessed) {
                 this.lastAccessed = accessed;
@@ -405,6 +421,8 @@ let acr = new function() {
             if(!booting) {
                 saveData();
             }
+            // before 0.2.0-b33, the filesystem would often become undefined because it was saving the data when the filesystem wasn't loaded
+            // this booting parameter flows down from the deserializeInode() in runBoot() to here, where it prevents saving the filesystem and making it undefined
 
         }
 
@@ -553,12 +571,12 @@ let acr = new function() {
     }
 
     // deserialize
-    function deserializeInode(serialized) {
+    function deserializeInode(serialized, booting=false) {
         let deserialized = JSON.parse(serialized);
-        deserialized = classifyInode(deserialized);
+        deserialized = classifyInode(deserialized, booting);
         return deserialized;
     }
-    function classifyInode(inode) {    // turn an object into one of the Inode classes
+    function classifyInode(inode, booting=false) {    // turn an object into one of the Inode classes
         let done;
 
         // make object with basic values
@@ -573,7 +591,7 @@ let acr = new function() {
                 // recursively classify contents
                 let classifiedContents = {};
                 for(const [name, innerInode] of Object.entries(inode.contents)) {
-                    classifiedContents[name] = classifyInode(innerInode);
+                    classifiedContents[name] = classifyInode(innerInode, booting);
                 }
 
                 done = new Folder(inode.path, inode.description, inode.owner, classifiedContents);
@@ -589,7 +607,7 @@ let acr = new function() {
         }
 
         // set date
-        done.setDates(inode.lastAccessed, inode.lastModified);
+        done.setDates(inode.lastAccessed, inode.lastModified, booting);
 
         return done;
 
@@ -599,9 +617,11 @@ let acr = new function() {
 
     // #region ─ file picker function
 
-    function openFilePicker() {
+    function openFilePicker(actionText="Select") {
         return new Promise((resolve) => {
-            let process = acr.apps["file-picker"].launch();
+            let process = acr.apps["file-picker"].launch({
+                "actionText": actionText
+            });
             process.storage["completion"] = (pickedPath) => {
                 resolve(pickedPath);
             };
@@ -629,11 +649,16 @@ let acr = new function() {
             // time
             "time_format": 0,
 
-            // customization
+            // appearance
             "wallpaper": noUserWallpaper,
-            "click_confetti": false,
             "transparent_topbar": false,
-            "darken_wallpaper": true
+            "darken_wallpaper": true,
+
+            // behavior
+            "fullscreen_overlay": false,
+
+            // effects
+            "click_confetti": false,
 
         };
 
@@ -652,6 +677,7 @@ let acr = new function() {
         function setGlobalConfig(configName, newValue) {
             config[configName] = newValue;
             saveData();
+            log("info", `Global config ${configName} set to ${newValue}`);
         }
 
         function getUserConfig(configName) {
@@ -669,6 +695,7 @@ let acr = new function() {
         function setUserConfig(configName, newValue) {
             config["users"][user][configName] = newValue;
             saveData();
+            log("info", `User config ${configName} set to ${newValue}`);
         }
 
     // #endregion
@@ -705,6 +732,8 @@ let acr = new function() {
 
                 // change dock
                 regenerateDock();
+
+                log("info", `New process of ${this.app} launched with PID ${this.PID}`);
 
             }
 
@@ -749,6 +778,8 @@ let acr = new function() {
                 // change dock
                 regenerateDock();
 
+                log("info", `Killed process ${this.app} with PID ${this.PID}`);
+
             }
 
         }
@@ -781,6 +812,7 @@ let acr = new function() {
             launch(additionalData) {
                 let process = new acr.Process(this.display, this.id, null, this.type, additionalData);
                 this.run(process);
+                log("info", `App ${this.id} launched`);
                 return process;
             }
 
@@ -995,6 +1027,9 @@ let acr = new function() {
 
         function showDesktop() {
 
+            // fullscreen
+            registerFullscreen();
+
             // set wallpaper
             setDesktopWallpaper();
 
@@ -1057,8 +1092,11 @@ let acr = new function() {
             if(getUserConfig("darken_wallpaper")) {
                 id("desktop").classList.add("darken-wallpaper");
             }
+
             // enable blue rectangle
             enableBlueRectangle();
+
+            log("info", "Desktop setup complete");
 
         }
 
@@ -1258,6 +1296,8 @@ let acr = new function() {
                 });
             }
 
+            log("info", "Dock regenerated");
+
         }
 
         // when a dock button is clicked
@@ -1303,6 +1343,7 @@ let acr = new function() {
                 },250);
 
                 startOpened = false;
+                log("info", "Start menu closed");
 
             } else {
 
@@ -1330,8 +1371,9 @@ let acr = new function() {
                 setTimeout(() => {
                     id("startmenu").classList.remove("startmenu-animation-open");
                 },250);
-                startOpened = true;
 
+                startOpened = true;
+                log("info", "Start menu opened");
 
             }
 
@@ -1718,6 +1760,8 @@ let acr = new function() {
             // add to windows
             windows[windowID] = this;
 
+            log("info", `Window ${windowID} spawned`);
+
         }
 
         // select
@@ -1729,6 +1773,7 @@ let acr = new function() {
                 }
                 selectedWindow = this.windowID;
             }
+            log("info", `Window ${this.windowID} selected`);
         }
 
         // maximize/unmaximize
@@ -1738,6 +1783,7 @@ let acr = new function() {
             windows[this.windowID]["leftStyle"] = id(`window-${this.windowID}`).style.left;
             windows[this.windowID]["topStyle"] = id(`window-${this.windowID}`).style.top;
             id(`window-${this.windowID}`).removeAttribute("style");
+            log("info", `Window ${this.windowID} maximized`);
         }
         unmaximize() {
             windows[this.windowID]["maximized"] = false;
@@ -1748,6 +1794,7 @@ let acr = new function() {
             }, 250);
             id(`window-${this.windowID}`).style.left = windows[this.windowID]["leftStyle"];
             id(`window-${this.windowID}`).style.top = windows[this.windowID]["topStyle"];
+            log("info", `Window ${this.windowID} unmaximized`);
         }
 
         // minimize/unminimize
@@ -1758,6 +1805,7 @@ let acr = new function() {
                 id(`window-${this.windowID}`).classList.remove("window-animation-close");
             }, 250);
             this.shown = false;
+            log("info", `Window ${this.windowID} minimized`);
         }
         unminimize() {
             id(`window-${this.windowID}`).style.display = "block";
@@ -1766,6 +1814,7 @@ let acr = new function() {
                 id(`window-${this.windowID}`).classList.remove("window-animation-open");
             }, 250);
             this.shown = true;
+            log("info", `Window ${this.windowID} unminimized`);
         }
 
         // drag
@@ -1837,6 +1886,8 @@ let acr = new function() {
                 ++i;
             }
 
+            log("info", `Popup of type ${type} spawned`);
+
         }
 
         // spawn a debug popup
@@ -1905,6 +1956,8 @@ let acr = new function() {
             `);
         }
 
+        log("info", `Loaded extension ${path}`);
+
         // register app
         if(info.type === "app") {
             acr.apps[info.id] = new acr.App(
@@ -1912,6 +1965,7 @@ let acr = new function() {
                 info.appInfo,
                 steps
             );
+            log("info", `Registered app ${info.id}`);
         }
 
     }
@@ -1929,7 +1983,7 @@ let acr = new function() {
     const exposeFunctions = [
 
         // utility
-        isFullscreen,
+        isFullscreen, log, 
 
         // configs
         getUserConfig, setUserConfig, getGlobalConfig, setGlobalConfig,
@@ -1945,7 +1999,7 @@ let acr = new function() {
         
         // interface
         debugPopup, contextMenu,
-        quit,
+        quit, registerFullscreen,
 
         // extensions
         loadExtension
@@ -2025,6 +2079,7 @@ let acr = new function() {
             id("quit-areyousure").style.display = "block";
             id("quit-areyousure-action").innerText = quitActionText[action]["text"];
             id("quit-areyousure-button").innerText = quitActionText[action]["button"];
+            log("info", "Quit menu shown");
         }
 
         function continueQuit() {
@@ -2074,12 +2129,12 @@ let acr = new function() {
 
         // log and show popup for error
         function error(content, JSerror=false) {
-            acr.log("error", content);
+            log("error", content);
             spawnPopup(
                 "error",
                 `
                     <b>${JSerror? "A JavaScript":"An"} error occurred!</b>
-                    <pre>${content}</pre>
+                    <pre class="error-pre">${content}</pre>
                 `,
                 {
                     "OK": function(process) {
@@ -2111,6 +2166,10 @@ let acr = new function() {
 
     function registerFullscreen() {
 
+        if(getUserConfig("fullscreen_overlay") === false) {    // fullscreen overlay disabled
+            return;
+        }
+
         checkFullscreen();
         window.addEventListener("resize", checkFullscreen);
         window.addEventListener("fullscreenchange", checkFullscreen);
@@ -2120,6 +2179,8 @@ let acr = new function() {
             hideFullscreenPopup();
         });
         onclick("fullscreen-cancel", hideFullscreenPopup);
+
+        log("info", "Fullscreen overlay shown");
 
     }
 

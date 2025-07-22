@@ -435,6 +435,8 @@
 :where(.selected){ z-index: 30; }
 :where(.window:not(.selected) ){ filter: opacity(0.75); }
 
+:where(.error-pre){ white-space: pre-wrap; }
+
 /* #endregion */
 
 /* #region ─ popups */

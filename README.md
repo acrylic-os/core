@@ -1,7 +1,7 @@
 
 ---
 
-![](https://img.shields.io/badge/stable-0.1.6--r04-f65) ![](https://img.shields.io/badge/beta-0.2.0--b24-0c2) ![](https://img.shields.io/github/issues-raw/acrylic-os/core
+![](https://img.shields.io/badge/stable-0.1.6--r04-f65) ![](https://img.shields.io/badge/beta-0.2.0--b33-0c2) ![](https://img.shields.io/github/issues-raw/acrylic-os/core
 ) ![](https://img.shields.io/badge/dependencies-none!-04f) ![](https://img.shields.io/badge/license-PolyForm--Noncommercial--1.0.0-90e)
 <br>
 [![](https://img.shields.io/discord/1312024058358923264?label=discord)](https://discord.com/invite/tznE5yCFHQ) ![](https://img.shields.io/badge/donut-🍩-f90)
@@ -23,12 +23,12 @@ The next major release, 0.2.0, is currently in development.
 
 ## Links
 
-* [Acrylic wiki](https://wiki.anpang.fun/acr)
-  * [Getting started guide](https://wiki.anpang.fun/acr/Getting_started)
-  * [Versioning scheme](https://wiki.anpang.fun/acr/Versioning_scheme)
-* [Try Acrylic](https://anpang.fun/acrylic/)
+* [Acrylic home](https://acrylic.anpang.lol/)
+  * [Try Acrylic](https://acrylic.anpang.lol/stable)
+* [Acrylic wiki](https://wiki.anpang.lol/acr)
+  * [Getting started guide](https://wiki.anpang.lol/acr/Getting_started)
+  * [Versioning scheme](https://wiki.anpang.lol/acr/Versioning_scheme)
 * [Acrylic extension repository](https://github.com/acrylic-os/extensions)
-* [Acrylic extension packer](https://github.com/acrylic-os/packager)
 
 ---
 
