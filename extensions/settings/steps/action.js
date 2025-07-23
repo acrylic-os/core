@@ -1,4 +1,5 @@
 
+
 function action(process, action, data) {
 
     let windowID = process.PID;
@@ -37,19 +38,22 @@ function action(process, action, data) {
 
                 // switch type
                 switch (optionData["type"]) {
+
                     case "html":
                         optionsDisplay += optionData["html"];
                         break;
+
                     case "button":
                         optionsDisplay += `
-                        <legend>${optionData["name"]}</legend>
-                        <button class="bflat" id="${attr_id}">
-                            ${optionData["name"]}
-                        </button>
-                        <span class="subtitle">${optionData["subtitle"]}</span>
-                    `;
-                        eventListenersToPut[optionID] = attr_action;
-                        break;
+                            <legend>${optionData["name"]}</legend>
+                            <button class="bflat" id="${attr_id}">
+                                ${optionData["name"]}
+                            </button>
+                            <span class="subtitle">${optionData["subtitle"]}</span>
+                        `;
+                            eventListenersToPut[optionID] = attr_action;
+                            break;
+
                     case "select":
                         let selectOptions = "";
                         for (const [selectID, selectName] of Object.entries(optionData["options"])) {
@@ -66,15 +70,44 @@ function action(process, action, data) {
                                 </select>
                             `;
                         break;
+
                     case "checkbox":
                         optionsDisplay += `
-                        <legend>${optionData["name"]}</legend>
-                        <input type="checkbox" id="${attr_id}" ${selected ? "checked" : ""}>
-                        <span>${optionData["name"]}</span>
-                        <span class="subtitle">${optionData["subtitle"]}</span>
-                    `;
+                            <legend>${optionData["name"]}</legend>
+                            <input type="checkbox" id="${attr_id}" ${selected ? "checked" : ""}>
+                            <span>${optionData["name"]}</span>
+                            <span class="subtitle">${optionData["subtitle"]}</span>
+                        `;
                         eventListenersToPut[optionID] = attr_action;
                         break;
+                    
+                    case "extension-load":
+                        optionsDisplay += `
+                            <legend>Add a new extension</legend>
+                            <input id="window-${windowID}-settings-extension-path" type="text" placeholder="ID (core) or link (external)">
+                            <button id="window-${windowID}-settings-extension-load">Load</button>
+                        `;
+                        break;
+
+                    case "extension-list":
+                        optionsDisplay += `
+                            <legend>Loaded extensions</legend>
+                            <table class="apps-settings-extension-table">
+                                <thead>
+                                    <tr class="apps-settings-extension-table-header">
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="window-${windowID}-settings-extension-table-body">
+                            </table>
+                        `;
+                        break;
+                    
+                    // extension-load and extension-list can't just be a html in the settingsData cuz they need the windowID
+
                 }
 
                 optionsDisplay += "</fieldset>";
@@ -88,7 +121,43 @@ function action(process, action, data) {
             for (const [option, listener] of Object.entries(eventListenersToPut)) {
                 id(`window-${windowID}-settings-option-${option}`).addEventListener("click", listener);
             }
+
+            // put extension load and table rows
+            if(tab == "extensions") {
+
+                // load button
+                onclick(`window-${windowID}-settings-extension-load`, () => {
+                    const path = id(`window-${windowID}-settings-extension-path`).value;
+                    let extensions = acr.getUserConfig("extensions");
+                    extensions.push(path);
+                    acr.setUserConfig("extensions", extensions);
+                    process.action("reload-popup");
+                });
+
+                // table rows
+                for(const [path, info] of Object.entries(acr.extensionInfos)) {
+                    append(`window-${windowID}-settings-extension-table-body`, `
+                        <tr>
+                            <td><code>${info.id}</code></td>
+                            <td>${"appInfo" in info? info.appInfo.display:""}</td>
+                            <td>${info.type}</td>
+                            <td>
+                                <button id="window-${windowID}-settings-extension-${info.id}-uninstall">Uninstall</button>
+                            </td>
+                        </tr>
+                    `);
+                    onclick(`window-${windowID}-settings-extension-${info.id}-uninstall`, () => {
+                        let extensions = acr.getUserConfig("extensions");
+                        extensions.splice(extensions.indexOf(path), 1);
+                        acr.setUserConfig("extensions", extensions);
+                        process.action("reload-popup");
+                    });
+                }
+
+            }
+
             break;
+
 
         // an option was activated
         case "option":
@@ -106,6 +175,24 @@ function action(process, action, data) {
             }
             break;
     
+
+        // "reload to see changes" popup
+        case "reload-popup":
+            acr.spawnPopup(
+                "info",
+                "The setting you changed needs a reload to have changes.",
+                {
+                    "Close": (process) => {
+                        process.kill();
+                    },
+                    "Reload": () => {
+                        window.location.reload();
+                    }
+                }
+            );
+            break;
+
+
     }
 
 }

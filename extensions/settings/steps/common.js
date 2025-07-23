@@ -1,4 +1,5 @@
 
+
 const settingsData = {
 
 
@@ -110,6 +111,21 @@ const settingsData = {
                         acr.disableClickConfetti();
                     }
                 }
+            }
+
+        }
+    },
+
+
+    "extensions": {
+        "name": "Extensions",
+        "options": {
+
+            "extension-load": {
+                "type": "extension-load"
+            },
+            "extension-list": {
+                "type": "extension-list"
             }
 
         }

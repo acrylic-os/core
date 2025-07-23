@@ -5,7 +5,8 @@
     "appInfo": {
         "display": "File picker",
         "type": "gui",
-        "category": "utilities"
+        "category": "utilities",
+        "utility": true
     },
 
     "version": {

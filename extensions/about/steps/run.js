@@ -11,6 +11,9 @@ function run(process) {
             <div class="apps-about-grid-title">
                 <h2>Acrylic (acrylicOS)</h2>
                 <b>Version ${acr.version}</b>
+                <a href="https://en.wiktionary.org/wiki/Reconstruction:Proto-Indo-European/${acr.codenamePage}" target="_blank" class="apps-about-codename">
+                    "${acr.codename}"
+                </a>
                 <br>
                 (${acr.versionDate})
             </div>

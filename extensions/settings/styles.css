@@ -1,2 +1,13 @@
 
 .apps-settings-tab-content{ display: none; }
+
+.apps-settings-extension-table{
+    display: inline-block;
+    height: 20em;
+    overflow-y: auto;
+}
+.apps-settings-extension-table-header{
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(2px);
+}

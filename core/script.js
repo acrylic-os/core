@@ -11,8 +11,12 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b33";
-        this.versionDate = "22 Jul 2025";
+        this.version = "0.2.0-b34";
+        this.versionDate = "23 Jul 2025";
+        let dataVersion = 1;
+
+        this.codename = "sker";
+        this.codenamePage = "(s)ker-";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -190,17 +194,32 @@ let acr = new function() {
 
     }
 
+    // log colors
+    const logColors = {
+        "info": "#a8cfff",
+        "warn": "#ffe1a8",
+        "error": "#ffa8a8",
+        "done": "#b4ffa8"
+    };
+
     // actual log function
     function log(type, text, zeroTime = false) {
+
+        // get time
         let time;
         if(zeroTime) {    // first log, so use 0
             time = (0).toFixed(6);
         } else {    // not the first log, so use the actual time
-            time = ((window.performance.now() / 1000) - (startTime / 1000)).toFixed(6);
+            time = ((window.performance.now() / 1000) - (startTime / 1000)).toFixed(4);
         }
-        const logContent = `[${time}] [${type}] ${text}`;
+
+        // make log text
+        const logContent = `%c[${time}] [${type}] ${text}`;
+
+        // put it
         acr.logs.push(logContent);
-        console.log(logContent);
+        console.log(logContent, `color: ${logColors[type]}`);
+
     }
 
     // #endregion
@@ -229,18 +248,23 @@ let acr = new function() {
         new acr.Process("Acrylic core", "acrylic");
 
         // get/make config
-        if (!localStorage.hasOwnProperty("config")) {
-            localStorage.setItem("config", JSON.stringify({
+        if (!localStorage.hasOwnProperty(`${dataVersion}-config`)) {
+            localStorage.setItem(`${dataVersion}-config`, JSON.stringify({
                 "setup": false
             }));
         }
-        config = JSON.parse(localStorage.getItem("config"));
-
-        log("info", "Loaded config and files");
+        config = JSON.parse(localStorage.getItem(`${dataVersion}-config`));
 
         // get/make files
-        if(localStorage.hasOwnProperty("files")) {
-            files = deserializeInode(localStorage.getItem("files"), true);
+        if(localStorage.hasOwnProperty(`${dataVersion}-files`)) {
+            files = deserializeInode(localStorage.getItem(`${dataVersion}-files`), true);
+        }
+
+        log("done", "Loaded config and files");
+
+        // load default theme on setup and installed extensions
+        if(!getGlobalConfig("setup")) {
+            loadExtension("../extensions/default");
         }
 
         // add error handler
@@ -253,7 +277,7 @@ let acr = new function() {
         // hide bootscreen
         hideBootScreen();
 
-        log("info", "Finished runBoot()");
+        log("done", "Finished runBoot()");
 
     }
 
@@ -263,8 +287,8 @@ let acr = new function() {
 
         // save config and files to localStorage
         function saveData() {
-            localStorage.setItem("config", JSON.stringify(config));
-            localStorage.setItem("files", JSON.stringify(files));
+            localStorage.setItem(`${dataVersion}-config`, JSON.stringify(config));
+            localStorage.setItem(`${dataVersion}-files`, JSON.stringify(files));
         }
 
         // generate a random acrylic-themed color (used in the bootscreen and initial log message)
@@ -325,10 +349,10 @@ let acr = new function() {
 
                     // start setup if no data exists, login if data exists
                     if (config["setup"]) {
-                        log("info", "Finished boot, showing login screen");
+                        log("done", "Finished boot, showing login screen");
                         showLoginScreen();
                     } else {
-                        log("info", "Finished boot, showing setup screen");
+                        log("done", "Finished boot, showing setup screen");
                         showSetup();
                     }
 
@@ -641,9 +665,10 @@ let acr = new function() {
             "assets/wallpapers/cosmos.jpg",
             "assets/wallpapers/rocinha.jpg"
         ];
-        const noUserWallpaper = defaultWallpapers[3];
-        // wallpaper used when there's no user (setup, login, etc.)
+        const noUserWallpaper = defaultWallpapers[0];
+            // wallpaper used when there's no user (setup, login, etc.)
 
+        // default configs
         const defaultUserConfigs = {
 
             // time
@@ -660,8 +685,12 @@ let acr = new function() {
             // effects
             "click_confetti": false,
 
+            // extensions
+            "extensions": []
+
         };
 
+        // get/set global config
         function getGlobalConfig(configName) {
             try {
                 const configValue = config[configName];
@@ -673,13 +702,13 @@ let acr = new function() {
                 return defaultUserConfigs[configName];
             }
         }
-
         function setGlobalConfig(configName, newValue) {
             config[configName] = newValue;
             saveData();
-            log("info", `Global config ${configName} set to ${newValue}`);
+            log("done", `Global config ${configName} set to ${newValue}`);
         }
 
+        // get/set user config
         function getUserConfig(configName) {
             try {
                 const configValue = config["users"][user][configName];
@@ -691,11 +720,10 @@ let acr = new function() {
                 return defaultUserConfigs[configName];
             }
         }
-
         function setUserConfig(configName, newValue) {
             config["users"][user][configName] = newValue;
             saveData();
-            log("info", `User config ${configName} set to ${newValue}`);
+            log("done", `User config ${configName} set to ${newValue}`);
         }
 
     // #endregion
@@ -733,7 +761,7 @@ let acr = new function() {
                 // change dock
                 regenerateDock();
 
-                log("info", `New process of ${this.app} launched with PID ${this.PID}`);
+                log("done", `New process of ${this.app} named "${this.name}" launched with PID ${this.PID}`);
 
             }
 
@@ -778,7 +806,7 @@ let acr = new function() {
                 // change dock
                 regenerateDock();
 
-                log("info", `Killed process ${this.app} with PID ${this.PID}`);
+                log("done", `Killed process ${this.app} with PID ${this.PID}`);
 
             }
 
@@ -801,6 +829,7 @@ let acr = new function() {
                 this.display = info.display;
                 this.type = info.type;
                 this.category = info.category;
+                this.utility = ("utility" in info)? info.utility:false;
                 this.icon = "icon" in info? info.icon: "iconol/square_%3F.svg";
                 this.run = "run" in steps? steps.run: function() {};
                 this.action = "action" in steps? steps.action: function() {};
@@ -812,7 +841,7 @@ let acr = new function() {
             launch(additionalData) {
                 let process = new acr.Process(this.display, this.id, null, this.type, additionalData);
                 this.run(process);
-                log("info", `App ${this.id} launched`);
+                log("done", `App ${this.id} launched`);
                 return process;
             }
 
@@ -915,6 +944,13 @@ let acr = new function() {
                         const user = id("setup-2-username").value;
                         files = getInitialFilesystem(user);
 
+                        // make extension list
+                        let coreExtensionPaths = [];
+                        for(const ID of coreExtensions) {
+                            coreExtensionPaths.push(`../extensions/${ID}`);
+                        }
+                        config["users"][user]["extensions"] = coreExtensionPaths;
+
                         showSetupStage(3);
                     });
                     onclick("setup-2-back", () => {
@@ -961,11 +997,11 @@ let acr = new function() {
         function showLoginScreen() {
 
             // check if there's existing session login data
-            if (sessionStorage.getItem("username") === null) {
+            if (sessionStorage.getItem(`${dataVersion}-username`) === null) {
                 skippedLogin = false;
             } else {
                 skippedLogin = true;
-                user = sessionStorage.getItem("username");
+                user = sessionStorage.getItem(`${dataVersion}-username`);
                 showDesktop();
                 return;
             }
@@ -1001,8 +1037,8 @@ let acr = new function() {
             if (username in config["users"]) {
                 if (config["users"][username].password === password) {
                     user = username;
-                    sessionStorage.setItem("username", username);
-                    sessionStorage.setItem("password", password);
+                    sessionStorage.setItem(`${dataVersion}-username`, username);
+                    sessionStorage.setItem(`${dataVersion}-password`, password);
                     showDesktop();
                 } else {
                     error("Incorrect password.");
@@ -1032,6 +1068,11 @@ let acr = new function() {
 
             // set wallpaper
             setDesktopWallpaper();
+
+            // load extensions
+            for(const extensionPath of getUserConfig("extensions")) {
+                loadExtension(extensionPath);
+            }
 
             // move version
             id("version").classList.remove("version-boot");
@@ -1096,7 +1137,7 @@ let acr = new function() {
             // enable blue rectangle
             enableBlueRectangle();
 
-            log("info", "Desktop setup complete");
+            log("done", "Desktop setup complete");
 
         }
 
@@ -1296,7 +1337,7 @@ let acr = new function() {
                 });
             }
 
-            log("info", "Dock regenerated");
+            log("done", "Dock regenerated");
 
         }
 
@@ -1343,7 +1384,7 @@ let acr = new function() {
                 },250);
 
                 startOpened = false;
-                log("info", "Start menu closed");
+                log("done", "Start menu closed");
 
             } else {
 
@@ -1373,7 +1414,7 @@ let acr = new function() {
                 },250);
 
                 startOpened = true;
-                log("info", "Start menu opened");
+                log("done", "Start menu opened");
 
             }
 
@@ -1404,8 +1445,8 @@ let acr = new function() {
                 if ("category" in appData) {
                     if (appData["category"] === category) {
 
-                        // don't show if app is a core utility
-                        if(coreUtilities.includes(app)) {
+                        // don't show if app is a utility
+                        if(appData.utility) {
                             continue;
                         }
 
@@ -1760,7 +1801,7 @@ let acr = new function() {
             // add to windows
             windows[windowID] = this;
 
-            log("info", `Window ${windowID} spawned`);
+            log("done", `Window ${windowID} spawned`);
 
         }
 
@@ -1773,7 +1814,7 @@ let acr = new function() {
                 }
                 selectedWindow = this.windowID;
             }
-            log("info", `Window ${this.windowID} selected`);
+            log("done", `Window ${this.windowID} selected`);
         }
 
         // maximize/unmaximize
@@ -1783,7 +1824,7 @@ let acr = new function() {
             windows[this.windowID]["leftStyle"] = id(`window-${this.windowID}`).style.left;
             windows[this.windowID]["topStyle"] = id(`window-${this.windowID}`).style.top;
             id(`window-${this.windowID}`).removeAttribute("style");
-            log("info", `Window ${this.windowID} maximized`);
+            log("done", `Window ${this.windowID} maximized`);
         }
         unmaximize() {
             windows[this.windowID]["maximized"] = false;
@@ -1794,7 +1835,7 @@ let acr = new function() {
             }, 250);
             id(`window-${this.windowID}`).style.left = windows[this.windowID]["leftStyle"];
             id(`window-${this.windowID}`).style.top = windows[this.windowID]["topStyle"];
-            log("info", `Window ${this.windowID} unmaximized`);
+            log("done", `Window ${this.windowID} unmaximized`);
         }
 
         // minimize/unminimize
@@ -1805,7 +1846,7 @@ let acr = new function() {
                 id(`window-${this.windowID}`).classList.remove("window-animation-close");
             }, 250);
             this.shown = false;
-            log("info", `Window ${this.windowID} minimized`);
+            log("done", `Window ${this.windowID} minimized`);
         }
         unminimize() {
             id(`window-${this.windowID}`).style.display = "block";
@@ -1814,7 +1855,7 @@ let acr = new function() {
                 id(`window-${this.windowID}`).classList.remove("window-animation-open");
             }, 250);
             this.shown = true;
-            log("info", `Window ${this.windowID} unminimized`);
+            log("done", `Window ${this.windowID} unminimized`);
         }
 
         // drag
@@ -1886,7 +1927,7 @@ let acr = new function() {
                 ++i;
             }
 
-            log("info", `Popup of type ${type} spawned`);
+            log("done", `Popup of type ${type} spawned`);
 
         }
 
@@ -1915,12 +1956,17 @@ let acr = new function() {
 
     // #region ─ extension loader
 
+    this.extensionInfos = {};
+
     async function loadExtension(path) {
         
         // get info.json
         let request = await fetch(`${path}/info.json`);
         let info = await request.json();
         
+        // put info in extensionInfos
+        acr.extensionInfos[path] = info;
+
         // variables
         let text;
         let common = "";
@@ -1956,16 +2002,14 @@ let acr = new function() {
             `);
         }
 
-        log("info", `Loaded extension ${path}`);
+        log("done", `Loaded extension ${path}`);
 
         // register app
         if(info.type === "app") {
             acr.apps[info.id] = new acr.App(
-                info.id,
-                info.appInfo,
-                steps
+                info.id, info.appInfo, steps
             );
-            log("info", `Registered app ${info.id}`);
+            log("done", `Registered app ${info.id}`);
         }
 
     }
@@ -1983,7 +2027,7 @@ let acr = new function() {
     const exposeFunctions = [
 
         // utility
-        isFullscreen, log, 
+        isFullscreen, log, error,
 
         // configs
         getUserConfig, setUserConfig, getGlobalConfig, setGlobalConfig,
@@ -2000,6 +2044,7 @@ let acr = new function() {
         // interface
         debugPopup, contextMenu,
         quit, registerFullscreen,
+        spawnPopup,
 
         // extensions
         loadExtension
@@ -2014,21 +2059,20 @@ let acr = new function() {
 
     // #endregion
 
-    // #region ─ load core apps and themes
+    // #region ─ core extensions
 
-    const coreApps = [
-        "about", "calculator", "clock", "files", "hooktest", "notepad", "paint", "sandbox", "settings", "system-monitor", "terminal", "weather"
-    ];
-    const coreUtilities = [
-        "file-picker"
-    ];
-    const coreThemes = [
+    const coreExtensions = [
+
+        // apps
+        "about", "calculator", "clock", "files", "hooktest", "notepad", "paint", "sandbox", "settings", "system-monitor", "terminal", "weather",
+
+        // utilities
+        "file-picker",
+
+        // themes
         "default"
-    ];
 
-    for(const extensionID of [...coreApps, ...coreUtilities, ...coreThemes]) {
-        loadExtension(`../extensions/${extensionID}`);
-    }
+    ];
 
     // #endregion
 
@@ -2079,7 +2123,7 @@ let acr = new function() {
             id("quit-areyousure").style.display = "block";
             id("quit-areyousure-action").innerText = quitActionText[action]["text"];
             id("quit-areyousure-button").innerText = quitActionText[action]["button"];
-            log("info", "Quit menu shown");
+            log("done", "Quit menu shown");
         }
 
         function continueQuit() {
@@ -2091,8 +2135,8 @@ let acr = new function() {
                 switch (quitAction) {
 
                     case "logout":
-                        sessionStorage.removeItem("username");
-                        sessionStorage.removeItem("password");
+                        sessionStorage.removeItem(`${dataVersion}-username`);
+                        sessionStorage.removeItem(`${dataVersion}-password`);
                         window.location.reload();
                         break;
 
@@ -2140,6 +2184,9 @@ let acr = new function() {
                     "OK": function(process) {
                         process.kill();
                     },
+                    "Copy": () => {
+                        navigator.clipboard.writeText(content);
+                    },
                     "Restart": function() {
                         window.location.reload();
                     }
@@ -2180,7 +2227,7 @@ let acr = new function() {
         });
         onclick("fullscreen-cancel", hideFullscreenPopup);
 
-        log("info", "Fullscreen overlay shown");
+        log("done", "Fullscreen overlay shown");
 
     }
 
