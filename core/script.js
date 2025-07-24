@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b34";
-        this.versionDate = "23 Jul 2025";
+        this.version = "0.2.0-b35";
+        this.versionDate = "24 Jul 2025";
         let dataVersion = 1;
 
         this.codename = "sker";
@@ -262,10 +262,8 @@ let acr = new function() {
 
         log("done", "Loaded config and files");
 
-        // load default theme on setup and installed extensions
-        if(!getGlobalConfig("setup")) {
-            loadExtension("../extensions/default");
-        }
+        // load default theme
+        loadExtension(getGlobalConfig("setup")? getGlobalConfig("default_theme"):"../extensions/default");
 
         // add error handler
         addJSErrorHandler();
@@ -669,6 +667,12 @@ let acr = new function() {
             // wallpaper used when there's no user (setup, login, etc.)
 
         // default configs
+        const defaultGlobalConfigs = {
+
+            // default theme
+            "default_theme": "../extensions/default"
+            
+        };
         const defaultUserConfigs = {
 
             // time
@@ -695,11 +699,11 @@ let acr = new function() {
             try {
                 const configValue = config[configName];
                 if (configValue === undefined) {
-                    return defaultUserConfigs[configName];
+                    return defaultGlobalConfigs[configName];
                 }
                 return configValue;
             } catch (error) {
-                return defaultUserConfigs[configName];
+                return defaultGlobalConfigs[configName];
             }
         }
         function setGlobalConfig(configName, newValue) {
@@ -1071,9 +1075,39 @@ let acr = new function() {
 
             // load extensions
             for(const extensionPath of getUserConfig("extensions")) {
+                if(extensionPath == getGlobalConfig("default_theme")) {    // no need to load the default theme again
+                    continue;
+                }
                 loadExtension(extensionPath);
             }
-
+            
+            // warning popup if no theme extension is installed
+            let hasThemeExtension = false;
+            for(const extensionInfo of Object.values(acr.extensionInfos)) {
+                if(extensionInfo.type == "theme") {
+                    hasThemeExtension = true;
+                    break;
+                }
+            }
+            if(!hasThemeExtension) {
+                spawnPopup(
+                    "warning",
+                    `
+                        You are using Acrylic without a theme.
+                        <br>
+                        Make sure to install a theme to make Acrylic actually look good.    
+                    `,
+                    {
+                        "Ignore": (process) => {
+                            process.kill();
+                        },
+                        "Go to Settings": () => {
+                            let process = acr.apps["settings"].launch();
+                            process.action("switch_tab", {"tab": "extensions"});
+                        }
+                    }
+                );                
+            }
             // move version
             id("version").classList.remove("version-boot");
             id("version").classList.add("version-desktop");
@@ -1998,7 +2032,7 @@ let acr = new function() {
         // load styles
         if(info.styles) {
             append("head", `
-                <link rel="stylesheet" href="${path}/styles.css">
+                <link rel="stylesheet" href="${path}/styles.css" id="extension-stylesheet-${path}">
             `);
         }
 
@@ -2011,6 +2045,38 @@ let acr = new function() {
             );
             log("done", `Registered app ${info.id}`);
         }
+
+    }
+
+    function unloadExtension(path) {
+
+        const info = acr.extensionInfos[path];
+        const extensionID = info.id;
+
+        // remove app
+        if("appInfo" in info) {
+        
+            // kill running processes
+            for(const process of Object.values(acr.processes)) {
+                if(process.app == extensionID) {
+                    process.kill();
+                }
+            }
+
+            // delete from list
+            delete acr.apps[extensionID];
+
+        }
+
+        // remove stylesheet
+        if(info.styles) {
+            id(`extension-stylesheet-${path}`).remove();
+        }
+
+        // remove from extensionInfos
+        delete acr.extensionInfos[path];
+
+        log("done", `Unloaded extension ${path}`);
 
     }
 
@@ -2047,7 +2113,7 @@ let acr = new function() {
         spawnPopup,
 
         // extensions
-        loadExtension
+        loadExtension, unloadExtension
 
     ];
 

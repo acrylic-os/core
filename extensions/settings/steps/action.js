@@ -51,8 +51,11 @@ function action(process, action, data) {
                             </button>
                             <span class="subtitle">${optionData["subtitle"]}</span>
                         `;
-                            eventListenersToPut[optionID] = attr_action;
-                            break;
+                        eventListenersToPut[optionID] = {
+                            "type": "click",
+                            "listener": attr_action
+                        };
+                        break;
 
                     case "select":
                         let selectOptions = "";
@@ -64,11 +67,15 @@ function action(process, action, data) {
                                 `;
                         }
                         optionsDisplay += `
-                                <legend>${optionData["name"]}</legend>
-                                <select id="${attr_id}" onchange="${attr_action}">
-                                    ${selectOptions}
-                                </select>
-                            `;
+                            <legend>${optionData["name"]}</legend>
+                            <select id="${attr_id}" onchange="${attr_action}">
+                                ${selectOptions}
+                            </select>
+                        `;
+                        eventListenersToPut[optionID] = {
+                            "type": "input",
+                            "listener": attr_action
+                        };
                         break;
 
                     case "checkbox":
@@ -78,9 +85,24 @@ function action(process, action, data) {
                             <span>${optionData["name"]}</span>
                             <span class="subtitle">${optionData["subtitle"]}</span>
                         `;
-                        eventListenersToPut[optionID] = attr_action;
+                        eventListenersToPut[optionID] = {
+                            "type": "click",
+                            "listener": attr_action
+                        };
                         break;
                     
+                    case "textbox":
+                        optionsDisplay += `
+                            <legend>${optionData["name"]}</legend>
+                            <input type="text" id="${attr_id}" value="${selected}" placeholder="${optionData["placeholder"]? "":optionData["placeholder"]}">
+                            <span class="subtitle">${optionData["subtitle"]}</span>
+                        `;
+                        eventListenersToPut[optionID] = {
+                            "type": "input",
+                            "listener": attr_action
+                        };
+                        break;
+
                     case "extension-load":
                         optionsDisplay += `
                             <legend>Add a new extension</legend>
@@ -118,8 +140,8 @@ function action(process, action, data) {
             id(`window-${windowID}-settings-content`).innerHTML = optionsDisplay;
 
             // put event listeners
-            for (const [option, listener] of Object.entries(eventListenersToPut)) {
-                id(`window-${windowID}-settings-option-${option}`).addEventListener("click", listener);
+            for (const [option, listenerData] of Object.entries(eventListenersToPut)) {
+                id(`window-${windowID}-settings-option-${option}`).addEventListener(listenerData.type, listenerData.listener);
             }
 
             // put extension load and table rows
@@ -167,6 +189,7 @@ function action(process, action, data) {
                     option["click"](null);
                     break;
                 case "select":
+                case "textbox":
                     option["set"](id(`window-${windowID}-settings-option-${data["option"]}`).value);
                     break;
                 case "checkbox":

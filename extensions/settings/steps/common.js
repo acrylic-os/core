@@ -126,6 +126,17 @@ const settingsData = {
             },
             "extension-list": {
                 "type": "extension-list"
+            },
+
+            "default_theme": {
+                "type": "textbox",
+                "name": "Default theme",
+                "placeholder": "Extension path",
+                "subtitle": "The theme to use on the login screen where there is no user",
+                "selected": ["global", "default_theme"],
+                "set": (newValue) => {
+                    acr.setGlobalConfig("default_theme", newValue);
+                }
             }
 
         }
