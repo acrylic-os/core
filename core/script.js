@@ -11,7 +11,7 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b35";
+        this.version = "0.2.0-b36";
         this.versionDate = "24 Jul 2025";
         let dataVersion = 1;
 
@@ -262,8 +262,21 @@ let acr = new function() {
 
         log("done", "Loaded config and files");
 
+        // progress safe mode
+        if(getGlobalConfig("safe_mode") === "activated") {
+            setGlobalConfig("safe_mode", "active");
+        } else if(getGlobalConfig("safe_mode") === "active") {
+            setGlobalConfig("safe_mode", "disabled");
+        }
+
         // load default theme
-        loadExtension(getGlobalConfig("setup")? getGlobalConfig("default_theme"):"../extensions/default");
+        if(getGlobalConfig("setup")) {
+            if(getGlobalConfig("default_theme") != "") {    // no default theme set
+                loadExtension(getGlobalConfig("default_theme"));
+            }
+        } else {    // hasn't been setup yet
+            loadExtension("../extensions/default");
+        }
 
         // add error handler
         addJSErrorHandler();
@@ -652,7 +665,7 @@ let acr = new function() {
 
     // #endregion
     
-    // #region ─ configs
+    // #region ─ config data
 
         let config = {};
 
@@ -669,9 +682,9 @@ let acr = new function() {
         // default configs
         const defaultGlobalConfigs = {
 
-            // default theme
-            "default_theme": "../extensions/default"
-            
+            "default_theme": "../extensions/default",
+            "safe_mode": "disabled"
+
         };
         const defaultUserConfigs = {
 
@@ -693,6 +706,10 @@ let acr = new function() {
             "extensions": []
 
         };
+
+    // #endregion
+
+    // #region ─ config functions
 
         // get/set global config
         function getGlobalConfig(configName) {
@@ -796,7 +813,7 @@ let acr = new function() {
                     id(`window-${this.PID}`).classList.add("window-animation-close");
                     setTimeout(() => {
                         id(`window-${this.PID}`).remove();
-                    }, 250);
+                    }, animationDelays["window-close"]);
 
                     if (selectedWindow === this.PID) {    // the window was the selected window
                         selectedWindow = undefined;
@@ -1080,34 +1097,38 @@ let acr = new function() {
                 }
                 loadExtension(extensionPath);
             }
-            
+
             // warning popup if no theme extension is installed
-            let hasThemeExtension = false;
-            for(const extensionInfo of Object.values(acr.extensionInfos)) {
-                if(extensionInfo.type == "theme") {
-                    hasThemeExtension = true;
-                    break;
-                }
-            }
-            if(!hasThemeExtension) {
-                spawnPopup(
-                    "warning",
-                    `
-                        You are using Acrylic without a theme.
-                        <br>
-                        Make sure to install a theme to make Acrylic actually look good.    
-                    `,
-                    {
-                        "Ignore": (process) => {
-                            process.kill();
-                        },
-                        "Go to Settings": () => {
-                            let process = acr.apps["settings"].launch();
-                            process.action("switch_tab", {"tab": "extensions"});
-                        }
+            setTimeout(() => {
+                let hasThemeExtension = false;
+                for(const extensionInfo of Object.values(acr.extensionInfos)) {
+                    if(extensionInfo.type == "theme") {
+                        hasThemeExtension = true;
+                        break;
                     }
-                );                
-            }
+                }
+                if(!hasThemeExtension) {
+                    spawnPopup(
+                        "warning",
+                        `
+                            You are using Acrylic without a theme.
+                            <br>
+                            Make sure to install a theme to make Acrylic actually look good.    
+                        `,
+                        {
+                            "Ignore": (process) => {
+                                process.kill();
+                            },
+                            "Go to Settings": () => {
+                                let process = acr.apps["settings"].launch();
+                                process.action("switch_tab", {"tab": "extensions"});
+                            }
+                        }
+                    );                
+                }
+            }, 1000);
+                // delayed by 1 second because if it was run directly after loading extensions, sometimes not all extensions would've been loaded
+
             // move version
             id("version").classList.remove("version-boot");
             id("version").classList.add("version-desktop");
@@ -1415,7 +1436,7 @@ let acr = new function() {
                     id("startmenu").classList.remove("startmenu-animation-close");
                     id("startmenu").style.display = "none";
                     id("startmenu-categories").innerHTML = "";
-                },250);
+                }, animationDelays["startmenu-close"]);
 
                 startOpened = false;
                 log("done", "Start menu closed");
@@ -1445,7 +1466,7 @@ let acr = new function() {
                 id("startmenu").classList.add("startmenu-animation-open");
                 setTimeout(() => {
                     id("startmenu").classList.remove("startmenu-animation-open");
-                },250);
+                },animationDelays["startmenu-open"]);
 
                 startOpened = true;
                 log("done", "Start menu opened");
@@ -1785,7 +1806,7 @@ let acr = new function() {
             id(`window-${windowID}`).classList.add("window-animation-open");
             setTimeout(() => {
                 id(`window-${windowID}`).classList.remove("window-animation-open");
-            }, 250);
+            }, animationDelays["window-open"]);
 
             // set initial dimensions
             if(initialDimensions) {
@@ -1866,7 +1887,7 @@ let acr = new function() {
             id(`window-${this.windowID}`).classList.add("unmaximized");
             setTimeout(() => {
                 id(`window-${this.windowID}`).classList.remove("unmaximized");
-            }, 250);
+            }, animationDelays["window-change"]);
             id(`window-${this.windowID}`).style.left = windows[this.windowID]["leftStyle"];
             id(`window-${this.windowID}`).style.top = windows[this.windowID]["topStyle"];
             log("done", `Window ${this.windowID} unmaximized`);
@@ -1878,7 +1899,7 @@ let acr = new function() {
             setTimeout(() => {
                 id(`window-${this.windowID}`).style.display = "none";
                 id(`window-${this.windowID}`).classList.remove("window-animation-close");
-            }, 250);
+            }, animationDelays["window-change"]);
             this.shown = false;
             log("done", `Window ${this.windowID} minimized`);
         }
@@ -1887,7 +1908,7 @@ let acr = new function() {
             id(`window-${this.windowID}`).classList.add("window-animation-open");
             setTimeout(() => {
                 id(`window-${this.windowID}`).classList.remove("window-animation-open");
-            }, 250);
+            }, animationDelays["window-change"]);
             this.shown = true;
             log("done", `Window ${this.windowID} unminimized`);
         }
@@ -1994,6 +2015,12 @@ let acr = new function() {
 
     async function loadExtension(path) {
         
+        // don't load if safemode is on
+        if(getGlobalConfig("safe_mode") == "active") {
+            log("info", `Attempted to load extension ${path}, but safe mode is on`);
+            return;
+        }
+
         // get info.json
         let request = await fetch(`${path}/info.json`);
         let info = await request.json();
@@ -2034,6 +2061,13 @@ let acr = new function() {
             append("head", `
                 <link rel="stylesheet" href="${path}/styles.css" id="extension-stylesheet-${path}">
             `);
+        }
+
+        // load theme.json
+        if(info.type == "theme") {
+            request = await fetch(`${path}/theme.json`);
+            info = await request.json();
+            animationDelays = info["animation-delays"];    // set animation delays
         }
 
         log("done", `Loaded extension ${path}`);
@@ -2093,7 +2127,7 @@ let acr = new function() {
     const exposeFunctions = [
 
         // utility
-        isFullscreen, log, error,
+        isFullscreen, log, error, safeMode,
 
         // configs
         getUserConfig, setUserConfig, getGlobalConfig, setGlobalConfig,
@@ -2111,6 +2145,7 @@ let acr = new function() {
         debugPopup, contextMenu,
         quit, registerFullscreen,
         spawnPopup,
+        setDesktopWallpaper,
 
         // extensions
         loadExtension, unloadExtension
@@ -2139,6 +2174,36 @@ let acr = new function() {
         "default"
 
     ];
+
+    // #endregion
+
+    // #region ─ safe mode
+
+    function safeMode() {
+        setGlobalConfig("safe_mode", "activated");
+        console.log(`
+Safe mode has been activated.
+On the next boot, all extensions will be disabled to help debug things.
+Acrylic will restart in 3 seconds.
+        `);
+        setTimeout(() => {
+            window.location.reload();
+        }, 3000);
+    }
+
+    // #endregion
+
+    // #region ─ default animation delays
+
+        const animationDelayKeys = [
+            "window-open", "window-close", "window-change",
+            "startmenu-open", "startmenu-close"
+        ];
+
+        let animationDelays = [];
+        for(const key of animationDelayKeys) {
+            animationDelays[animationDelayKeys] = 0;
+        }
 
     // #endregion
 

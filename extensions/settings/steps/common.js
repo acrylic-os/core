@@ -38,7 +38,7 @@ const settingsData = {
                 "selected": ["user", "wallpaper"],
                 "set": function (newValue) {
                     acr.setUserConfig("wallpaper", newValue);
-                    setDesktopWallpaper();
+                    acr.setDesktopWallpaper();
                 }
             },
 
@@ -46,8 +46,8 @@ const settingsData = {
                 "type": "checkbox",
                 "name": "Transparent topbar",
                 "subtitle": "Make the topbar appear transparent.",
-                "selected": ["user", "click_confetti"],
-                "set": function (newValue) {
+                "selected": ["user", "transparent_topbar"],
+                "set": function(newValue) {
                     acr.setUserConfig("transparent_topbar", newValue);
                     if (newValue) {
                         id("topbar").classList.add("topbar-transparent");

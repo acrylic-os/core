@@ -11,7 +11,8 @@ function action(process, action, data) {
 
             // render tab
             let optionsDisplay = "";
-            let attr_id, attr_action, selected, eventListenersToPut;
+            let attr_id, attr_action, selected;
+            let eventListenersToPut = {};
             const tab = data["tab"];
             for (const [optionID, optionData] of Object.entries(settingsData[tab]["options"])) {
 
@@ -19,10 +20,9 @@ function action(process, action, data) {
 
                 // id and on(something) attributes
                 attr_id = `window-${windowID}-settings-option-${optionID}`;
-                attr_action = function (tab, optionID) {
-                    process.action("option", {'tab': tab, 'option': optionID})
+                attr_action = function (tab2, optionID2) {
+                    process.action("option", {'tab': tab2, 'option': optionID2})
                 }.bind(null, tab, optionID);
-                eventListenersToPut = {}
 
                 // set selected value
                 if ("selected" in optionData) {
