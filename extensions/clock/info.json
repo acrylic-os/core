@@ -5,8 +5,7 @@
     "appInfo": {
         "display": "Clock",
         "type": "gui",
-        "category": "utilities",
-        "icon": "iconol/square_?.svg"
+        "category": "utilities"
     },
 
     "version": {

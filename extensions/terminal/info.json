@@ -6,7 +6,7 @@
         "display": "Terminal",
         "type": "gui",
         "category": "system",
-        "icon": "iconol/display_black.svg"
+        "icon": "../../iconol/display_black.svg"
     },
 
     "version": {

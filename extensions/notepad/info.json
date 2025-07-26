@@ -6,7 +6,7 @@
         "display": "Notepad",
         "type": "gui",
         "category": "utilities",
-        "icon": "iconol/notepad.svg"
+        "icon": "../../iconol/notepad.svg"
     },
 
     "version": {

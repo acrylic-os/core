@@ -395,7 +395,7 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 }
 
 #start-button{
-    background-image: url("iconol/start.svg");
+    background-image: url("../../iconol/start.svg");
     background-size: contain;
     margin-right: 2em;
     display: inline-block;

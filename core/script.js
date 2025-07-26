@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b36";
-        this.versionDate = "24 Jul 2025";
+        this.version = "0.2.0-b37";
+        this.versionDate = "26 Jul 2025";
         let dataVersion = 1;
 
         this.codename = "sker";
@@ -676,6 +676,12 @@ let acr = new function() {
             "assets/wallpapers/cosmos.jpg",
             "assets/wallpapers/rocinha.jpg"
         ];
+        const wallpaperNames = {
+            "assets/wallpapers/acrylic.png": "Acrylic",
+            "assets/wallpapers/baltic_sea.jpg": "Baltic sea",
+            "assets/wallpapers/cosmos.jpg": "Cosmos",
+            "assets/wallpapers/rocinha.jpg": "Rocinha"
+        };
         const noUserWallpaper = defaultWallpapers[0];
             // wallpaper used when there's no user (setup, login, etc.)
 
@@ -692,7 +698,6 @@ let acr = new function() {
             "time_format": 0,
 
             // appearance
-            "wallpaper": noUserWallpaper,
             "transparent_topbar": false,
             "darken_wallpaper": true,
 
@@ -851,7 +856,7 @@ let acr = new function() {
                 this.type = info.type;
                 this.category = info.category;
                 this.utility = ("utility" in info)? info.utility:false;
-                this.icon = "icon" in info? info.icon: "iconol/square_%3F.svg";
+                this.icon = "icon" in info? info.icon: "../../iconol/square_question.svg";
                 this.run = "run" in steps? steps.run: function() {};
                 this.action = "action" in steps? steps.action: function() {};
                 this.kill = "kill" in steps? steps.kill: function() {};
@@ -893,122 +898,6 @@ let acr = new function() {
 
 
     // #region ━ SETUP/LOGIN
-
-    // #region ─ show setup
-
-        function showSetup() {
-
-            id("setupscreen").style.backgroundImage = `url(${noUserWallpaper})`;
-            id("setupscreen").style.filter = "opacity(0)";
-            id("setupscreen").style.display = "block";
-
-            let counter = 0;
-            let interval = setInterval(() => {
-                id("setupscreen").style.filter = `opacity(${counter / 100})`;
-                ++counter;
-                if (counter > 100) {
-                    clearInterval(interval);
-                }
-            }, 10);
-
-            showSetupStage(1);
-        }
-
-    // #endregion
-
-    // #region ─ setup stages
-
-        let setupStage = 1;
-        const setupStageNames = {
-            1: "Introduction",
-            2: "Create account",
-            3: "Customization",
-            4: "Options",
-            5: "Setup complete"
-        };
-
-        function showSetupStage(stage) {
-
-            // set number and name on top
-            id("setup-stage-number").innerText = stage;
-            id("setup-stage-name").innerText = setupStageNames[stage];
-
-            // hide old stage content and show new stage
-            id(`setup-${setupStage}`).style.display = "none";
-            id(`setup-${stage}`).style.display = "block";
-            setupStage = stage;
-
-            // run something for each stage
-            switch (stage) {
-
-                case 1:
-                    onclick("setup-1-continue", () => {
-                        showSetupStage(2);
-                    });
-                    onclick("setup-1-import", () => {
-                        error("Importing data not implemented");
-                    });
-                    break;
-
-                case 2:
-                    onclick("setup-2-create", () => {
-
-                        // set user
-                        let users = {};
-                        users[id("setup-2-username").value] = {
-                            "display_name": id("setup-2-username").value,
-                            "password": id("setup-2-password").value
-                        };
-                        config["users"] = users;
-
-                        // make filesystem
-                        const user = id("setup-2-username").value;
-                        files = getInitialFilesystem(user);
-
-                        // make extension list
-                        let coreExtensionPaths = [];
-                        for(const ID of coreExtensions) {
-                            coreExtensionPaths.push(`../extensions/${ID}`);
-                        }
-                        config["users"][user]["extensions"] = coreExtensionPaths;
-
-                        showSetupStage(3);
-                    });
-                    onclick("setup-2-back", () => {
-                        showSetupStage(1);
-                    })
-                    break;
-
-                case 3:
-                    onclick("setup-3-continue", () => {
-                        showSetupStage(4);
-                    });
-                    onclick("setup-3-back", () => {
-                        showSetupStage(2);
-                    })
-                    break;
-
-                case 4:
-                    onclick("setup-4-continue", () => {
-                        showSetupStage(5);
-                    });
-                    onclick("setup-4-back", () => {
-                        showSetupStage(3);
-                    })
-                    break;
-
-                case 5:
-                    config["setup"] = true;
-                    onclick("setup-5-reload", () => {
-                        saveData();
-                        window.location.reload();
-                    });
-                    break;
-
-            }
-        }
-
-    // #endregion
 
     // #region ─ show login screen
 
@@ -1066,6 +955,149 @@ let acr = new function() {
                 }
             } else {
                 error("User doesn't exist.");
+            }
+        }
+
+    // #endregion
+
+    // #region ─ show setup
+
+        function showSetup() {
+
+            id("setupscreen").style.backgroundImage = `url(${noUserWallpaper})`;
+            id("setupscreen").style.filter = "opacity(0)";
+            id("setupscreen").style.display = "block";
+
+            let counter = 0;
+            let interval = setInterval(() => {
+                id("setupscreen").style.filter = `opacity(${counter / 100})`;
+                ++counter;
+                if (counter > 100) {
+                    clearInterval(interval);
+                }
+            }, 10);
+
+            showSetupStage(1);
+        }
+
+    // #endregion
+
+    // #region ─ setup stages
+
+        let setupStage = 1;
+        const setupStageNames = {
+            1: "Introduction",
+            2: "Create account",
+            3: "Customization",
+            4: "Options",
+            5: "Setup complete"
+        };
+
+        function showSetupStage(stage) {
+
+            // set number and name on top
+            id("setup-stage-number").innerText = stage;
+            id("setup-stage-name").innerText = setupStageNames[stage];
+
+            // hide old stage content and show new stage
+            id(`setup-${setupStage}`).style.display = "none";
+            id(`setup-${stage}`).style.display = "block";
+            setupStage = stage;
+
+            // run something for each stage
+            switch (stage) {
+
+
+                case 1:
+                    onclick("setup-1-continue", () => {
+                        showSetupStage(2);
+                    });
+                    onclick("setup-1-import", () => {
+                        error("Importing data not implemented");
+                    });
+                    break;
+
+
+                case 2:
+                    onclick("setup-2-create", () => {
+
+                        // set user
+                        let users = {};
+                        users[id("setup-2-username").value] = {
+                            "display_name": id("setup-2-username").value,
+                            "password": id("setup-2-password").value
+                        };
+                        config["users"] = users;
+
+                        // make filesystem
+                        user = id("setup-2-username").value;
+                        files = getInitialFilesystem(user);
+
+                        // make extension list
+                        let coreExtensionPaths = [];
+                        for(const ID of coreExtensions) {
+                            coreExtensionPaths.push(`../extensions/${ID}`);
+                        }
+                        config["users"][user]["extensions"] = coreExtensionPaths;
+
+                        showSetupStage(3);
+                    });
+                    onclick("setup-2-back", () => {
+                        showSetupStage(1);
+                    })
+                    break;
+
+
+                case 3:
+
+                    let selectedWallpaper = noUserWallpaper;
+                    id("setup-3-selected-wallpaper").innerText = wallpaperNames[selectedWallpaper];
+
+                    // put wallpaper options
+                    id("setup-3-number-wallpapers").innerText = defaultWallpapers.length;
+                    for(const wallpaper of defaultWallpapers) {
+                        append("setup-3-wallpapers", `
+                            <button id="setup-3-wallpapers-${wallpaper}">
+                                <img src="${wallpaper}"></img>
+                                <br>
+                                <span class="subtitle">${wallpaperNames[wallpaper]}</span>
+                            </button>
+                        `);
+                        onclick(`setup-3-wallpapers-${wallpaper}`, () => {
+                            selectedWallpaper = wallpaper;
+                            id("setup-3-selected-wallpaper").innerText = wallpaperNames[selectedWallpaper];
+                        });
+                    }
+                    
+                    onclick("setup-3-continue", () => {
+                        config["users"][user]["wallpaper"] = selectedWallpaper;
+                        showSetupStage(4);
+                    });
+                    onclick("setup-3-back", () => {
+                        showSetupStage(2);
+                    })
+                    break;
+
+
+                case 4:
+                    onclick("setup-4-continue", () => {
+                        showSetupStage(5);
+                    });
+                    onclick("setup-4-back", () => {
+                        showSetupStage(3);
+                    })
+                    break;
+
+
+                case 5:
+                    config["setup"] = true;
+                    onclick("setup-5-reload", () => {
+                        saveData();
+                        window.location.reload();
+                    });
+                    break;
+
+
             }
         }
 
@@ -2165,7 +2197,7 @@ let acr = new function() {
     const coreExtensions = [
 
         // apps
-        "about", "calculator", "clock", "files", "hooktest", "notepad", "paint", "sandbox", "settings", "system-monitor", "terminal", "weather",
+        "about", "calculator", "clock", "files", "notepad", "paint", "sandbox", "settings", "system-monitor", "terminal", "weather",
 
         // utilities
         "file-picker",

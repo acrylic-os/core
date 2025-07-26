@@ -6,7 +6,7 @@
         "display": "Calculator",
         "type": "gui",
         "category": "utilities",
-        "icon": "iconol/calculator.svg"
+        "icon": "../../iconol/calculator.svg"
     },
 
     "version": {

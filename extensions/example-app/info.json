@@ -5,8 +5,7 @@
     "appInfo": {
         "display": "Example",
         "type": "gui",
-        "category": "system",
-        "icon": "iconol/square_?.svg"
+        "category": "system"
     },
 
     "version": {

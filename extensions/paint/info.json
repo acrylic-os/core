@@ -5,8 +5,7 @@
     "appInfo": {
         "display": "Paint",
         "type": "gui",
-        "category": "graphics",
-        "icon": "iconol/square_?.svg"
+        "category": "graphics"
     },
 
     "version": {

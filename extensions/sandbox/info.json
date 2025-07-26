@@ -6,7 +6,7 @@
         "display": "Sandbox",
         "type": "gui",
         "category": "utilities",
-        "icon": "iconol/sandbox.svg"
+        "icon": "../../iconol/sandbox.svg"
     },
 
     "version": {

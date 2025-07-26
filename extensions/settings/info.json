@@ -6,7 +6,7 @@
         "display": "Settings",
         "type": "gui",
         "category": "system",
-        "icon": "iconol/settings.svg"
+        "icon": "../../iconol/settings.svg"
     },
 
     "version": {
