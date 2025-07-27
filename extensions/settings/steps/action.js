@@ -61,19 +61,19 @@ function action(process, action, data) {
                         let selectOptions = "";
                         for (const [selectID, selectName] of Object.entries(optionData["options"])) {
                             selectOptions += `
-                                    <option value="${selectID}" ${selectID === selected ? "selected" : ""}>
-                                        ${selectName}
-                                    </option>
-                                `;
+                                <option value="${selectID}" ${selectID === selected ? "selected" : ""}>
+                                    ${selectName}
+                                </option>
+                            `;
                         }
                         optionsDisplay += `
                             <legend>${optionData["name"]}</legend>
-                            <select id="${attr_id}" onchange="${attr_action}">
+                            <select id="${attr_id}">
                                 ${selectOptions}
                             </select>
                         `;
                         eventListenersToPut[optionID] = {
-                            "type": "input",
+                            "type": "change",
                             "listener": attr_action
                         };
                         break;

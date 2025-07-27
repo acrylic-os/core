@@ -5,7 +5,8 @@
     "appInfo": {
         "display": "About",
         "type": "gui",
-        "category": "system"
+        "category": "system",
+        "icon": "../../iconol/circle_info.svg"
     },
 
     "version": {

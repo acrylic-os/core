@@ -5,7 +5,8 @@
     "appInfo": {
         "display": "Weather",
         "type": "gui",
-        "category": "utilities"
+        "category": "utilities",
+        "icon": "../../iconol/sun.svg"
     },
 
     "version": {
