@@ -11,7 +11,7 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b39";
+        this.version = "0.2.0";
         this.versionDate = "27 Jul 2025";
         let dataVersion = 1;
 
@@ -1325,7 +1325,6 @@ let acr = new function() {
                 // calculate score
                 const damerauLevenshteinScore = damerauLevenshtein(lowerName, lowerTerm, "ratio") / 2;
                 const substringScore = (lowerName.includes(lowerTerm) || lowerTerm.includes(lowerName))? 0.5: 0;
-                console.log(lowerName, lowerTerm, damerauLevenshteinScore, substringScore);
 
                 return damerauLevenshteinScore + substringScore;
 

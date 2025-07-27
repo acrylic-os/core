@@ -4,8 +4,8 @@
     "type": "theme",
 
     "version": {
-        "number": "0.2.0-b32",
-        "date": [2025, 7, 20],
+        "number": "0.2.0-r0",
+        "date": [2025, 7, 27],
         "acrylic": "0.2.0"
     },
     "authors": [

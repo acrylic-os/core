@@ -5,12 +5,13 @@
     "appInfo": {
         "display": "Paint",
         "type": "gui",
-        "category": "graphics"
+        "category": "graphics",
+        "icon": "../../iconol/paintbrush.svg"
     },
 
     "version": {
-        "number": "0.2.0-b29",
-        "date": [2025, 7, 5],
+        "number": "0.2.0-r0",
+        "date": [2025, 7, 27],
         "acrylic": "0.2.0"
     },
     "authors": [
