@@ -27,7 +27,7 @@ function run(process) {
                 </table>
             </div>
             <div class="app-file-picker-input">
-                <input type="text">
+                <input type="text" id="window-${windowID}-file-picker-filename">
                 <button id="window-${windowID}-file-picker-select">${process.additionalData.actionText}</button>
             </div>
         </div>

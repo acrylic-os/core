@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0-b37";
-        this.versionDate = "26 Jul 2025";
+        this.version = "0.2.0-b38";
+        this.versionDate = "27 Jul 2025";
         let dataVersion = 1;
 
         this.codename = "sker";
@@ -478,6 +478,7 @@ let acr = new function() {
         }
         write(content) {
             this.content = content;
+            saveData();
         }
 
     }
@@ -516,11 +517,59 @@ let acr = new function() {
 
     }
 
+    // nonexistent inodes
+    class NonexistentInode extends Inode{
+
+        // constructor
+        constructor(path) {
+            super(path);
+            this.name = path.split("/").slice(-1)[0];
+            this.parentObject = getInode(this.path.split("/").slice(0, -1).join("/"));
+        }
+
+        // replace with actual inode objects
+        putFile(description, owner, content) {
+            this.parentObject.contents[this.name] = new File(this.path, description, owner, content);
+            saveData();
+        }
+        putFolder(description, owner, contents) {
+            this.parentObject.contents[this.name] = new Folder(this.path, description, owner, contents);
+            saveData();
+        }
+        putSymlink(description, owner, target) {
+            this.parentObject.contents[this.name] = new Symlink(this.path, description, owner, target);
+            saveData();
+        }
+
+        // override methods
+        copy() {
+            log("error", `Attempted to copy ${this.path}, but it is a nonexistent inode`);
+        }
+        delete() {
+            log("error", `Attempted to delete ${this.path}, but it is a nonexistent inode`);
+        }
+        move() {
+            log("error", `Attempted to move ${this.path}, but it is a nonexistent inode`);
+        }
+        setDates() {
+            log("error", `Attempted to set dates to ${this.path}, but it is a nonexistent inode`);
+        }
+
+    }
+
     // #endregion
 
     // #region ─ internal filesystem functions
 
     let files;
+
+    // remove initial double slash from paths
+    function rds(path) {
+        if(path.startsWith("//")) {
+            path = path.replace("//", "/");
+        }
+        return path;
+    }
 
     // initial filesystem for new users
     function getInitialFilesystem(user) {
@@ -586,22 +635,26 @@ let acr = new function() {
                 case "File":
                     return currentObject;
                 
-                // folder, can go deeper
+                // folder
                 case "Folder":
                     if(part in currentObject.contents) {
+                        // next part exists, go into it
                         currentObject = currentObject.contents[part];
                     } else {
-                        return "error - file not found"; // TBA
+                        // doesn't exist, return NonexistentInode
+                        return new NonexistentInode(rds(`${currentObject.path}/${part}`));
                     }
                     break;
                 
-                // symlink, not implemented
+                // symlink, return target
                 case "Symlink":
-                    return "error - symlink not implemented";
+                    return getInode(currentObject.target);
 
             }
 
         }
+
+
         return currentObject;
     }
 
@@ -635,9 +688,6 @@ let acr = new function() {
             case "Symlink":
                 done = new Symlink(inode.path, inode.description, inode.owner, inode.target);
                 break;
-
-            default:
-                console.log("No");
                 
         }
 
@@ -658,7 +708,8 @@ let acr = new function() {
                 "actionText": actionText
             });
             process.storage["completion"] = (pickedPath) => {
-                resolve(pickedPath);
+                resolve(getInode(pickedPath));
+                // returns an inode object, not a path
             };
         })
     }
@@ -706,6 +757,7 @@ let acr = new function() {
 
             // effects
             "click_confetti": false,
+            "blue_rectangle": true,
 
             // extensions
             "extensions": []
@@ -1206,23 +1258,19 @@ let acr = new function() {
             // enable keyboard shortcuts
             enableDesktopShortcuts();
 
-            // enable click confetti if the user has it enabled
-            if (getUserConfig("click_confetti")) {
+            // enable configs
+            if(getUserConfig("click_confetti")) {
                 enableClickConfetti();
             }
-
-            // enable transparent topbar if the user has it enabled
+            if(getUserConfig("blue_rectangle")) {
+                enableBlueRectangle();
+            }
             if(getUserConfig("transparent_topbar")) {
                 id("topbar").classList.add("topbar-transparent");
             }
-
-            // enable darken wallpaper if enabled
             if(getUserConfig("darken_wallpaper")) {
                 id("desktop").classList.add("darken-wallpaper");
             }
-
-            // enable blue rectangle
-            enableBlueRectangle();
 
             log("done", "Desktop setup complete");
 
@@ -1681,41 +1729,43 @@ let acr = new function() {
         let blueRectangleOrigin;
         let blueRectangleOn = false;
 
+        function blueRectangleShow(event) {
+            if (mouseDown && !blueRectangleOn) {
+                blueRectangleOrigin = new Vector2(event.clientX, event.clientY);
+                id("bluerectangle").style.top = `${blueRectangleOrigin.y}px`;
+                id("bluerectangle").style.left = `${blueRectangleOrigin.x}px`;
+                id("bluerectangle").style.width = "0";
+                id("bluerectangle").style.height = "0";
+                id("bluerectangle").style.display = "block";
+                blueRectangleOn = true;
+            }
+        }
+        function blueRectangleMove(event) {
+            if (mouseDown && blueRectangleOn) {
+                id("bluerectangle").style.width = `${Math.abs(event.clientX - blueRectangleOrigin.x)}px`;
+                id("bluerectangle").style.height = `${Math.abs(event.clientY - blueRectangleOrigin.y)}px`;
+                if (event.clientY < blueRectangleOrigin.y) {
+                    id("bluerectangle").style.top = `${event.clientY}px`;
+                }
+                if (event.clientX < blueRectangleOrigin.x) {
+                    id("bluerectangle").style.left = `${event.clientX}px`;
+                }
+            }
+        }
+        function blueRectangleHide() {
+            id("bluerectangle").style.display = "none";
+            blueRectangleOn = false;
+        }
+
         function enableBlueRectangle() {
-
-            // start showing the blue rectangle
-            id("desktop-click").addEventListener("mousemove", (event) => {
-                if (mouseDown && !blueRectangleOn) {
-                    blueRectangleOrigin = new Vector2(event.clientX, event.clientY);
-                    id("bluerectangle").style.top = `${blueRectangleOrigin.y}px`;
-                    id("bluerectangle").style.left = `${blueRectangleOrigin.x}px`;
-                    id("bluerectangle").style.width = "0";
-                    id("bluerectangle").style.height = "0";
-                    id("bluerectangle").style.display = "block";
-                    blueRectangleOn = true;
-                }
-            });
-
-            // move the blue rectangle
-            id("desktop").addEventListener("mousemove", (event) => {
-                if (mouseDown && blueRectangleOn) {
-                    id("bluerectangle").style.width = `${Math.abs(event.clientX - blueRectangleOrigin.x)}px`;
-                    id("bluerectangle").style.height = `${Math.abs(event.clientY - blueRectangleOrigin.y)}px`;
-                    if (event.clientY < blueRectangleOrigin.y) {
-                        id("bluerectangle").style.top = `${event.clientY}px`;
-                    }
-                    if (event.clientX < blueRectangleOrigin.x) {
-                        id("bluerectangle").style.left = `${event.clientX}px`;
-                    }
-                }
-            });
-
-            // hide the blue rectangle
-            id("desktop").addEventListener("mouseup", () => {
-                id("bluerectangle").style.display = "none";
-                blueRectangleOn = false;
-            });
-
+            id("desktop-click").addEventListener("mousemove", blueRectangleShow);
+            id("desktop").addEventListener("mousemove", blueRectangleMove);
+            id("desktop").addEventListener("mouseup", blueRectangleHide);
+        }
+        function disableBlueRectangle() {
+            id("desktop-click").removeEventListener("mousemove", blueRectangleShow);
+            id("desktop").removeEventListener("mousemove", blueRectangleMove);
+            id("desktop").removeEventListener("mouseup", blueRectangleHide);
         }
 
     // #endregion
@@ -1936,7 +1986,7 @@ let acr = new function() {
             log("done", `Window ${this.windowID} minimized`);
         }
         unminimize() {
-            id(`window-${this.windowID}`).style.display = "block";
+            id(`window-${this.windowID}`).style.display = "flex";
             id(`window-${this.windowID}`).classList.add("window-animation-open");
             setTimeout(() => {
                 id(`window-${this.windowID}`).classList.remove("window-animation-open");
@@ -2163,14 +2213,14 @@ let acr = new function() {
 
         // configs
         getUserConfig, setUserConfig, getGlobalConfig, setGlobalConfig,
-        enableClickConfetti, disableClickConfetti,
+        enableClickConfetti, disableClickConfetti, enableBlueRectangle, disableBlueRectangle,
 
         // users
         getUser,
 
         // filesystem
         Inode, File, Folder, Symlink,
-        getInitialFilesystem, getInode, deserializeInode,
+        getInitialFilesystem, getInode, deserializeInode, rds,
         openFilePicker,
         
         // interface

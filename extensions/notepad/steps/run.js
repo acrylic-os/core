@@ -9,7 +9,7 @@ function run(process) {
             <button id="window-${windowID}-notepad-save" class="bflat">Save</button>
             <button id="window-${windowID}-notepad-open" class="bflat">Open</button>
         </section>
-        <textarea class="apps-notepad-textarea"></textarea>
+        <textarea class="apps-notepad-textarea" id="window-${windowID}-notepad-text"></textarea>
     `, process);
 
     // click buttons
@@ -19,5 +19,11 @@ function run(process) {
     onclick(`window-${windowID}-notepad-open`, () => {
         process.action("open");
     });
+
+    // immediately open a file if a path was given
+    if("initial_open" in process.additionalData) {
+        let openedText = process.additionalData.initial_open.read();
+        id(`window-${windowID}-notepad-text`).value = openedText;
+    }
     
 }

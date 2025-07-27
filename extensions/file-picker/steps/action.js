@@ -50,6 +50,9 @@ function action(process, action, data) {
         // navigate to a path
         case "navigate-path":
             
+            // remove double slashes
+            data.path = acr.rds(data.path);
+
             // get files data
             const fileData = acr.getInode(data.path);
 
@@ -96,7 +99,7 @@ function action(process, action, data) {
                 });
 
                 // context menu
-                acr.contextMenu(`window-${windowID}-files-table-${name}`, [
+                acr.contextMenu(`window-${windowID}-file-picker-table-${name}`, [
                     {
                         "type": "button",
                         "text": "Rename",
@@ -111,23 +114,23 @@ function action(process, action, data) {
                                         Rename <b>${name}</b> to:
                                     </section>
                                     <section>
-                                        <input type="text" id="window-${windowID}-files-renamebox" value="${name}">
+                                        <input type="text" id="window-${windowID}-file-picker-renamebox" value="${name}">
                                     </section>
                                     <section>
-                                        <button id="window-${windowID}-files-rename">Rename</button>
-                                        <button id="window-${windowID}-files-cancel">Cancel</button>
+                                        <button id="window-${windowID}-file-picker-rename">Rename</button>
+                                        <button id="window-${windowID}-file-picker-cancel">Cancel</button>
                                     </section>
                                 </div>
                             `, dialogProcess);
 
                             // buttons
-                            onclick(`window-${windowID}-files-rename`, () => {
+                            onclick(`window-${windowID}-file-picker-rename`, () => {
 
                                 // get new path/name
                                 let splitted = inode.path.split("/");
                                 splitted.pop();
                                 splitted = splitted.join("/");
-                                const newName = id(`window-${windowID}-files-renamebox`).value;
+                                const newName = id(`window-${windowID}-file-picker-renamebox`).value;
 
                                 // move
                                 inode.move(`${splitted}/${newName}`);
@@ -137,7 +140,7 @@ function action(process, action, data) {
                                 dialogProcess.kill();
 
                             });
-                            onclick(`window-${windowID}-files-cancel`, () => {
+                            onclick(`window-${windowID}-file-picker-cancel`, () => {
                                 dialogProcess.kill();
                             });
 
@@ -160,14 +163,14 @@ function action(process, action, data) {
                                         <b>Note that the trash currently isn't implemented, so the file will be permanently deleted.</b>
                                     </section>
                                     <section>
-                                        <button id="window-${windowID}-files-confirm">Confirm</button>
-                                        <button id="window-${windowID}-files-cancel">Cancel</button>
+                                        <button id="window-${windowID}-file-picker-confirm">Confirm</button>
+                                        <button id="window-${windowID}-file-picker-cancel">Cancel</button>
                                     </section>
                                 </div>
                             `, dialogProcess);
 
                             // buttons
-                            onclick(`window-${windowID}-files-confirm`, () => {
+                            onclick(`window-${windowID}-file-picker-confirm`, () => {
 
                                 // delete
                                 inode.delete();
@@ -177,7 +180,7 @@ function action(process, action, data) {
                                 dialogProcess.kill();
 
                             });
-                            onclick(`window-${windowID}-files-cancel`, () => {
+                            onclick(`window-${windowID}-file-picker-cancel`, () => {
                                 dialogProcess.kill();
                             });
 
@@ -217,9 +220,19 @@ function action(process, action, data) {
         
         // select file
         case "select":
-            process.storage["completion"](data["path"]);
+
+            // make final path
+            let selectedPath = data["path"];
+            if(id(`window-${windowID}-file-picker-filename`).value != "") {
+                selectedPath += `/${id(`window-${windowID}-file-picker-filename`).value}`;
+            }
+            selectedPath = acr.rds(selectedPath);
+
+            // done
+            process.storage["completion"](selectedPath);
             process.kill();
                 // this instance of the file picker has fully served its purpose and therefore will now self-destruct
+
             break;
 
     }

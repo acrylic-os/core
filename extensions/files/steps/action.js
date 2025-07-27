@@ -83,8 +83,8 @@ function action(process, action, data) {
                     switch(inode.constructor.name) {
                     
                         case "File":
-                            // no way to open files yet
-                            acr.debugPopup(`Open file "${inode.path}"`);
+                            // just open with notepad for now
+                            acr.apps["notepad"].launch({ "initial_open": inode });
                             break;
 
                         case "Folder":

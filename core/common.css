@@ -428,9 +428,9 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     display: inline-block;
     filter: opacity(0.85);
 }
-.titlebar-button-minimize{ background-image: url("../../iconol/button_minimize.svg"); }
-.titlebar-button-toggle{ background-image: url("../../iconol/button_maximize.svg"); }
-.titlebar-button-close{ background-image: url("../../iconol/button_close.svg"); }
+.titlebar-button-minimize{ background-image: url("../iconol/button_minimize.svg"); }
+.titlebar-button-toggle{ background-image: url("../iconol/button_maximize.svg"); }
+.titlebar-button-close{ background-image: url("../iconol/button_close.svg"); }
 
 .window-content{
     background-color: var(--gray);

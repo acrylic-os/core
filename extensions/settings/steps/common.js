@@ -111,6 +111,21 @@ const settingsData = {
                         acr.disableClickConfetti();
                     }
                 }
+            },
+
+            "blue_rectangle": {
+                "type": "checkbox",
+                "name": "Blue rectangle",
+                "subtitle": "Makes a blue selection rectangle appear on the desktop when we drag, like the feature on Windows that we all used to play with.",
+                "selected": ["user", "blue_rectangle"],
+                "set": function (newValue) {
+                    acr.setUserConfig("blue_rectangle", newValue);
+                    if (newValue) {
+                        acr.enableBlueRectangle();
+                    } else {
+                        acr.disableBlueRectangle();
+                    }
+                }
             }
 
         }
