@@ -11,12 +11,12 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.0";
-        this.versionDate = "27 Jul 2025";
+        this.version = "0.2.1-b01";
+        this.versionDate = "26 Aug 2025";
         let dataVersion = 1;
 
-        this.codename = "sker";
-        this.codenamePage = "(s)ker-";
+        this.codename = "";
+        this.codenamePage = "";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -276,6 +276,22 @@ let acr = new function() {
             }
         } else {    // hasn't been setup yet
             loadExtension("../extensions/default");
+        }
+
+        // wayback machine warning
+        if(window.location.hostname === "web.archive.org") {
+            acr.spawnPopup(
+                "warning",
+                "You are using Acrylic on the Wayback Machine. The Wayback Machine messes with a lot of stuff, so many things simply will not work.",
+                {
+                    "Continue anyways": (process) => {
+                        process.kill();
+                    },
+                    "Go to current Acrylic": () => {
+                        window.location.replace("https://acrylic.anpang.lol/stable/")
+                    }
+                }
+            )
         }
 
         // add error handler

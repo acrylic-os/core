@@ -4,6 +4,7 @@
     width: 24em;
     height: 24em;
     overflow: auto;
+    user-select: text;
 }
 .apps-sandbox-elements-box {
     width: 100%;

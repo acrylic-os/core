@@ -23,7 +23,7 @@ function run(process) {
     `, process);
     
     // show dump buttons
-    const dumpButtons = ["apps", "processes", "files", "config"];
+    const dumpButtons = ["apps", "processes"];
     for(const variable of dumpButtons) {
         append(`window-${process.PID}-dump-variables`, `
             <button class="bflat" id="window-${process.PID}-dump-variables-${variable}">${variable}</button>
