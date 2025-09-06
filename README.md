@@ -1,12 +1,4 @@
 
----
-
-| Acrylic | [**Stable**](https://github.com/acrylic-os/core/tree/stable) - 0.2.0-r0 | [**Beta**](https://github.com/acrylic-os/core/tree/main) - 0.2.0-r0 |
-|-|-|-|
-
-
----
-
 ![](https://img.shields.io/github/issues-raw/acrylic-os/core
 ) ![](https://img.shields.io/badge/dependencies-none!-04f) ![](https://img.shields.io/badge/license-PolyForm--Noncommercial--1.0.0-90e)
 <br>
@@ -19,7 +11,8 @@
 **Acrylic is, put simply, an OS that runs in your browser.**\
 Despite not being an actual OS which runs on top of hardware, it acts basically as an OS. You can install apps, edit files, etc.
 
-Currently, the latest stable version is **0.2.0**.
+Currently, the latest stable version is **0.2.0**.\
+The next version, 0.2.1, is in development.
 
 > [!NOTE]
 > Note that Acrylic is currently in alpha, so a lot of things are broken or just haven't been implemented yet.
@@ -29,7 +22,7 @@ Currently, the latest stable version is **0.2.0**.
 ## Links
 
 * [Acrylic home](https://acrylic.anpang.lol/)
-  * [Try Acrylic](https://acrylic.anpang.lol/stable)
+  * **[Try Acrylic](https://acrylic.anpang.lol/stable)**
 * [Acrylic wiki](https://wiki.anpang.lol/acr)
   * [Getting started guide](https://wiki.anpang.lol/acr/Getting_started)
   * [Versioning scheme](https://wiki.anpang.lol/acr/Versioning_scheme)
