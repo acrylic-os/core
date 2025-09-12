@@ -1,0 +1,5 @@
+
+# Rewrite from acrylic.anpang.lol/stable to acrylic.anpang.lol/stable/core(/index.html)
+
+RewriteEngine on
+RewriteRule ^$ core [L]
