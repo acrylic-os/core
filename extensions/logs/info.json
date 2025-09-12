@@ -1,0 +1,25 @@
+{
+
+    "id": "logs",
+    "type": "app",
+    "appInfo": {
+        "display": "Logs",
+        "type": "gui",
+        "category": "system",
+        "icon": "../../iconol/document_dark.svg"
+    },
+
+    "version": {
+        "number": "0.2.1",
+        "date": [2025, 9, 12],
+        "acrylic": "0.2.1"
+    },
+    "authors": [
+        "Anpang (https://anpang.lol/)"
+    ],
+
+    "steps": ["run", "action"],
+    "hooks": [],
+    "styles": true
+
+}

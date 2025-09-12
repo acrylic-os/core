@@ -11,12 +11,12 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.1-b01";
-        this.versionDate = "26 Aug 2025";
+        this.version = "0.2.1";
+        this.versionDate = "12 Sep 2025";
         let dataVersion = 1;
 
-        this.codename = "";
-        this.codenamePage = "";
+        this.codename = "m(y)ewh₁";
+        this.codenamePage = "m(y)ewh₁-";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -217,8 +217,15 @@ let acr = new function() {
         const logContent = `%c[${time}] [${type}] ${text}`;
 
         // put it
-        acr.logs.push(logContent);
+        acr.logs.push([logContent, logColors[type]]);
         console.log(logContent, `color: ${logColors[type]}`);
+
+        // notify instances of the logs app (implement as a hook later when hooks are added)
+        for(const [PID, process] of Object.entries(acr.processes)) {
+            if(process.app === "logs" && process.storage.initialized) {
+                process.action("update");
+            }
+        }
 
     }
 
@@ -772,6 +779,7 @@ let acr = new function() {
             "fullscreen_overlay": false,
 
             // effects
+            "animations": true,
             "click_confetti": false,
             "blue_rectangle": true,
 
@@ -886,7 +894,7 @@ let acr = new function() {
                     id(`window-${this.PID}`).classList.add("window-animation-close");
                     setTimeout(() => {
                         id(`window-${this.PID}`).remove();
-                    }, animationDelays["window-close"]);
+                    }, getAnimationDelay("window-close"));
 
                     if (selectedWindow === this.PID) {    // the window was the selected window
                         selectedWindow = undefined;
@@ -1281,6 +1289,9 @@ let acr = new function() {
             if(getUserConfig("blue_rectangle")) {
                 enableBlueRectangle();
             }
+            if(getUserConfig("animations")) {
+                document.body.classList.add("animations");
+            }
             if(getUserConfig("transparent_topbar")) {
                 id("topbar").classList.add("topbar-transparent");
             }
@@ -1531,7 +1542,7 @@ let acr = new function() {
                     id("startmenu").classList.remove("startmenu-animation-close");
                     id("startmenu").style.display = "none";
                     id("startmenu-categories").innerHTML = "";
-                }, animationDelays["startmenu-close"]);
+                }, getAnimationDelay("startmenu-close"));
 
                 startOpened = false;
                 log("done", "Start menu closed");
@@ -1561,7 +1572,7 @@ let acr = new function() {
                 id("startmenu").classList.add("startmenu-animation-open");
                 setTimeout(() => {
                     id("startmenu").classList.remove("startmenu-animation-open");
-                },animationDelays["startmenu-open"]);
+                },getAnimationDelay("startmenu-open"));
 
                 startOpened = true;
                 log("done", "Start menu opened");
@@ -1903,7 +1914,7 @@ let acr = new function() {
             id(`window-${windowID}`).classList.add("window-animation-open");
             setTimeout(() => {
                 id(`window-${windowID}`).classList.remove("window-animation-open");
-            }, animationDelays["window-open"]);
+            }, getAnimationDelay("window-open"));
 
             // set initial dimensions
             if(initialDimensions) {
@@ -1984,7 +1995,7 @@ let acr = new function() {
             id(`window-${this.windowID}`).classList.add("unmaximized");
             setTimeout(() => {
                 id(`window-${this.windowID}`).classList.remove("unmaximized");
-            }, animationDelays["window-change"]);
+            }, getAnimationDelay("window-change"));
             id(`window-${this.windowID}`).style.left = windows[this.windowID]["leftStyle"];
             id(`window-${this.windowID}`).style.top = windows[this.windowID]["topStyle"];
             log("done", `Window ${this.windowID} unmaximized`);
@@ -1996,7 +2007,7 @@ let acr = new function() {
             setTimeout(() => {
                 id(`window-${this.windowID}`).style.display = "none";
                 id(`window-${this.windowID}`).classList.remove("window-animation-close");
-            }, animationDelays["window-change"]);
+            }, getAnimationDelay("window-change"));
             this.shown = false;
             log("done", `Window ${this.windowID} minimized`);
         }
@@ -2005,7 +2016,7 @@ let acr = new function() {
             id(`window-${this.windowID}`).classList.add("window-animation-open");
             setTimeout(() => {
                 id(`window-${this.windowID}`).classList.remove("window-animation-open");
-            }, animationDelays["window-change"]);
+            }, getAnimationDelay("window-change"));
             this.shown = true;
             log("done", `Window ${this.windowID} unminimized`);
         }
@@ -2262,7 +2273,7 @@ let acr = new function() {
     const coreExtensions = [
 
         // apps
-        "about", "calculator", "clock", "files", "notepad", "paint", "sandbox", "settings", "system-monitor", "terminal", "weather",
+        "about", "calculator", "clock", "files", "logs", "notepad", "paint", "sandbox", "settings", "system-monitor", "terminal", "weather",
 
         // utilities
         "file-picker",
@@ -2290,7 +2301,7 @@ Acrylic will restart in 3 seconds.
 
     // #endregion
 
-    // #region ─ default animation delays
+    // #region ─ animation delays
 
         const animationDelayKeys = [
             "window-open", "window-close", "window-change",
@@ -2300,6 +2311,14 @@ Acrylic will restart in 3 seconds.
         let animationDelays = [];
         for(const key of animationDelayKeys) {
             animationDelays[animationDelayKeys] = 0;
+        }
+
+        function getAnimationDelay(key) {
+            if(getUserConfig("animations")) {
+                return animationDelays[key];
+            } else {
+                return 0;
+            }
         }
 
     // #endregion

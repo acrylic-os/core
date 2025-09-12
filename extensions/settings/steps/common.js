@@ -98,6 +98,21 @@ const settingsData = {
         "name": "Effects",
         "options": {
 
+            "animations": {
+                "type": "checkbox",
+                "name": "Animations",
+                "subtitle": "Show various animations, for example when opening a window.",
+                "selected": ["user", "animations"],
+                "set": function(newValue) {
+                    acr.setUserConfig("animations", newValue);
+                    if(newValue) {
+                        document.body.classList.add("animations");
+                    } else {
+                        document.body.classList.remove("animations");
+                    }
+                }
+            },
+
             "click_confetti": {
                 "type": "checkbox",
                 "name": "Click confetti",

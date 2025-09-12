@@ -442,8 +442,8 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     color: #fff;
 }
 
-.startmenu-animation-open{ animation: 0.25s startmenu-open; }
-.startmenu-animation-close{ animation: 0.25s startmenu-close; }
+.animations .startmenu-animation-open{ animation: 0.25s startmenu-open; }
+.animations .startmenu-animation-close{ animation: 0.25s startmenu-close; }
 @keyframes startmenu-open{
     from{
         transform: translateY(100vh);
@@ -534,8 +534,8 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     backdrop-filter: blur(1px);
 }
 
-.window-animation-open{ animation: 0.25s window-open; }
-.window-animation-close{ animation: 0.25s window-close; }
+.animations .window-animation-open{ animation: 0.25s window-open; }
+.animations .window-animation-close{ animation: 0.25s window-close; }
 @keyframes window-open{
     from{
         transform: scale(0.75);
