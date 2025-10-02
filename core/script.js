@@ -11,12 +11,12 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.1";
-        this.versionDate = "12 Sep 2025";
+        this.version = "0.2.2-b01";
+        this.versionDate = "2 Oct 2025";
         let dataVersion = 1;
 
-        this.codename = "m(y)ewh₁";
-        this.codenamePage = "m(y)ewh₁-";
+        this.codename = "mey";
+        this.codenamePage = "mey-";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -1038,6 +1038,8 @@ let acr = new function() {
 
     // #region ─ show setup
 
+        let selectedWallpaper = noUserWallpaper;
+
         function showSetup() {
 
             id("setupscreen").style.backgroundImage = `url(${noUserWallpaper})`;
@@ -1053,7 +1055,24 @@ let acr = new function() {
                 }
             }, 10);
 
+            // put wallpaper options
+            id("setup-3-number-wallpapers").innerText = defaultWallpapers.length;
+            for(const wallpaper of defaultWallpapers) {
+                append("setup-3-wallpapers", `
+                    <button id="setup-3-wallpapers-${wallpaper}">
+                        <img src="${wallpaper}"></img>
+                        <br>
+                        <span class="subtitle">${wallpaperNames[wallpaper]}</span>
+                    </button>
+                `);
+                onclick(`setup-3-wallpapers-${wallpaper}`, () => {
+                    selectedWallpaper = wallpaper;
+                    id("setup-3-selected-wallpaper").innerText = wallpaperNames[selectedWallpaper];
+                });
+            }
+
             showSetupStage(1);
+
         }
 
     // #endregion
@@ -1126,25 +1145,8 @@ let acr = new function() {
 
                 case 3:
 
-                    let selectedWallpaper = noUserWallpaper;
                     id("setup-3-selected-wallpaper").innerText = wallpaperNames[selectedWallpaper];
 
-                    // put wallpaper options
-                    id("setup-3-number-wallpapers").innerText = defaultWallpapers.length;
-                    for(const wallpaper of defaultWallpapers) {
-                        append("setup-3-wallpapers", `
-                            <button id="setup-3-wallpapers-${wallpaper}">
-                                <img src="${wallpaper}"></img>
-                                <br>
-                                <span class="subtitle">${wallpaperNames[wallpaper]}</span>
-                            </button>
-                        `);
-                        onclick(`setup-3-wallpapers-${wallpaper}`, () => {
-                            selectedWallpaper = wallpaper;
-                            id("setup-3-selected-wallpaper").innerText = wallpaperNames[selectedWallpaper];
-                        });
-                    }
-                    
                     onclick("setup-3-continue", () => {
                         config["users"][user]["wallpaper"] = selectedWallpaper;
                         showSetupStage(4);
@@ -1305,7 +1307,7 @@ let acr = new function() {
 
         function enableDesktopShortcuts() {
             window.addEventListener("keyup", (event) => {
-                if (selectedWindow === undefined) {
+                if (selectedWindow === undefined && event.target.tagName !== "INPUT") {
                     switch (event.key) {
                         case "q":
                             quit("logout");
@@ -1422,6 +1424,11 @@ let acr = new function() {
 
         }
 
+        // hide search when click on desktop
+        onclick("desktop-click", () => {
+            id("searchmenu").style.display = "none";
+        })
+
     // #endregion
 
     // #region ─ time
@@ -1522,6 +1529,7 @@ let acr = new function() {
     // toggle opening/closing
 
         let startOpened = false;
+
         const startCategories = {
             "favorites": "Favorites",
             "games": "Games",
@@ -1532,9 +1540,15 @@ let acr = new function() {
             "utilities": "Utilities"
         };
 
+        function positionStart() {
+            const startButtonLeft = id("start-button").getBoundingClientRect().left;
+            id("startmenu").style.left = `calc(${startButtonLeft}px - 2.5em)`;
+        }
+        window.addEventListener("resize", positionStart);
+        
         function toggleStart() {
 
-            if (startOpened) {
+            if(startOpened) {
 
                 // hide it
                 id("startmenu").classList.add("startmenu-animation-close");
@@ -1565,8 +1579,7 @@ let acr = new function() {
                 }
 
                 // show it
-                const startButtonLeft = id("start-button").getBoundingClientRect().left;
-                id("startmenu").style.left = `calc(${startButtonLeft}px - 2.5em)`;
+                positionStart();
 
                 id("startmenu").style.display = "grid";
                 id("startmenu").classList.add("startmenu-animation-open");

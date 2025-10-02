@@ -6,7 +6,7 @@ function run(process) {
     new acr.Window("Terminal", `
         <div class="apps-terminal-box">
             <div id="window-${windowID}-terminal-result" class="apps-terminal-result"></div>
-            <div>
+            <div class="apps-terminal-input-outer">
                 <label for="window-${windowID}-terminal-input">Input command</label>
                 &gt; <input class="apps-terminal-input" id="window-${windowID}-terminal-input"></input> 
             </div>
