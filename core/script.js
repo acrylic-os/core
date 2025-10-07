@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.2-b01";
-        this.versionDate = "2 Oct 2025";
+        this.version = "0.2.2-b02";
+        this.versionDate = "7 Oct 2025";
         let dataVersion = 1;
 
         this.codename = "mey";
@@ -772,7 +772,10 @@ let acr = new function() {
             "time_format": 0,
 
             // appearance
-            "transparent_topbar": false,
+            "topbar_style": "solid",
+            "font_heading": "Schibsted Grotesk",
+            "font_main": "Inter",
+            "font_monospace": "Roboto Mono",
             "darken_wallpaper": true,
 
             // behavior
@@ -1294,9 +1297,8 @@ let acr = new function() {
             if(getUserConfig("animations")) {
                 document.body.classList.add("animations");
             }
-            if(getUserConfig("transparent_topbar")) {
-                id("topbar").classList.add("topbar-transparent");
-            }
+            id("topbar").classList.add(`topbar-${getUserConfig("topbar_style")}`);
+            setFonts();
             if(getUserConfig("darken_wallpaper")) {
                 id("desktop").classList.add("darken-wallpaper");
             }
@@ -1324,22 +1326,58 @@ let acr = new function() {
             });
         }
 
+        function setFonts() {
+            document.documentElement.style.setProperty("--font-heading", `"${getUserConfig("font_heading")}", sans-serif`);
+            document.documentElement.style.setProperty("--font-main", `"${getUserConfig("font_main")}", sans-serif`);
+            document.documentElement.style.setProperty("--font-monospace", `"${getUserConfig("font_monospace")}", monospace`);
+        }
+
     // #endregion
 
     // #region ─ searchbar
 
         const searchTypeNames = {
-            "app": "App"
+            "app": "App",
+            "link": "Link",
+            "quit": "Quit option"
         };
+        const linkSearchEntries = {
+            "github": [
+                "Github repo",
+                "assets/github_logo.svg",
+                "https://github.com/acrylic-os/core"
+            ],
+            "issues": [
+                "Issues",
+                "assets/github_logo.svg",
+                "https://github.com/acrylic-os/core/issues"
+            ],
+            "wiki": [
+                "Wiki",
+                "../iconol/document.svg",
+                "https://wiki.anpang.lol/acr"
+            ],
+            "getting-started": [
+                "Getting started",
+                "../iconol/person.svg",
+                "https://wiki.anpang.lol/acr/Getting_started"
+            ],
+            "versions": [
+                "Versions",
+                "../iconol/clock_1500.svg",
+                "https://wiki.anpang.lol/acr/Versions"
+            ]
+        }
 
         class searchMatch{
 
             // constructor
-            constructor(type, ID, name, searchTerm) {
+            constructor(type, ID, name, icon, searchTerm) {
 
                 this.type = type;
                 this.ID = ID;
                 this.name = name;
+                this.icon = icon;
                 this.score = this.calculateScore(searchTerm);
 
             }
@@ -1364,9 +1402,18 @@ let acr = new function() {
 
             let searchMatches = [];
 
-            // put app matches
+            // put matches
             for(const [appID, appData] of Object.entries(acr.apps)) {
-                searchMatches.push(new searchMatch("app", `app:${appID}`, appData.display, searchTerm));
+                if(appID === "core" || appData.utility) {
+                    continue;
+                }
+                searchMatches.push(new searchMatch("app", `app:${appID}`, appData.display, acr.apps[appID].icon, searchTerm));
+            }
+            for(const [entryID, entryData] of Object.entries(linkSearchEntries)) {
+                searchMatches.push(new searchMatch("link", `link:${entryID}`, entryData[0], entryData[1], searchTerm));
+            }
+            for(const [entryID, entryData] of Object.entries(quitActionText)) {
+                searchMatches.push(new searchMatch("quit", `quit:${entryID}`, entryData["button"], "../iconol/circle_no.svg", searchTerm));
             }
 
             // sort matches by score
@@ -1394,7 +1441,7 @@ let acr = new function() {
 
                 append("searchmenu", `
                     <button class="searchentry" id="searchentry-${match.ID}">
-                        <img src="${acr.apps[match.ID.substring(4)].icon}" alt="${match.name}" class="searchentry-icon" />
+                        <img src="${match.icon}" alt="${match.name}" class="searchentry-icon" />
                         <span class="searchentry-name">${match.name}</span>
                         <span class="searchentry-type">${searchTypeNames[match.type]}</span>
                         <span class="searchentry-match">${matchText}</span>
@@ -1410,6 +1457,12 @@ let acr = new function() {
                     switch(split[0]) {
                         case "app":
                             acr.apps[split[1]].launch();
+                            break;
+                        case "link":
+                            window.open(linkSearchEntries[split[1]][2], "_blank").focus();
+                            break;
+                        case "quit":
+                            quit(split[1]);
                             break;
                     }
 
@@ -2253,6 +2306,7 @@ let acr = new function() {
         // configs
         getUserConfig, setUserConfig, getGlobalConfig, setGlobalConfig,
         enableClickConfetti, disableClickConfetti, enableBlueRectangle, disableBlueRectangle,
+        setFonts,
 
         // users
         getUser,
@@ -2363,11 +2417,6 @@ Acrylic will restart in 3 seconds.
                 "text": "reset all data in Acrylic",
                 "button": "Reset",
                 "quitting": "Resetting..."
-            },
-            "kill_core_process": {
-                "text": "kill the Acrylic core process",
-                "button": "Kill",
-                "quitting": "Killing..."
             }
         };
 
@@ -2411,10 +2460,6 @@ Acrylic will restart in 3 seconds.
                     case "reset":
                         localStorage.clear();
                         sessionStorage.clear();
-                        window.location.reload();
-                        break;
-
-                    case "kill_core_process":
                         window.location.reload();
                         break;
 

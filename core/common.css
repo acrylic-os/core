@@ -4,13 +4,16 @@
 */
 
 
-/* #region ━ COLORS */
+/* #region ━ VARIABLES */
 
 :root{
+
+    /* colors */
     --gray: rgba(128, 128, 128, 0.5);
     --darkgray: rgba(64, 64, 64, 0.5);
     --link: #c4edff;
     --link-hover: #e3f7ff;
+    
 }
 
 /* #endregion */
@@ -20,7 +23,6 @@
 
 body{
     margin: 0;
-    font-family: "Inter", sans-serif;
     background-color: #000;
     color: #fff;
     user-select: none;
@@ -70,7 +72,6 @@ label{ display: none; }
 
 /* code */
 code, pre{
-    font-family: "Roboto Mono", monospace;
     font-size: 0.9em;
 }
 
@@ -91,7 +92,6 @@ button, select, .textbox, input[type=text], input[type=datetime-local], input[ty
     background-color: var(--gray);
     display: inline-block;
     color: #fff;
-    font-family: "Inter", sans-serif;
     border: none;
     cursor: pointer;
     font-size: 1em;
@@ -140,7 +140,6 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     position: absolute;
     left: 2em;
     filter: opacity(0.5);
-    font-family: "Roboto Mono", monospace;
     z-index: 10;
 }
 .version-boot{ top: 2em; }
@@ -225,9 +224,8 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     height: 2em;
     z-index: 6;
 }
-#topbar:not(.topbar-transparent){
-    background-color: var(--darkgray);
-}
+#topbar.topbar-solid{ background-color: var(--darkgray); }
+#topbar.topbar-gradient{ background: linear-gradient(180deg, var(--darkgray) 0%, var(--darkgray) 25%, transparent) }
 
 #topbar-left{ float: left; }
 .optionbutton{

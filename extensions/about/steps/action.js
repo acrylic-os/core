@@ -9,7 +9,7 @@ function action(process, action, data) {
                 <h2>Main development</h2>
                 <ul>
                     <li>
-                        <b>Anpang54</b> (anpang.fun) - Literally everything
+                        <b>Anpang54</b> (anpang.lol) - Literally everything
                     </li>
                 </ul>
                 <h2>Small elements</h2>
@@ -21,7 +21,7 @@ function action(process, action, data) {
                 <h2>Wallpapers</h2>
                 <ul>
                     <li>
-                        <b>Anpang54</b> (anpang.lol) - <a href="https://wiki.anpang.fun/acr/Default_wallpaper">"Acrylic"</a>
+                        <b>Anpang54</b> (anpang.lol) - <a href="https://wiki.anpang.lol/acr/Default_wallpaper">"Acrylic"</a>
                     </li>
                     <li>
                         <b>Chensiyuan</b> - <a href="https://commons.wikimedia.org/wiki/File:1_rocinha_night_2014_panorama.jpg">"Rocinha"</a> (CC BY-SA 3.0)

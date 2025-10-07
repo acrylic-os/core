@@ -1,7 +1,8 @@
 
 .apps-terminal-box{
     background-color: rgba(0, 0, 0, 0.5);
-    font-family: monospace;
+    font-family: var(--font-monospace);
+    font-size: 0.9em;
     padding: 1em;
     border-radius: 0.5em;
     height: 100%;
@@ -15,7 +16,7 @@
     border: none;
     color: #fff;
     font-size: 1em;
-    font-family: monospace;
+    font-family: var(--font-monospace);
     padding: 0;
     outline: none;
     width: 100%;

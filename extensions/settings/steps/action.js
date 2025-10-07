@@ -71,6 +71,7 @@ function action(process, action, data) {
                             <select id="${attr_id}">
                                 ${selectOptions}
                             </select>
+                            <span class="subtitle">${optionData["subtitle"]}</span>
                         `;
                         eventListenersToPut[optionID] = {
                             "type": "change",

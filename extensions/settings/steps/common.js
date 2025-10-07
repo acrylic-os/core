@@ -42,18 +42,78 @@ const settingsData = {
                 }
             },
 
-            "transparent_topbar": {
-                "type": "checkbox",
-                "name": "Transparent topbar",
-                "subtitle": "Make the topbar appear transparent.",
-                "selected": ["user", "transparent_topbar"],
+            "topbar_style": {
+                "type": "select",
+                "name": "Topbar style",
+                "subtitle": "The background style of the topbar.",
+                "options": {
+                    "solid": "Solid",
+                    "transparent": "Transparent",
+                    "gradient": "Gradient"
+                },
+                "selected": ["user", "topbar_style"],
                 "set": function(newValue) {
-                    acr.setUserConfig("transparent_topbar", newValue);
-                    if (newValue) {
-                        id("topbar").classList.add("topbar-transparent");
-                    } else {
-                        id("topbar").classList.remove("topbar-transparent");
-                    }
+                    id("topbar").classList.remove(`topbar-${acr.getUserConfig("topbar_style")}`);
+                    acr.setUserConfig("topbar_style", newValue);
+                    id("topbar").classList.add(`topbar-${newValue}`);
+                }
+            },
+
+            "font_heading": {
+                "type": "select",
+                "name": "Heading font",
+                "subtitle": "The font used for headings and the big text on the bootscreen.",
+                "options": {
+                    "Google Sans Code": "Google Sans Code",
+                    "IBM Plex Sans": "IBM Plex Sans",
+                    "IBM Plex Mono": "IBM Plex Mono",
+                    "Inter": "Inter",
+                    "Noto Sans": "Noto Sans",
+                    "Noto Serif": "Noto Serif",
+                    "Roboto": "Roboto",
+                    "Roboto Mono": "Roboto Mono",
+                    "Schibsted Grotesk": "Schibsted Grotesk"
+                },
+                "selected": ["user", "font_heading"],
+                "set": function(newValue) {
+                    acr.setUserConfig("font_heading", newValue);
+                    acr.setFonts();
+                }
+            },
+            "font_main": {
+                "type": "select",
+                "name": "Main font",
+                "subtitle": "The main font used in Acrylic.",
+                "options": {
+                    "Google Sans Code": "Google Sans Code",
+                    "IBM Plex Sans": "IBM Plex Sans",
+                    "IBM Plex Mono": "IBM Plex Mono",
+                    "Inter": "Inter",
+                    "Noto Sans": "Noto Sans",
+                    "Noto Serif": "Noto Serif",
+                    "Roboto": "Roboto",
+                    "Roboto Mono": "Roboto Mono",
+                    "Schibsted Grotesk": "Schibsted Grotesk"
+                },
+                "selected": ["user", "font_main"],
+                "set": function(newValue) {
+                    acr.setUserConfig("font_main", newValue);
+                    acr.setFonts();
+                }
+            },
+            "font_monospace": {
+                "type": "select",
+                "name": "Monospace font",
+                "subtitle": "The font used for code and the version text. Only monospace fonts are available.",
+                "options": {
+                    "Google Sans Code": "Google Sans Code",
+                    "IBM Plex Mono": "IBM Plex Mono",
+                    "Roboto Mono": "Roboto Mono"
+                },
+                "selected": ["user", "font_monospace"],
+                "set": function(newValue) {
+                    acr.setUserConfig("font_monospace", newValue);
+                    acr.setFonts();
                 }
             },
 
