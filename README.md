@@ -1,8 +1,10 @@
 
-![](https://img.shields.io/github/issues-raw/acrylic-os/core
-) ![](https://img.shields.io/badge/dependencies-none!-04f) ![](https://img.shields.io/badge/license-PolyForm--Noncommercial--1.0.0-90e)
+[![](https://img.shields.io/github/v/release/acrylic-os/core?display_name=release&label=stable)](https://github.com/acrylic-os/core/releases)
+[![](https://img.shields.io/github/issues-raw/acrylic-os/core)](https://github.com/acrylic-os/core/issues)
+[![](https://img.shields.io/badge/license-PolyForm--Noncommercial--1.0.0-90e)](https://github.com/acrylic-os/core?tab=License-1-ov-file)
 <br>
-[![](https://img.shields.io/discord/1312024058358923264?label=discord)](https://discord.com/invite/tznE5yCFHQ) ![](https://img.shields.io/badge/donut-🍩-f90)
+[![](https://img.shields.io/discord/1312024058358923264?label=discord)](https://discord.com/invite/tznE5yCFHQ)
+![](https://img.shields.io/badge/donut-🍩-f90)
 
 <img src="/.github/readme/acrylic_0.1.0_showcase.png">
 
@@ -10,9 +12,6 @@
 
 **Acrylic is, put simply, an OS that runs in your browser.**\
 Despite not being an actual OS which runs on top of hardware, it acts basically as an OS. You can install apps, edit files, etc.
-
-Currently, the latest stable version is **0.2.0**.\
-The next version, 0.2.1, is in development.
 
 > [!NOTE]
 > Note that Acrylic is currently in alpha, so a lot of things are broken or just haven't been implemented yet.
