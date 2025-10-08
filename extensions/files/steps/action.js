@@ -83,8 +83,8 @@ function action(process, action, data) {
                     switch(inode.constructor.name) {
                     
                         case "File":
-                            // just open with notepad for now
-                            acr.apps["notepad"].launch({ "initial_open": inode });
+                            // open it
+                            acr.openInode(inode);
                             break;
 
                         case "Folder":

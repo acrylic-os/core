@@ -11,8 +11,8 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.2-b02";
-        this.versionDate = "7 Oct 2025";
+        this.version = "0.2.2-b03";
+        this.versionDate = "8 Oct 2025";
         let dataVersion = 1;
 
         this.codename = "mey";
@@ -681,6 +681,22 @@ let acr = new function() {
         return currentObject;
     }
 
+    // open inode
+    function openInode(inode) {
+        switch(inode.constructor.name) {
+
+            case "File":
+                // open with notepad for now
+                acr.apps["notepad"].launch({ "initial_open": inode });
+                break;
+
+            case "Folder":
+                acr.apps["files"].launch({ "location": inode.path });
+                break;
+
+        }
+    }
+
     // deserialize
     function deserializeInode(serialized, booting=false) {
         let deserialized = JSON.parse(serialized);
@@ -719,6 +735,33 @@ let acr = new function() {
 
         return done;
 
+    }
+
+    // get all files as an array
+    function getFileArray() {
+        let searchedFiles = [];
+        getFileArrayRecursive(files, searchedFiles);
+        return searchedFiles;
+    }
+    function getFileArrayRecursive(file, searchedFiles) {
+        switch(file.constructor.name) {
+
+            // file or symlink, just add it
+            case "File": case "Symlink":
+                searchedFiles.push(file);
+                break;
+                
+            // folder, go recursively
+            case "Folder":
+                searchedFiles.push(file);
+                if(file.contents) {
+                    for(const child of Object.values(file.contents)) {
+                        getFileArrayRecursive(child, searchedFiles);
+                    }
+                }
+                break;
+
+        }
     }
 
     // #endregion
@@ -1338,9 +1381,15 @@ let acr = new function() {
 
         const searchTypeNames = {
             "app": "App",
+            "file": "File",
             "link": "Link",
             "quit": "Quit option"
         };
+        const searchFileIcons = {
+            "File": "../iconol/document.svg",
+            "Folder": "../iconol/folder.svg",
+            "Symlink": "../iconol/arrow_blue_45.svg"
+        }
         const linkSearchEntries = {
             "github": [
                 "Github repo",
@@ -1402,12 +1451,16 @@ let acr = new function() {
 
             let searchMatches = [];
 
-            // put matches
+            // PUT MATCHES
             for(const [appID, appData] of Object.entries(acr.apps)) {
                 if(appID === "core" || appData.utility) {
                     continue;
                 }
                 searchMatches.push(new searchMatch("app", `app:${appID}`, appData.display, acr.apps[appID].icon, searchTerm));
+            }
+            for(const file of getFileArray()) {
+                searchMatches.push(new searchMatch(
+                    "file", `file:${file.path}`, file.path, searchFileIcons[file.constructor.name], searchTerm))
             }
             for(const [entryID, entryData] of Object.entries(linkSearchEntries)) {
                 searchMatches.push(new searchMatch("link", `link:${entryID}`, entryData[0], entryData[1], searchTerm));
@@ -1457,6 +1510,9 @@ let acr = new function() {
                     switch(split[0]) {
                         case "app":
                             acr.apps[split[1]].launch();
+                            break;
+                        case "file":
+                            openInode(getInode(split[1]));
                             break;
                         case "link":
                             window.open(linkSearchEntries[split[1]][2], "_blank").focus();
@@ -2313,8 +2369,8 @@ let acr = new function() {
 
         // filesystem
         Inode, File, Folder, Symlink,
-        getInitialFilesystem, getInode, deserializeInode, rds,
-        openFilePicker,
+        getInitialFilesystem, getInode, deserializeInode, rds, getFileArray,
+        openInode, openFilePicker,
         
         // interface
         debugPopup, contextMenu,

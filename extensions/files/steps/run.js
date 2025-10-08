@@ -82,7 +82,8 @@ function run(process) {
     process.storage["history"] = [];
     process.storage["historyCursor"] = 0;
 
-    // navigate to home
-    process.action("navigate-path", {"path": home});
+    // navigate to starting location
+    const location = "location" in process.additionalData? process.additionalData.location: home;
+    process.action("navigate-path", {"path": location});
 
 }
