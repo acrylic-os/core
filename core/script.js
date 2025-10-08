@@ -252,7 +252,7 @@ let acr = new function() {
         log("info", "Started runBoot()");
 
         // spawn acrylic core process
-        new acr.Process("Acrylic core", "acrylic");
+        new acr.Process("Acrylic core", "acrylic", null, "core");
 
         // get/make config
         if (!localStorage.hasOwnProperty(`${dataVersion}-config`)) {
@@ -1034,6 +1034,7 @@ let acr = new function() {
             } else {
                 skippedLogin = true;
                 user = sessionStorage.getItem(`${dataVersion}-username`);
+                id("desktop").style.display = "block";
                 showDesktop();
                 return;
             }
@@ -1046,13 +1047,16 @@ let acr = new function() {
                 error("Account creation is currently not implemented yet.");
             });
 
-            // show login screen
+            // show login screen and desktop
             id("loginscreen").style.backgroundImage = `url(${noUserWallpaper})`;
             id("loginscreen").style.filter = "opacity(0)";
             id("loginscreen").style.display = "block";
+            id("desktop").style.filter = "opacity(0)";
+            id("desktop").style.display = "block";
             let counter = 0;
             let interval = setInterval(() => {
                 id("loginscreen").style.filter = `opacity(${counter / 100})`;
+                id("desktop").style.filter = `opacity(${counter / 100})`;
                 ++counter;
                 if (counter > 100) {
                     clearInterval(interval);
@@ -1091,10 +1095,12 @@ let acr = new function() {
             id("setupscreen").style.backgroundImage = `url(${noUserWallpaper})`;
             id("setupscreen").style.filter = "opacity(0)";
             id("setupscreen").style.display = "block";
-
+            id("desktop").style.filter = "opacity(0)";
+            id("desktop").style.display = "block";
             let counter = 0;
             let interval = setInterval(() => {
                 id("setupscreen").style.filter = `opacity(${counter / 100})`;
+                id("desktop").style.filter = `opacity(${counter / 100})`;
                 ++counter;
                 if (counter > 100) {
                     clearInterval(interval);
@@ -1235,7 +1241,7 @@ let acr = new function() {
     // #region ─ show desktop
 
         function setDesktopWallpaper() {
-            id("desktop").style.backgroundImage = `url(${getUserConfig("wallpaper")})`;
+            id("desktop-background").style.backgroundImage = `url(${getUserConfig("wallpaper")})`;
         }
 
         function showDesktop() {
@@ -1302,11 +1308,15 @@ let acr = new function() {
 
             // show main screen
             id("loginscreen").style.display = "none";
-            id("desktop").style.filter = "opacity(0)";
-            id("desktop").style.display = "block";
+            for(const element of document.querySelectorAll(".desktop-show")) {
+                element.style.filter = "opacity(0)";
+                element.style.display = "block";
+            }
             let counter = 0;
             let interval = setInterval(() => {
-                id("desktop").style.filter = `opacity(${counter / 100})`;
+                for(const element of document.querySelectorAll(".desktop-show")) {
+                    element.style.filter = `opacity(${counter / 100})`;
+                }
                 ++counter;
                 if (counter > 100) {
                     clearInterval(interval);
@@ -1314,7 +1324,7 @@ let acr = new function() {
             }, 10);
 
             // put context menu
-            contextMenu("desktop-click", [
+            contextMenu("desktop-background", [
                 {
                     "type": "button",
                     "text": "Settings",
@@ -1534,7 +1544,7 @@ let acr = new function() {
         }
 
         // hide search when click on desktop
-        onclick("desktop-click", () => {
+        onclick("desktop-background", () => {
             id("searchmenu").style.display = "none";
         })
 
@@ -1906,12 +1916,12 @@ let acr = new function() {
         }
 
         function enableBlueRectangle() {
-            id("desktop-click").addEventListener("mousemove", blueRectangleShow);
+            id("desktop-background").addEventListener("mousemove", blueRectangleShow);
             id("desktop").addEventListener("mousemove", blueRectangleMove);
             id("desktop").addEventListener("mouseup", blueRectangleHide);
         }
         function disableBlueRectangle() {
-            id("desktop-click").removeEventListener("mousemove", blueRectangleShow);
+            id("desktop-background").removeEventListener("mousemove", blueRectangleShow);
             id("desktop").removeEventListener("mousemove", blueRectangleMove);
             id("desktop").removeEventListener("mouseup", blueRectangleHide);
         }
@@ -2018,7 +2028,7 @@ let acr = new function() {
 
             // summon window
             append("windows", `
-                <div id="window-${windowID}" class="window selected" style="left: 100px; top: 100px">
+                <div id="window-${windowID}" class="window selected">
                     <div id="window-${windowID}-titlebar" class="titlebar">
                         <img src="${acr.apps[process.app].icon}" class="titlebar-icon">
                         <span class="titlebar-text">${titlebar}</span>
@@ -2033,16 +2043,20 @@ let acr = new function() {
                     </div>
                 </div>
            `);
-            id(`window-${windowID}`).classList.add("window-animation-open");
-            setTimeout(() => {
-                id(`window-${windowID}`).classList.remove("window-animation-open");
-            }, getAnimationDelay("window-open"));
 
-            // set initial dimensions
+            // set initial dimensions and position
             if(initialDimensions) {
                 id(`window-${windowID}`).style.width = initialDimensions[0];
                 id(`window-${windowID}`).style.height = initialDimensions[1];
             }
+            id(`window-${windowID}`).style.left = `${(window.innerWidth / 2) - (id(`window-${windowID}`).offsetWidth / 2)}px`;
+            id(`window-${windowID}`).style.top = `${(window.innerHeight / 2) - (id(`window-${windowID}`).offsetHeight / 2)}px`;
+
+            // opening animation
+            id(`window-${windowID}`).classList.add("window-animation-open");
+            setTimeout(() => {
+                id(`window-${windowID}`).classList.remove("window-animation-open");
+            }, getAnimationDelay("window-open"));
 
             // make the buttons actually do stuff
             onclick(`window-${windowID}-minimize`, () => {

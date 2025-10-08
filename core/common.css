@@ -203,9 +203,16 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 
 /* #region ━ DESKTOP */
 
-/* #region ─ wallpaper */
+/* #region ─ wallpaper, show/hide */
 
-#desktop{ background-size: cover; }
+#desktop{
+    background-size: cover;
+    pointer-events: none;
+}
+.desktop-only{
+    display: none;
+    pointer-events: auto;
+}
 
 .darken-wallpaper{
     background-color: rgba(0, 0, 0, 0.25);
@@ -367,7 +374,7 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 
 /* #region ─ blue rectangle */
 
-#desktop-click{
+#desktop-background{
     position: absolute;
     top: 0;
     left: 0;

@@ -2,7 +2,8 @@
 const typeDisplayNames = {
     "none": "Hidden",
     "gui": "Graphical",
-    "term": "Terminal"
+    "term": "Terminal",
+    "core": "Core"
 };
 
 function run(process) {
