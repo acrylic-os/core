@@ -1,10 +1,10 @@
 
-[![](https://img.shields.io/github/v/release/acrylic-os/core?display_name=release&label=stable)](https://github.com/acrylic-os/core/releases)
+[![](https://img.shields.io/github/v/release/acrylic-os/core?display_name=release&label=stable&color=28c700)](https://github.com/acrylic-os/core/releases)
 [![](https://img.shields.io/github/issues-raw/acrylic-os/core)](https://github.com/acrylic-os/core/issues)
 [![](https://img.shields.io/badge/license-PolyForm--Noncommercial--1.0.0-90e)](https://github.com/acrylic-os/core?tab=License-1-ov-file)
 <br>
-[![](https://img.shields.io/discord/1312024058358923264?label=discord)](https://discord.com/invite/tznE5yCFHQ)
-![](https://img.shields.io/badge/donut-🍩-f90)
+[![](https://img.shields.io/discord/1312024058358923264?label=discord&color=5865f2)](https://discord.com/invite/tznE5yCFHQ)
+[![](https://img.shields.io/badge/donut-🍩-f90)]()
 
 <img src="/.github/readme/acrylic_0.1.0_showcase.png">
 
@@ -35,7 +35,7 @@ Full guides are available on the wiki, but basically:
 
 **Trying Acrylic**
 * If you're lazy, just go to https://acrylic.anpang.lol/stable
-* For a local environment, `git clone` then open `core/index.html` with Live Server
+* For a local environment, do `git clone` then open `core/index.html` with [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) or any local server of your choice
 
 **Making an Acrylic extension**
 * Get a local environment
@@ -46,11 +46,9 @@ Full guides are available on the wiki, but basically:
 
 ## Contributing
 
-Now that Acrylic is open-source (actually source-available), everyone, including *you*, can contribute.
+Since Acrylic is open-source (actually source-available), everyone, including *you*, can contribute.
 
 If you find a bug, want to make a feature request, or anything in between, feel free to make an issue. If you know just a bit of frontend web development and have something to contribute, also feel free to make a PR.
-
-Personally, I ([@anpang54](https://github.com/anpang54)) hate using AI in coding, and that holds true for Acrylic. I only use it when I'm really stuck, and there is not a single bit of code that is copied straight from ChatGPT. Now, I don't mind if *you* contribute with AI, but do make sure that you and others can understand the code. It should also be noted that AI is ineffective since the codebase is big.
 
 ---
 
