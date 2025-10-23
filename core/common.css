@@ -401,7 +401,7 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     position: absolute;
     resize: both;
     overflow: hidden;
-    display: flex;
+    display: none;
     flex-flow: column;
     pointer-events: auto;
     z-index: 20;

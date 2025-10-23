@@ -11,12 +11,12 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.2";
-        this.versionDate = "8 Oct 2025";
+        this.version = "0.2.3-b01";
+        this.versionDate = "23 Oct 2025";
         let dataVersion = 1;
 
-        this.codename = "mey";
-        this.codenamePage = "mey-";
+        this.codename = "";
+        this.codenamePage = "";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -923,7 +923,7 @@ let acr = new function() {
 
                 // check if killing the core process
                 if(this.PID === 0) {
-                    quit("kill_core_process");
+                    quit("reload");
                     return;
                 }
 
@@ -937,10 +937,11 @@ let acr = new function() {
 
                     delete windows[this.PID];
 
-                    id(`window-${this.PID}`).classList.add("window-animation-close");
-                    setTimeout(() => {
+                    delay(() => {
+                        id(`window-${this.PID}`).classList.add("window-animation-close");
+                    }, () => {
                         id(`window-${this.PID}`).remove();
-                    }, getAnimationDelay("window-close"));
+                    }, "window-close");
 
                     if (selectedWindow === this.PID) {    // the window was the selected window
                         selectedWindow = undefined;
@@ -1459,6 +1460,11 @@ let acr = new function() {
 
         function search(searchTerm) {
 
+            // show menu
+            if(id("searchmenu").style.display != "block") {
+                showSearch();
+            }
+
             let searchMatches = [];
 
             // PUT MATCHES
@@ -1533,19 +1539,33 @@ let acr = new function() {
                     }
 
                     // hide
-                    id("searchmenu").style.display = "none";
+                    hideSearch();
 
                 });
             }
 
-            // show menu
-            id("searchmenu").style.display = "block";
+        }
 
+        function showSearch() {
+            delay(() => {
+                id("searchmenu").style.display = "block";
+                id("searchmenu").classList.add("search-animation-open");
+            }, () => {
+                id("searchmenu").classList.remove("search-animation-open");
+            }, "search-open");
+        }
+        function hideSearch() {
+            delay(() => {
+                id("searchmenu").classList.add("search-animation-close");
+            }, () => {
+                id("searchmenu").style.display = "none";
+                id("searchmenu").classList.remove("search-animation-close");
+            }, "search-close");
         }
 
         // hide search when click on desktop
         onclick("desktop-background", () => {
-            id("searchmenu").style.display = "none";
+            hideSearch();
         })
 
     // #endregion
@@ -1670,12 +1690,13 @@ let acr = new function() {
             if(startOpened) {
 
                 // hide it
-                id("startmenu").classList.add("startmenu-animation-close");
-                setTimeout(() => {
+                delay(() => {
+                    id("startmenu").classList.add("startmenu-animation-close");
+                }, () => {
                     id("startmenu").classList.remove("startmenu-animation-close");
                     id("startmenu").style.display = "none";
                     id("startmenu-categories").innerHTML = "";
-                }, getAnimationDelay("startmenu-close"));
+                }, "startmenu-close");
 
                 startOpened = false;
                 log("done", "Start menu closed");
@@ -1700,11 +1721,12 @@ let acr = new function() {
                 // show it
                 positionStart();
 
-                id("startmenu").style.display = "grid";
-                id("startmenu").classList.add("startmenu-animation-open");
-                setTimeout(() => {
+                delay(() => {
+                    id("startmenu").style.display = "grid";
+                    id("startmenu").classList.add("startmenu-animation-open");
+                }, () => {
                     id("startmenu").classList.remove("startmenu-animation-open");
-                },getAnimationDelay("startmenu-open"));
+                }, "startmenu-open");
 
                 startOpened = true;
                 log("done", "Start menu opened");
@@ -2044,19 +2066,22 @@ let acr = new function() {
                 </div>
            `);
 
-            // set initial dimensions and position
+            // set initial dimensions
             if(initialDimensions) {
                 id(`window-${windowID}`).style.width = initialDimensions[0];
                 id(`window-${windowID}`).style.height = initialDimensions[1];
             }
-            id(`window-${windowID}`).style.left = `${(window.innerWidth / 2) - (id(`window-${windowID}`).offsetWidth / 2)}px`;
-            id(`window-${windowID}`).style.top = `${(window.innerHeight / 2) - (id(`window-${windowID}`).offsetHeight / 2)}px`;
 
             // opening animation
-            id(`window-${windowID}`).classList.add("window-animation-open");
-            setTimeout(() => {
+            delay(() => {
+                id(`window-${windowID}`).classList.add("window-animation-open");
+                id(`window-${windowID}`).style.display = "flex";
+                // set position
+                id(`window-${windowID}`).style.left = `${(window.innerWidth / 2) - (id(`window-${windowID}`).offsetWidth / 2)}px`;
+                id(`window-${windowID}`).style.top = `${(window.innerHeight / 2) - (id(`window-${windowID}`).offsetHeight / 2)}px`;
+            }, () => {
                 id(`window-${windowID}`).classList.remove("window-animation-open");
-            }, getAnimationDelay("window-open"));
+            }, "window-open");
 
             // make the buttons actually do stuff
             onclick(`window-${windowID}-minimize`, () => {
@@ -2127,11 +2152,12 @@ let acr = new function() {
         }
         unmaximize() {
             windows[this.windowID]["maximized"] = false;
-            id(`window-${this.windowID}`).classList.remove("maximized");
-            id(`window-${this.windowID}`).classList.add("unmaximized");
-            setTimeout(() => {
+            delay(() => {
+                id(`window-${this.windowID}`).classList.remove("maximized");
+                id(`window-${this.windowID}`).classList.add("unmaximized");
+            }, () => {
                 id(`window-${this.windowID}`).classList.remove("unmaximized");
-            }, getAnimationDelay("window-change"));
+            }, "window-change");
             id(`window-${this.windowID}`).style.left = windows[this.windowID]["leftStyle"];
             id(`window-${this.windowID}`).style.top = windows[this.windowID]["topStyle"];
             log("done", `Window ${this.windowID} unmaximized`);
@@ -2139,20 +2165,22 @@ let acr = new function() {
 
         // minimize/unminimize
         minimize() {
-            id(`window-${this.windowID}`).classList.add("window-animation-close");
-            setTimeout(() => {
+            delay(() => {
+                id(`window-${this.windowID}`).classList.add("window-animation-close");
+            }, () => {
                 id(`window-${this.windowID}`).style.display = "none";
                 id(`window-${this.windowID}`).classList.remove("window-animation-close");
-            }, getAnimationDelay("window-change"));
+            }, "window-change");
             this.shown = false;
             log("done", `Window ${this.windowID} minimized`);
         }
         unminimize() {
             id(`window-${this.windowID}`).style.display = "flex";
-            id(`window-${this.windowID}`).classList.add("window-animation-open");
-            setTimeout(() => {
+            delay(() => {
+                id(`window-${this.windowID}`).classList.add("window-animation-open");
+            }, () => {
                 id(`window-${this.windowID}`).classList.remove("window-animation-open");
-            }, getAnimationDelay("window-change"));
+            }, "window-change");
             this.shown = true;
             log("done", `Window ${this.windowID} unminimized`);
         }
@@ -2387,10 +2415,9 @@ let acr = new function() {
         openInode, openFilePicker,
         
         // interface
-        debugPopup, contextMenu,
+        debugPopup, contextMenu, spawnPopup,
         quit, registerFullscreen,
-        spawnPopup,
-        setDesktopWallpaper,
+        setDesktopWallpaper, delay,
 
         // extensions
         loadExtension, unloadExtension
@@ -2450,12 +2477,11 @@ Acrylic will restart in 3 seconds.
             animationDelays[animationDelayKeys] = 0;
         }
 
-        function getAnimationDelay(key) {
-            if(getUserConfig("animations")) {
-                return animationDelays[key];
-            } else {
-                return 0;
-            }
+        function delay(immediately, delayed, delayKey) {
+            setTimeout(immediately, 0);
+            setTimeout(delayed, animationDelays[delayKey]);
+            // immediately() has to be set to a 0 second timeout instead of just calling the function right away
+            // because it has to match the time the setTimeout() takes for the delayed() timeout
         }
 
     // #endregion

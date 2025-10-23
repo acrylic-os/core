@@ -5,7 +5,9 @@
         "window-close": 250,
         "window-change": 250,
         "startmenu-open": 250,
-        "startmenu-close": 250
+        "startmenu-close": 250,
+        "search-open": 250,
+        "search-close": 250
     }
     
 }
