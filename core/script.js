@@ -15,8 +15,8 @@ let acr = new function() {
         this.versionDate = "23 Oct 2025";
         let dataVersion = 1;
 
-        this.codename = "";
-        this.codenamePage = "";
+        this.codename = "m(y)ewh₁";
+        this.codenamePage = "m(y)ewh₁-";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
