@@ -11,7 +11,7 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.2.3-b01";
+        this.version = "0.2.3";
         this.versionDate = "23 Oct 2025";
         let dataVersion = 1;
 
