@@ -6,19 +6,19 @@ function action(process, action, data) {
         // show credits window
         case "credits":
             new acr.Window("Credits", `
-                <h2>Main development</h2>
+                <h2>${acr.msg("about/main-dev")}</h2>
                 <ul>
                     <li>
-                        <b>Anpang54</b> (anpang.lol) - Literally everything
+                        <b>Anpang54</b> (anpang.lol) - ${acr.msg("about/literally-everything")}
                     </li>
                 </ul>
-                <h2>Small elements</h2>
+                <h2>${acr.msg("about/small-elements")}</h2>
                 <ul>
                     <li>
-                        <b>patrickoliveras</b> - <a href="https://github.com/patrickoliveras/js-text-donut">Spinning donut</a>
+                        <b>patrickoliveras</b> - <a href="https://github.com/patrickoliveras/js-text-donut">${acr.msg("about/spinning-donut")}</a>
                     </li>
                 </ul>
-                <h2>Wallpapers</h2>
+                <h2>${acr.msg("about/wallpapers")}</h2>
                 <ul>
                     <li>
                         <b>Anpang54</b> (anpang.lol) - <a href="https://wiki.anpang.lol/acr/Default_wallpaper">"Acrylic"</a>
@@ -39,46 +39,14 @@ function action(process, action, data) {
         // show donut window
         case "donut":
 
-            const exitTexts = [
-                "Remove", 
-                "Disconnect",
-                "Un-donut",
-                "Evaporate",
-                "Delete",
-                "Exit",
-                "Abolish",
-                "Eliminate",
-                "Withdraw",
-                "Put an end to",
-                "Cut out",
-                "Get rid of",
-                "Do away with",
-                "Take away",
-                "Expunge",
-                "Annul",
-                "Destroy",
-                "Obliterate",
-                "Eradicate",
-                "Annihilate",
-                "Extirpate",
-                "Erase",
-                "Kill",
-                "Murder",
-                "Cancel",
-                "Undo",
-                "Unpublish",
-                "Force the disappearance of",
-                "Suppress",
-                "Repress",
-                "Redact"
-            ];
+            const exitTexts = acr.msg("about/exit-texts");
             const exitText = exitTexts[Math.floor(Math.random() * exitTexts.length)];
 
             let newProcess = new acr.Process("Donut", "about");
             new acr.Window("Donut", `
                 <pre class="apps-about-donut" id="window-${newProcess.PID}-about-donut"></pre>
                 <div class="apps-about-donut-exit-box">
-                    <button id="window-${newProcess.PID}-about-donut-exit">${exitText} the donut</button>
+                    <button id="window-${newProcess.PID}-about-donut-exit">${acr.msg("about/exit-text-format", [exitText])}</button>
                 </div>
             `, newProcess);
 

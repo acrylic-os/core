@@ -7,16 +7,16 @@
 let acr = new function() {
 
 
-    // #region ━ FUNCTIONS/CONSTANTS
+    // #region ━ FUNCTIONS/CONSTANTS 
 
     // #region ─ constants
 
-        this.version = "0.2.3";
-        this.versionDate = "23 Oct 2025";
+        this.version = "0.3.0-b1";
+        this.versionDate = "25 Dec 2025";
         let dataVersion = 1;
 
-        this.codename = "m(y)ewh₁";
-        this.codenamePage = "m(y)ewh₁-";
+        this.codename = "werdʰh₁om";
+        this.codenamePage = "werdʰh₁om";
 
         const dayNames = [
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -208,7 +208,7 @@ let acr = new function() {
         // get time
         let time;
         if(zeroTime) {    // first log, so use 0
-            time = (0).toFixed(6);
+            time = (0).toFixed(4);
         } else {    // not the first log, so use the actual time
             time = ((window.performance.now() / 1000) - (startTime / 1000)).toFixed(4);
         }
@@ -228,6 +228,43 @@ let acr = new function() {
         }
 
     }
+
+    // #endregion
+
+    // #region ─ messages
+
+        let messagesAvailable = false, messages;
+
+        fetch("../languages/en.json")    // more languages later
+            .then((response) => {
+                if(response.ok) {
+                    return response.json();
+                } else {
+                    error("Couldn't load messages");
+                }
+            })
+            .then((json) => {
+                messagesAvailable = true;
+                messages = json;
+                onMessagesLoad();
+                log("done", "English messages loaded");
+            });
+        
+        function msg(name, replace = []) {
+            let message = messages, i = 1;
+            if(messagesAvailable) {
+                for(const part of name.split("/")) {
+                    message = message[part];
+                }
+                for(const replacement of replace) {
+                    message = message.replaceAll(`$${i}`, replacement);
+                    ++i;
+                }
+                return message;
+            } else {
+                error("Messages haven't been loaded yet");
+            }
+        }
 
     // #endregion
 
@@ -339,11 +376,6 @@ let acr = new function() {
             id("bootscreen").style.filter = "opacity(0)";
             id("bootscreen").style.display = "block";
 
-            // set version
-            id("version-number").innerText = acr.version;
-            id("version-date").innerText = acr.versionDate;
-            document.title = `Acrylic v${acr.version}`;
-
             // show title and text
             let counter = 0;
             let interval = setInterval(() => {
@@ -392,6 +424,22 @@ let acr = new function() {
 
                 }
             }, 10);
+
+        }
+
+    // #endregion
+
+    // #region ─ when messages load
+
+        function onMessagesLoad() {
+
+            // set version
+            id("version-number").innerText = msg("core/version", [acr.version]);
+            id("version-date").innerText = acr.versionDate;
+            document.title = `Acrylic v${acr.version}`;
+
+            // set booting text
+            id("bootscreen-text").innerText = msg("core/booting");
 
         }
 
@@ -1109,7 +1157,7 @@ let acr = new function() {
             }, 10);
 
             // put wallpaper options
-            id("setup-3-number-wallpapers").innerText = defaultWallpapers.length;
+            id("setup-3-wallpaper-count").innerText = msg("core/setup/3/wallpaper-count", [defaultWallpapers.length]);
             for(const wallpaper of defaultWallpapers) {
                 append("setup-3-wallpapers", `
                     <button id="setup-3-wallpapers-${wallpaper}">
@@ -1120,7 +1168,7 @@ let acr = new function() {
                 `);
                 onclick(`setup-3-wallpapers-${wallpaper}`, () => {
                     selectedWallpaper = wallpaper;
-                    id("setup-3-selected-wallpaper").innerText = wallpaperNames[selectedWallpaper];
+                    id("setup-3-selected").innerHTML = msg("core/setup/3/selected", [wallpaperNames[selectedWallpaper]]);
                 });
             }
 
@@ -1141,11 +1189,16 @@ let acr = new function() {
             5: "Setup complete"
         };
 
+        function setupMsg(number, names) {
+            for(const name of names) {
+                id(`setup-${number}-${name.replaceAll("/", "-")}`).innerHTML = msg(`core/setup/${number}/${name}`);
+            }
+        }
+        
         function showSetupStage(stage) {
 
             // set number and name on top
-            id("setup-stage-number").innerText = stage;
-            id("setup-stage-name").innerText = setupStageNames[stage];
+            id("setup-stage").innerText = msg("core/setup/stage", [stage, setupStageNames[stage]]);
 
             // hide old stage content and show new stage
             id(`setup-${setupStage}`).style.display = "none";
@@ -1157,6 +1210,7 @@ let acr = new function() {
 
 
                 case 1:
+                    setupMsg(1, ["welcome", "intro", "continue", "already-user", "import"]);
                     onclick("setup-1-continue", () => {
                         showSetupStage(2);
                     });
@@ -1167,6 +1221,7 @@ let acr = new function() {
 
 
                 case 2:
+                    setupMsg(2, ["title", "intro", "username", "password", "create", "back"]);
                     onclick("setup-2-create", () => {
 
                         // set user
@@ -1198,7 +1253,8 @@ let acr = new function() {
 
                 case 3:
 
-                    id("setup-3-selected-wallpaper").innerText = wallpaperNames[selectedWallpaper];
+                    setupMsg(3, ["title", "note", "continue", "back"]);
+                    id("setup-3-selected").innerHTML = msg("core/setup/3/selected", [wallpaperNames[selectedWallpaper]]);
 
                     onclick("setup-3-continue", () => {
                         config["users"][user]["wallpaper"] = selectedWallpaper;
@@ -2399,7 +2455,7 @@ let acr = new function() {
     const exposeFunctions = [
 
         // utility
-        isFullscreen, log, error, safeMode,
+        isFullscreen, msg, log, error, safeMode,
 
         // configs
         getUserConfig, setUserConfig, getGlobalConfig, setGlobalConfig,

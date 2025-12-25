@@ -1,0 +1,89 @@
+{
+
+    "core": {
+
+        "acrylic": "Acrylic",
+        "version": "Acrylic v$1",
+        "booting": "Booting up...",
+
+        "setup": {
+            "stage": "Stage $1 - $2",
+            "1": {
+                "welcome": "Welcome to Acrylic!",
+                "intro": "It seems you're a new user here. Acrylic is a new operating system that runs completely in your browser, meaning it can be run in any device without any installation.<br>Here, we will set up Acrylic for you.",
+                "continue": "Continue",
+                "already-user": "If you are already a user, you may be seeing this screen because there is no data.",
+                "import": "Import data"
+            },
+            "2": {
+                "title": "Create an account",
+                "intro": "Acrylic has a system of user accounts. You can create a user account here.",
+                "username": "Username",
+                "password": "Password",
+                "create": "Create account",
+                "back": "Go back"
+            },
+            "3": {
+                "title": "Customization",
+                "wallpaper-count": "There are $1 default wallpapers to pick from:",
+                "note": "Note that this wallpaper will only appear when you are logged in. When there is no user, like in the login screen, the default Acrylic wallpaper will be shown.",
+                "selected": "Selected wallpaper: <b>$1</b>",
+                "continue": "Continue",
+                "back": "Go back"
+            }
+        }
+
+    },
+    
+    "about": {
+
+        "alternate-name": "acrylicOS",
+        "version": "Version $1",
+        "user-agent": "User agent",
+        "credits": "Credits",
+        "donut": "Donut",
+
+        "main-dev": "Main development",
+        "small-elements": "Small elements",
+        "wallpapers": "Wallpapers",
+        "literally-everything": "Literally everything",
+        "spinning-donut": "Spinning donut",
+
+        "exit-texts": [
+            "Remove", 
+            "Disconnect",
+            "Un-donut",
+            "Evaporate",
+            "Delete",
+            "Exit",
+            "Abolish",
+            "Eliminate",
+            "Withdraw",
+            "Put an end to",
+            "Cut out",
+            "Get rid of",
+            "Do away with",
+            "Take away",
+            "Expunge",
+            "Annul",
+            "Destroy",
+            "Obliterate",
+            "Eradicate",
+            "Annihilate",
+            "Extirpate",
+            "Erase",
+            "Kill",
+            "Murder",
+            "Cancel",
+            "Undo",
+            "Unpublish",
+            "Force the disappearance of",
+            "Suppress",
+            "Repress",
+            "Redact"
+        ],
+        "exit-text-format": "$1 the donut"
+
+    }
+
+}
