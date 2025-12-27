@@ -6,6 +6,9 @@
         "version": "Acrylic v$1",
         "booting": "Booting up...",
 
+        "search": "Search / Open / Go to",
+        "start": "Start",
+
         "setup": {
             "stage": "Stage $1 - $2",
             "1": {
@@ -30,12 +33,50 @@
                 "selected": "Selected wallpaper: <b>$1</b>",
                 "continue": "Continue",
                 "back": "Go back"
+            },
+            "4": {
+                "title": "Options",
+                "note": "Additional options currently aren't available.",
+                "continue": "Continue",
+                "back": "Go back"
+            },
+            "5": {
+                "title": "Setup is complete!",
+                "complete": "You may now enjoy your installation of Acrylic.<br>Reload the page to enter Acrylic, or simply click the button below:",
+                "reload": "Enter Acrylic"
             }
+        },
+
+        "login": {
+            "welcome": "Welcome to Acrylic!",
+            "title": "Login",
+            "username": "Username",
+            "password": "Password",
+            "login": "Login",
+            "create": "Create an account"
+        },
+
+        "power": {
+            "logout": "Log out",
+            "reload": "Reload",
+            "quit": "Quit"
+        },
+
+        "quit": {
+            "areyousure": "Are you sure you want to $1?",
+            "quitting": "Quitting...",
+            "done": "You may now close this tab."
+        },
+
+        "fullscreen": {
+            "text": "Click anywhere to go into fullscreen.",
+            "cancel": "Don't go into fullscreen"
         }
 
     },
     
     "about": {
+        "name": "About",
 
         "alternate-name": "acrylicOS",
         "version": "Version $1",
@@ -83,6 +124,62 @@
             "Redact"
         ],
         "exit-text-format": "$1 the donut"
+
+    },
+
+    "notepad": {
+        "name": "Notepad",
+        
+        "save": "Save",
+        "open": "Open",
+
+        "already-exists": "<code>$1</code> already exists. Are you sure you want to overwrite it?",
+        "doesnt-exist": "<code>$1</code> doesn't exist.",
+        "folder": "<code>$1</code> is a folder.",
+        "save-anyway": "Save anyway",
+        "cancel": "Cancel",
+        "ok": "OK"
+
+    },
+
+    "paint": {
+        "name": "Paint",
+
+        "undo": "Undo",
+        "redo": "Redo",
+        "fill": "Fill",
+        "border": "Border",
+        "tools": {
+            "pencil": "Pencil",
+            "eraser": "Eraser",
+            "rectangle": "Rectangle"
+        },
+
+        "px": "$1px",
+        "dimensions": "$1x$2",
+        "mp": "$1mp"
+
+    },
+
+    "system-monitor": {
+        "name": "System Monitor",
+
+        "processes": "Processes",
+        "live": "Live",
+        "header": {
+            "pid": "PID",
+            "process": "Process",
+            "name": "Name",
+            "type": "Type",
+            "options": "Options"
+        },
+        "types": {
+            "none": "Hidden",
+            "gui": "Graphical",
+            "term": "Terminal",
+            "core": "Core"
+        },
+        "kill": "Kill"
 
     }
 

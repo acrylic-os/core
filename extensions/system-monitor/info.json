@@ -3,7 +3,6 @@
     "id": "system-monitor",
     "type": "app",
     "appInfo": {
-        "display": "System Monitor",
         "type": "gui",
         "category": "system",
         "icon": "../../iconol/system_monitor.svg"

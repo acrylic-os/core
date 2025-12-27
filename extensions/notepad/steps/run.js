@@ -4,10 +4,10 @@ function run(process) {
     let windowID = process.PID;
 
     // spawn window
-    new acr.Window("Notepad", `
+    new acr.Window(acr.msg("notepad/name"), `
         <section>
-            <button id="window-${windowID}-notepad-save" class="bflat">Save</button>
-            <button id="window-${windowID}-notepad-open" class="bflat">Open</button>
+            <button id="window-${windowID}-notepad-save" class="bflat">${acr.msg("notepad/save")}</button>
+            <button id="window-${windowID}-notepad-open" class="bflat">${acr.msg("notepad/open")}</button>
         </section>
         <textarea class="apps-notepad-textarea" id="window-${windowID}-notepad-text"></textarea>
     `, process);

@@ -5,9 +5,9 @@
 let currentTool;
 
 class Tool{
-    constructor(id, name, usesFill, usesBorder, mousedown, mousemove, mouseup) {
+    constructor(id, usesFill, usesBorder, mousedown, mousemove, mouseup) {
         this.id = id;
-        this.name = name;
+        this.name = acr.msg(`paint/tools/${id}`);
         this.usesFill = usesFill;
         this.usesBorder = usesBorder;
         this.mousedown = mousedown;
@@ -33,8 +33,8 @@ function run(process) {
             </div>
             <div>
                 <div class="button-group horizontal app-paint-undo-redo">
-                    <button id="window-${windowID}-paint-undo">Undo</button>
-                    <button id="window-${windowID}-paint-redo">Redo</button>
+                    <button id="window-${windowID}-paint-undo">${acr.msg("paint/undo")}</button>
+                    <button id="window-${windowID}-paint-redo">${acr.msg("paint/redo")}</button>
                 </div>
             </div>
             <div class="app-paint-grid-2">
@@ -44,14 +44,14 @@ function run(process) {
             </div>
             <div class="app-paint-fill-border">
                 <input type="checkbox" id="window-${windowID}-paint-fill-enabled" checked>
-                <span class="app-paint-fill-border-label">Fill</span>
+                <span class="app-paint-fill-border-label">${acr.msg("paint/fill")}</span>
                 <span id="window-${windowID}-paint-fill-options">
                     <input type="color" id="window-${windowID}-paint-fill-color">
                 </span>
             </div>
             <div class="app-paint-fill-border">
                 <input type="checkbox" id="window-${windowID}-paint-border-enabled" checked>
-                <span class="app-paint-fill-border-label">Border</span>
+                <span class="app-paint-fill-border-label">${acr.msg("paint/border")}</span>
                 <span id="window-${windowID}-paint-border-options">
                     <input type="color" id="window-${windowID}-paint-border-color">
                     <input type="range" min="0" max="25" step="1" value="3" id="window-${windowID}-paint-width">
@@ -107,7 +107,7 @@ function run(process) {
 
         // pencil
         "pencil": new Tool(
-            "pencil", "Pencil", false, true,
+            "pencil", false, true,
             () => {
                 painting = true;
                 context.beginPath();
@@ -128,7 +128,7 @@ function run(process) {
 
         // eraser
         "eraser": new Tool(
-            "eraser", "Eraser", false, true,
+            "eraser", false, true,
             () => {
                 painting = true;
             },
@@ -149,7 +149,7 @@ function run(process) {
 
         // rectangle
         "rectangle": new Tool(
-            "rectangle", "Rectangle", true, true,
+            "rectangle", true, true,
             () => {
                 painting = true;
                 saved = context.getImageData(0, 0, canvas.width, canvas.height);

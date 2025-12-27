@@ -1,18 +1,13 @@
 
-const typeDisplayNames = {
-    "none": "Hidden",
-    "gui": "Graphical",
-    "term": "Terminal",
-    "core": "Core"
-};
+const typeDisplayNames = acr.msg("system-monitor/types");
 
 function run(process) {
 
     let windowID = process.PID;
 
-    new acr.Window("System Monitor", `
-        <span id="window-${windowID}-live" class="apps-system-monitor-live">Live</span>
-        <h2>Processes</h2>
+    new acr.Window(acr.msg("system-monitor/name"), `
+        <span id="window-${windowID}-live" class="apps-system-monitor-live">${acr.msg("system-monitor/live")}</span>
+        <h2>${acr.msg("system-monitor/processes")}</h2>
         <table id="window-${windowID}-process-table"></table>
     `, process);
 
@@ -31,11 +26,11 @@ function updateTable(process) {
     id(`window-${windowID}-process-table`).innerHTML = `
         <thead>
             <tr>
-                <th>PID</th>
-                <th>Process</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Options</th>
+                <th>${acr.msg("system-monitor/header/pid")}</th>
+                <th>${acr.msg("system-monitor/header/process")}</th>
+                <th>${acr.msg("system-monitor/header/name")}</th>
+                <th>${acr.msg("system-monitor/header/type")}</th>
+                <th>${acr.msg("system-monitor/header/options")}</th>
             </tr>
         </thead>
         <tbody id="window-${windowID}-process-table-body"></tbody>
@@ -51,7 +46,7 @@ function updateTable(process) {
                 <td>${typeDisplayNames[processInfo["type"]]}</td>
                 <td class="apps-system-monitor-kill-td">
                     <button class="bflat" id="window-${process.PID}-kill-${PID}">
-                        Kill
+                        ${acr.msg("system-monitor/kill")}
                     </button>
                 </td>
             </tr>

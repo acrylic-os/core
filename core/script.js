@@ -253,14 +253,18 @@ let acr = new function() {
         function msg(name, replace = []) {
             let message = messages, i = 1;
             if(messagesAvailable) {
-                for(const part of name.split("/")) {
-                    message = message[part];
+                try{
+                    for(const part of name.split("/")) {
+                        message = message[part];
+                    }
+                    for(const replacement of replace) {
+                        message = message.replaceAll(`$${i}`, replacement);
+                        ++i;
+                    }
+                    return message;
+                } catch(TypeError) {
+                    return undefined;
                 }
-                for(const replacement of replace) {
-                    message = message.replaceAll(`$${i}`, replacement);
-                    ++i;
-                }
-                return message;
             } else {
                 error("Messages haven't been loaded yet");
             }
@@ -440,6 +444,13 @@ let acr = new function() {
 
             // set booting text
             id("bootscreen-text").innerText = msg("core/booting");
+
+            // set fullscreen overlay text
+            id("fullscreen-text").innerText = msg("core/fullscreen/text");
+            id("fullscreen-cancel").innerText = msg("core/fullscreen/cancel");
+            
+            // set acrylic's name
+            acr.apps.acrylic.display = msg("core/acrylic");
 
         }
 
@@ -1023,7 +1034,10 @@ let acr = new function() {
 
                 // set values
                 this.id = id;
-                this.display = info.display;
+                if(id !== "acrylic") {
+                    this.display = msg(`${id}/name`)? msg(`${id}/name`):info.display;
+                    // acr isn't available when loading the acrylic app so we'll set its name at onMessagesLoad
+                }
                 this.type = info.type;
                 this.category = info.category;
                 this.utility = ("utility" in info)? info.utility:false;
@@ -1096,6 +1110,15 @@ let acr = new function() {
                 error("Account creation is currently not implemented yet.");
             });
 
+            // set messages
+            for(const message of ["welcome", "title", "login", "create"]) {
+                id(`loginbox-${message}`).innerText = msg(`core/login/${message}`);
+            }
+            id("loginbox-username-label").innerText = msg("core/login/username");
+            id("loginbox-password-label").innerText = msg("core/login/password");
+            id("loginbox-username").placeholder = msg("core/login/username");
+            id("loginbox-password").placeholder = msg("core/login/password");
+            
             // show login screen and desktop
             id("loginscreen").style.backgroundImage = `url(${noUserWallpaper})`;
             id("loginscreen").style.filter = "opacity(0)";
@@ -1221,7 +1244,9 @@ let acr = new function() {
 
 
                 case 2:
-                    setupMsg(2, ["title", "intro", "username", "password", "create", "back"]);
+                    setupMsg(2, ["title", "intro", "create", "back"]);
+                    id("setup-2-username").placeholder = msg("core/setup/2/username");
+                    id("setup-2-password").placeholder = msg("core/setup/2/password");
                     onclick("setup-2-create", () => {
 
                         // set user
@@ -1267,6 +1292,7 @@ let acr = new function() {
 
 
                 case 4:
+                    setupMsg(4, ["title", "note", "continue", "back"]);
                     onclick("setup-4-continue", () => {
                         showSetupStage(5);
                     });
@@ -1277,6 +1303,7 @@ let acr = new function() {
 
 
                 case 5:
+                    setupMsg(5, ["title", "complete", "reload"]);
                     config["setup"] = true;
                     onclick("setup-5-reload", () => {
                         saveData();
@@ -1308,6 +1335,16 @@ let acr = new function() {
 
             // set wallpaper
             setDesktopWallpaper();
+
+            // set messages
+            id("searchbar-label").innerText = msg("core/search");
+            id("searchbar").placeholder = msg("core/search");
+            id("startmenu-name").innerText = msg("core/start");
+            for(const message of ["logout", "reload", "quit"]) {
+                id(`power-${message}`).innerText = msg(`core/power/${message}`);
+            }
+            id("quit-quitting").innerText = msg("core/quit/quitting");
+            id("quit-done").innerText = msg("core/quit/done");
 
             // load extensions
             for(const extensionPath of getUserConfig("extensions")) {
@@ -2582,7 +2619,7 @@ Acrylic will restart in 3 seconds.
             quitAction = action;
             id("quitscreen").style.display = "block";
             id("quit-areyousure").style.display = "block";
-            id("quit-areyousure-action").innerText = quitActionText[action]["text"];
+            id("quit-areyousure-action").innerText = msg("core/quit/areyousure", [quitActionText[action]["text"]]);
             id("quit-areyousure-button").innerText = quitActionText[action]["button"];
             log("done", "Quit menu shown");
         }

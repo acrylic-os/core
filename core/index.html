@@ -16,9 +16,9 @@
         <!-- google fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <!-- essential --> <link href="https://fonts.googleapis.com/css2?family=Inter&family=Roboto+Mono&family=Schibsted+Grotesk&display=swap" rel="stylesheet" fetchpriority="high">
-        <!-- the rest -->  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code&family=IBM+Plex+Sans&family=IBM+Plex+Mono&family=Noto+Sans&family=Noto+Serif&family=Roboto&display=swap" rel="stylesheet">
-            
+        <!-- essential --> <link href="https://fonts.googleapis.com/css2?family=Inter&family=Schibsted+Grotesk&display=swap" rel="stylesheet">
+        <!-- the rest -->  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code&family=IBM+Plex+Sans&family=IBM+Plex+Mono&family=Noto+Sans&family=Noto+Serif&family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
+        
         <!-- assets -->
         <link rel="stylesheet" href="common.css" fetchpriority="high">
         <link rel="icon" href="https://acrylic.anpang.lol/stable/core/assets/acrylic_logo.svg">
@@ -64,9 +64,9 @@
                     <section id="setup-2-intro"></section>
                     <section>
                         <label for="setup-2-username"></label>
-                        <input type="text" placeholder="Username" id="setup-2-username" class="textbox bfull">
+                        <input type="text" id="setup-2-username" class="textbox bfull">
                         <label for="setup-2-password"></label>
-                        <input type="text" placeholder="Password" id="setup-2-password" class="textbox bfull">
+                        <input type="text" id="setup-2-password" class="textbox bfull">
                     </section>
                     <section>
                         <button class="bfull" id="setup-2-create"></button>
@@ -85,24 +85,18 @@
                     </section>
                 </div>
                 <div id="setup-4">
-                    <h2>Options</h2>
+                    <h2 id="setup-4-title"></h2>
+                    <section id="setup-4-note"></section>
                     <section>
-                        Additional options currently aren't available.
-                    </section>
-                    <section>
-                        <button class="bfull" id="setup-4-continue">Continue</button>
-                        <button class="bfull" id="setup-4-back">Go back</button>
+                        <button class="bfull" id="setup-4-continue"></button>
+                        <button class="bfull" id="setup-4-back"></button>
                     </section>
                 </div>
                 <div id="setup-5">
-                    <h2>Setup is complete!</h2>
-                    <section>
-                        You may now enjoy your installation of Acrylic.
-                        <br>
-                        Reload the page to enter Acrylic, or simply click the button below:
-                    </section>
+                    <h2 id="setup-5-title"></h2>
+                    <section id="setup-5-complete"></section>
                     <div>
-                        <button class="bfull" id="setup-5-reload">Enter Acrylic</button>
+                        <button class="bfull" id="setup-5-reload"></button>
                     </div>
                 </div>
             </div>
@@ -111,21 +105,21 @@
         <!-- login screen -->
         <div id="loginscreen" class="screen">
             <div id="loginbox">
-                <h1>Welcome to Acrylic!</h1>
+                <h1 id="loginbox-welcome"></h1>
                 <div>
-                    <h2>Login</h2>
+                    <h2 id="loginbox-title"></h2>
                     <section>
-                        <label for="loginbox-username">Username</label>
-                        <input type="text" placeholder="Username" id="loginbox-username" class="textbox bfull">
-                        <label for="loginbox-password">Password</label>
-                        <input type="text" placeholder="Password" id="loginbox-password" class="textbox bfull">
+                        <label for="loginbox-username" id="loginbox-username-label"></label>
+                        <input type="text" id="loginbox-username" class="textbox bfull">
+                        <label for="loginbox-password" id="loginbox-password-label"></label>
+                        <input type="text" id="loginbox-password" class="textbox bfull">
                     </section>
                     <section>
-                        <button class="bfull" id="loginbox-login">Login</button>
+                        <button class="bfull" id="loginbox-login"></button>
                     </section>
                 </div>
                 <hr>
-                <button class="bfull" id="loginbox-create">Create an account</button>
+                <button class="bfull" id="loginbox-create"></button>
             </div>
         </div>
         
@@ -139,8 +133,8 @@
             <div id="topbar" class="desktop-only desktop-show">
                 <div id="topbar-left"></div>
                 <div id="topbar-center">
-                    <label for="searchbar">Search / Open / Go to</label>
-                    <input type="text" id="searchbar" placeholder="Search / Open / Go to" class="textbox">
+                    <label for="searchbar" id="searchbar-label"></label>
+                    <input type="text" id="searchbar" class="textbox">
                     <div id="searchmenu"></div>
                 </div>
                 <div id="topbar-right">
@@ -158,19 +152,15 @@
 
             <!-- start menu -->
             <div id="startmenu" class="desktop-only">
-                <div id="startmenu-name">
-                    <b>Start</b>
-                </div>
-                <div id="startmenu-buttons">
-                    Button go here
-                </div>
+                <div id="startmenu-name"></div>
+                <div id="startmenu-buttons"></div>
                 <div id="startmenu-categories"></div>
                 <div id="startmenu-apps">
                 </div>
                 <div id="startmenu-power">
-                    <button onclick="acr.quit('logout')" class="bflat">Log out</button>
-                    <button onclick="acr.quit('reload')" class="bflat">Reload</button>
-                    <button onclick="acr.quit('quit')" class="bflat">Quit</button>
+                    <button id="power-logout" onclick="acr.quit('logout')" class="bflat"></button>
+                    <button id="power-reload" onclick="acr.quit('reload')" class="bflat"></button>
+                    <button id="power-quit" onclick="acr.quit('quit')" class="bflat"></button>
                 </div>
             </div>
 
@@ -185,28 +175,20 @@
         <!-- quit overlay -->
         <div id="quitscreen" class="screen">
             <div id="quit-areyousure" class="quit-box">
-                <section>
-                    Are you sure you want to <span id="quit-areyousure-action"></span>?
-                </section>
+                <section id="quit-areyousure-action"></section>
                 <section>
                     <button class="bfull quit-button" id="quit-areyousure-button">Quit</button>
                     <button class="bfull quit-button" id="quit-areyousure-cancel">Cancel</button>
                 </section>
             </div>
-            <span id="quit-quitting" class="quit-box">
-                Quitting...
-            </span>
-            <span id="quit-done" class="quit-box">
-                You may now close this tab.
-            </span>
+            <span id="quit-quitting" class="quit-box"></span>
+            <span id="quit-done" class="quit-box"></span>
         </div>
 
         <!-- fullscreen overlay -->
         <div id="fullscreen" class="screen">
-            <div id="fullscreen-text">
-                Click anywhere to go into fullscreen.
-            </div>
-            <button id="fullscreen-cancel">Don't go into fullscreen</button>
+            <div id="fullscreen-text"></div>
+            <button id="fullscreen-cancel"></button>
         </div>
 
         <!-- click confetti -->

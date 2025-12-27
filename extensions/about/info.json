@@ -3,7 +3,6 @@
     "id": "about",
     "type": "app",
     "appInfo": {
-        "display": "About",
         "type": "gui",
         "category": "system",
         "icon": "../../iconol/circle_info.svg"

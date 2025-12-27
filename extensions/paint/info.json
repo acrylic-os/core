@@ -3,7 +3,6 @@
     "id": "paint",
     "type": "app",
     "appInfo": {
-        "display": "Paint",
         "type": "gui",
         "category": "graphics",
         "icon": "../../iconol/paintbrush.svg"

@@ -3,7 +3,6 @@
     "id": "notepad",
     "type": "app",
     "appInfo": {
-        "display": "Notepad",
         "type": "gui",
         "category": "utilities",
         "icon": "../../iconol/notepad.svg"

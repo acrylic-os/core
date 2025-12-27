@@ -9,39 +9,26 @@ function action(process, action, data) {
         case "save":
             let text = id(`window-${windowID}-notepad-text`).value;
             acr.openFilePicker("Save").then((inode) => {
+                let buttons = {};
                 switch(inode.constructor.name) {
 
                     case "File":
                     case "Symlink":
-                        acr.spawnPopup(
-                            "warning",
-                            `
-                                <code>${inode.path}</code> already exists. Are you sure you want to overwrite it?
-                            `,
-                            {
-                                "Save anyway": (process) => {
-                                    inode.write(text);
-                                    process.kill();
-                                },
-                                "Cancel": (process) => {
-                                    process.kill();
-                                }
-                            }
-                        );
+                        buttons[acr.msg("notepad/save-anyway")] = (process) => {
+                            inode.write(text);
+                            process.kill();
+                        };
+                        buttons[acr.msg("notepad/cancel")] = (process) => {
+                            process.kill();
+                        };
+                        acr.spawnPopup("warning", acr.msg("notepad/already-exists", [inode.path]), buttons);
                         break;
                     
                     case "Folder":
-                        acr.spawnPopup(
-                            "error",
-                            `
-                                <code>${inode.path}</code> is a folder.
-                            `,
-                            {
-                                "OK": (process) => {
-                                    process.kill();
-                                }
-                            }
-                        );
+                        buttons[acr.msg("notepad/ok")] = (process) => {
+                            process.kill();
+                        };
+                        acr.spawnPopup("error", acr.msg("notepad/folder", [inode.path]), buttons);
                         break;
                     
                     case "NonexistentInode":
@@ -55,6 +42,7 @@ function action(process, action, data) {
         
         case "open":
             acr.openFilePicker("Open").then((inode) => {
+                let buttons = {};
                 switch(inode.constructor.name) {
 
                     case "File":
@@ -64,30 +52,18 @@ function action(process, action, data) {
                         break;
                     
                     case "Folder":
-                        acr.spawnPopup(
-                            "error",
-                            `
-                                <code>${inode.path}</code> is a folder.
-                            `,
-                            {
-                                "OK": (process) => {
-                                    process.kill();
-                                }
-                            }
-                        );
+                        buttons[acr.msg("notepad/ok")] = (process) => {
+                            process.kill();
+                        };
+                        acr.spawnPopup("error", acr.msg("notepad/folder", [inode.path]), buttons);
                         break;
                     
                     case "NonexistentInode":
+                        buttons[acr.msg("notepad/ok")] = (process) => {
+                            process.kill();
+                        };
                         acr.spawnPopup(
-                            "error",
-                            `
-                                <code>${inode.path}</code> doesn't exist.
-                            `,
-                            {
-                                "OK": (process) => {
-                                    process.kill();
-                                }
-                            }
+                            "error", acr.msg("notepad/doesnt-exist", [inode.path]), buttons
                         );
                         break;
 
