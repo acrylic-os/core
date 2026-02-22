@@ -11,19 +11,12 @@ let acr = new function() {
 
     // #region ─ constants
 
-        this.version = "0.3.0-b2";
-        this.versionDate = "27 Dec 2025";
+        this.version = "0.3.0-b3";
+        this.versionDate = [22, 2, 2026];
         let dataVersion = 1;
 
         this.codename = "werdʰh₁om";
         this.codenamePage = "werdʰh₁om";
-
-        const dayNames = [
-            "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-        ];
-        const monthNames = [
-            "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-        ];
 
         const languages = {
             "en": "English",
@@ -495,7 +488,7 @@ let acr = new function() {
 
             // set version
             id("version-number").innerText = msg("core/version", [acr.version]);
-            id("version-date").innerText = acr.versionDate;
+            id("version-date").innerText = `(${acr.versionDate[0]} ${acr.msg("core/month-names-abbreviated")[acr.versionDate[1]]} ${acr.versionDate[2]})`;
             document.title = `Acrylic v${acr.version}`;
 
             // set booting text
@@ -1751,21 +1744,35 @@ let acr = new function() {
 
         function updateTime() {
             const now = new Date();
+            const dayNames = acr.msg("core/day-names");
+            const monthNames = acr.msg("core/month-names");
             let display;
             switch (getUserConfig("time_format")) {
                 case 0:    // standard date+time
-                    display = `${pad(now.getFullYear(), 2)}/${pad(now.getMonth() + 1, 2)}/${pad(now.getDate(), 2)} ${pad(now.getHours(), 2)}:${pad(now.getMinutes(), 2)}:${pad(now.getSeconds(), 2)}`;
+                    display = acr.msg(
+                        "core/datetime/0",
+                        [pad(now.getFullYear(), 2), pad(now.getMonth() + 1, 2), pad(now.getDate(), 2), pad(now.getHours(), 2), pad(now.getMinutes(), 2), pad(now.getSeconds(), 2)]
+                    );
                     break;
                 case 1:    // only date
-                    display = `${dayNames[now.getDay()]}, ${now.getDate()} ${monthNames[now.getMonth()]} ${now.getFullYear()}`;
+                    display = acr.msg(
+                        "core/datetime/1",
+                        [dayNames[now.getDay()], now.getDate(), monthNames[now.getMonth()], now.getFullYear()]
+                    );
                     break;
                 case 2:    // only time
                     const timezoneOffset = now.getTimezoneOffset() / 60;
                     const timezoneText = `UTC${timezoneOffset > 0 ? "-" : "+"}${Math.abs(timezoneOffset)}`;
-                    display = `${pad(now.getHours(), 2)}:${pad(now.getMinutes(), 2)}:${pad(now.getSeconds(), 2)}.${pad(now.getMilliseconds(), 3)} [${timezoneText}]`;
+                    display = acr.msg(
+                        "core/datetime/2",
+                        [pad(now.getHours(), 2), pad(now.getMinutes(), 2), pad(now.getSeconds(), 2), pad(now.getMilliseconds(), 3), timezoneText]
+                    );
                     break;
                 case 3:    // unix timestamp
-                    display = `Unix ${now.valueOf().toLocaleString("en-US").replaceAll(",", "&thinsp;")}`;
+                    display = acr.msg(
+                        "core/datetime/3",                        
+                        [now.valueOf().toLocaleString("en-US").replaceAll(",", "&thinsp;")]
+                    );
                     break;
             }
             id("timebar").innerHTML = display;
