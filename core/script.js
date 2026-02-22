@@ -25,6 +25,11 @@ let acr = new function() {
             "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
         ];
 
+        const languages = {
+            "en": "English",
+            "th": "ไทย"
+        };
+
     // #endregion
 
     // #region ─ DOM shorthand functions
@@ -240,21 +245,24 @@ let acr = new function() {
 
         let messagesAvailable = false, messages;
 
-        fetch("../languages/en.json")    // more languages later
-            .then((response) => {
-                if(response.ok) {
-                    return response.json();
-                } else {
-                    error("Couldn't load messages");
-                }
-            })
-            .then((json) => {
-                messagesAvailable = true;
-                messages = json;
-                onMessagesLoad();
-                log("done", "English messages loaded");
-            });
-        
+        function fetchLanguage(code, callback = () => {}) {
+            fetch(`../languages/${code}.json`)
+                .then((response) => {
+                    if(response.ok) {
+                        return response.json();
+                    } else {
+                        error("Couldn't load messages");
+                    }
+                })
+                .then((json) => {
+                    messagesAvailable = true;
+                    messages = json;
+                    onMessagesLoad();
+                    log("done", `${code} messages loaded`);
+                    callback();
+                });
+        }
+
         function pigLatinWord(str) {
 
             let beginsWithVowel = /^[aeiou]/.test(str);
@@ -352,6 +360,11 @@ let acr = new function() {
         }
 
         log("done", "Loaded config and files");
+
+        // get language
+        if(getGlobalConfig("language") && getGlobalConfig("language") !== "en") {
+            fetchLanguage(getGlobalConfig("language"));
+        }
 
         // progress safe mode
         if(getGlobalConfig("safe_mode") === "activated") {
@@ -1238,7 +1251,7 @@ let acr = new function() {
                 });
             }
 
-            showSetupStage(1);
+            showSetupStage(0);
 
         }
 
@@ -1246,8 +1259,9 @@ let acr = new function() {
 
     // #region ─ setup stages
 
-        let setupStage = 1;
+        let setupStage = 0;
         const setupStageNames = {
+            0: "Language",
             1: "Introduction",
             2: "Create account",
             3: "Customization",
@@ -1264,7 +1278,10 @@ let acr = new function() {
         function showSetupStage(stage) {
 
             // set number and name on top
-            id("setup-stage").innerText = msg("core/setup/stage", [stage, setupStageNames[stage]]);
+            function setSetupNumber(stage) {
+                id("setup-stage").innerText = msg("core/setup/stage", [stage, setupStageNames[stage]]);
+            }
+            setSetupNumber(stage);
 
             // hide old stage content and show new stage
             id(`setup-${setupStage}`).style.display = "none";
@@ -1274,6 +1291,24 @@ let acr = new function() {
             // run something for each stage
             switch (stage) {
 
+                case 0:
+                    setupMsg(0, ["title", "intro", "continue"]);
+                    let languageOptions = "";
+                    for(const [languageID, languageEndonym] of Object.entries(languages)) {
+                        languageOptions += `<option value="${languageID}">${languageEndonym}</option>`;
+                    }
+                    id("setup-0-select").innerHTML = languageOptions;
+                    id("setup-0-select").addEventListener("change", () => {
+                        fetchLanguage(id("setup-0-select").value, () => {
+                            setSetupNumber(stage);
+                            setupMsg(0, ["title", "intro", "continue"]);
+                        });
+                        setGlobalConfig("language", id("setup-0-select").value);
+                    });
+                    onclick("setup-0-continue", () => {
+                        showSetupStage(1);
+                    });
+                    break;
 
                 case 1:
                     setupMsg(1, ["welcome", "intro", "continue", "already-user", "import"]);
@@ -1284,7 +1319,6 @@ let acr = new function() {
                         error("Importing data not implemented");
                     });
                     break;
-
 
                 case 2:
                     setupMsg(2, ["title", "intro", "create", "back"]);
@@ -1318,7 +1352,6 @@ let acr = new function() {
                     })
                     break;
 
-
                 case 3:
 
                     setupMsg(3, ["title", "note", "continue", "back"]);
@@ -1333,7 +1366,6 @@ let acr = new function() {
                     })
                     break;
 
-
                 case 4:
                     setupMsg(4, ["title", "note", "continue", "back"]);
                     onclick("setup-4-continue", () => {
@@ -1344,7 +1376,6 @@ let acr = new function() {
                     })
                     break;
 
-
                 case 5:
                     setupMsg(5, ["title", "complete", "reload"]);
                     config["setup"] = true;
@@ -1353,7 +1384,6 @@ let acr = new function() {
                         window.location.reload();
                     });
                     break;
-
 
             }
         }
@@ -2527,9 +2557,8 @@ let acr = new function() {
     // #region ─ expose things to acr
 
     // helper functions
-    function getUser() {
-        return user;
-    }
+    function getUser() { return user; }
+    function getLanguages() { return languages; }
 
     // functions and classes to expose to the public API so that others (extensions, devtools, ...) can use them as acr.(name)
     const exposeFunctions = [
@@ -2540,7 +2569,7 @@ let acr = new function() {
         // configs
         getUserConfig, setUserConfig, getGlobalConfig, setGlobalConfig,
         enableClickConfetti, disableClickConfetti, enableBlueRectangle, disableBlueRectangle,
-        setFonts,
+        setFonts, getLanguages,
 
         // users
         getUser,

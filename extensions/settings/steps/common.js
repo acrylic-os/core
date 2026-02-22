@@ -6,15 +6,15 @@ const settingsData = {
     "general": {
         "options": {
 
-            "welcome": {
-                "type": "html",
-                "html": acr.msg("settings/welcome")
+            "language": {
+                "type": "select",
+                "options": acr.getLanguages(),
+                "selected": ["global", "language"],
+                "set": function (newValue) {
+                    acr.setGlobalConfig("language", newValue);
+                },
+                "reload": true
             },
-
-            "general_coming_soon": {
-                "type": "html",
-                "html": acr.msg("settings/no-general")
-            }
 
         }
     },

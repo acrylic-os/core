@@ -12,6 +12,11 @@
 
         "setup": {
             "stage": "Stage $1 - $2",
+            "0": {
+                "title": "Language",
+                "intro": "Acrylic is multilingual, so please select a language to continue setup.",
+                "continue": "Continue"
+            },
             "1": {
                 "welcome": "Welcome to Acrylic!",
                 "intro": "It seems you're a new user here. Acrylic is a new operating system that runs completely in your browser, meaning it can be run in any device without any installation.<br>Here, we will set up Acrylic for you.",
@@ -228,9 +233,6 @@
     "settings": {
         "name": "Settings",
 
-        "welcome": "<b>Welcome to the settings app!</b>",
-        "no-general": "General settings currently aren't available.",
-
         "tabs": {
             "general": "General",
             "appearance": "Appearance",
@@ -241,10 +243,16 @@
         },
 
         "options": {
+            "general": {
+                "language": {
+                    "name": "Language",
+                    "subtitle": "The language used in Acrylic."
+                }
+            },
             "appearance": {
                 "wallpaper": {
                     "name": "Wallpaper",
-                    "subtitle": "Currently you can only select between 3 wallpapers."
+                    "subtitle": "Currently you can only select between 4 wallpapers."
                 },
                 "topbar_style": {
                     "name": "Topbar style",
