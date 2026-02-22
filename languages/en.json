@@ -271,6 +271,10 @@
                 "fullscreen_overlay": {
                     "name": "Ask to enter fullscreen",
                     "subtitle": "Enable or disable the overlay that asks to become fullscreen."
+                },
+                "pig_latin": {
+                    "name": "Pig Latin",
+                    "subtitle": "Makes Acrylic use Pig Latin."
                 }
             },
             "effects": {

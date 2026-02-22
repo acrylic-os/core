@@ -37,7 +37,7 @@ function action(process, action, data) {
                 }
 
                 const optionMsg = acr.msg(`settings/options/${tab}/${optionID}`);
-                
+
                 // switch type
                 switch (optionData["type"]) {
 
@@ -198,6 +198,9 @@ function action(process, action, data) {
                 case "checkbox":
                     option["set"](id(`window-${windowID}-settings-option-${data["option"]}`).checked);
                     break;
+            }
+            if("reload" in option && option["reload"]) {
+                process.action("reload-popup");
             }
             break;
     

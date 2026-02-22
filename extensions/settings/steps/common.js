@@ -131,7 +131,16 @@ const settingsData = {
                 "set": function (newValue) {
                     acr.setUserConfig("fullscreen_overlay", newValue);
                 }
-            }
+            },
+
+            "pig_latin": {
+                "type": "checkbox",
+                "selected": ["user", "pig-latin"],
+                "set": function (newValue) {
+                    acr.setUserConfig("pig-latin", newValue);
+                },
+                "reload": true
+            },
 
         }
     },

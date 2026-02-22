@@ -61,6 +61,11 @@ let acr = new function() {
             return String(number).padStart(length, "0");
         }
 
+        // capitalize first letter
+        function capitalizeFirst(text) {
+            return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
+        }
+
         // random number generators
         function randomFloat(min, max) {
             return Math.random() * (max - min) + min;
@@ -250,6 +255,41 @@ let acr = new function() {
                 log("done", "English messages loaded");
             });
         
+        function pigLatinWord(str) {
+
+            let beginsWithVowel = /^[aeiou]/.test(str);
+            let hasVowelSound  = /[aeiou]/.test(str);
+            let clusters = /^((s(chw|ch|hr|pl|qu|pr|cr|ph)|thr)|b(l|r)|c(l|r)|f(l|r)|g(l|r)|p(l|r)|sl|dr|t(r|w)|s(c|k|m|n|p|t|w))/;
+
+            if(beginsWithVowel) return str + "way";
+            if(!hasVowelSound) return str + "ay";
+
+            if(clusters.test(str)){
+                let matches = str.match(clusters);
+                let matchLen = matches[0].length;
+                return str.slice(matchLen) + str.slice(0, matchLen) + "ay";
+            }
+
+            return str.slice(1) + str[0] + "ay"
+
+        }
+            // from https://github.com/Nobledsmarts/pig-latin
+        function pigLatinPhrase(phrase) {
+            let finished = [], pigLatinized;
+            for(const word of phrase.split(" ")) {
+                if(/\d/.test(word)) {    // word contains numbers
+                    pigLatinized = word;
+                } else {
+                    pigLatinized = pigLatinWord(word.toLowerCase());
+                    if(/^\p{Lu}/u.test(word)) {    // first letter is uppercase
+                        pigLatinized = capitalizeFirst(pigLatinized);
+                    }
+                }
+                finished.push(pigLatinized);
+            }
+            return finished.join(" ");
+        }
+
         function msg(name, replace = []) {
             let message = messages, i = 1;
             if(messagesAvailable) {
@@ -260,6 +300,9 @@ let acr = new function() {
                     for(const replacement of replace) {
                         message = message.replaceAll(`$${i}`, replacement);
                         ++i;
+                    }
+                    if(getUserConfig("pig-latin") && typeof message === "string") {
+                        message = pigLatinPhrase(message);
                     }
                     return message;
                 } catch(TypeError) {
