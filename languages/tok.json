@@ -1,0 +1,397 @@
+{
+
+    "core": {
+
+        "acrylic": "Akili",
+        "version": "Akili $1",
+        "booting": "open...",
+        "loading": "open...",
+
+        "search": "alasa / open / tawa",
+        "start": "open",
+
+        "setup": {
+            "stage": "kipisi nanpa $1 - $2",
+            "0": {
+                "title": "toki",
+                "intro": "Acrylic is multilingual, so please select a language to continue setup.",
+                "continue": "kama"
+            },
+            "1": {
+                "welcome": "Welcome to Acrylic!",
+                "intro": "It seems you're a new user here. Acrylic is a new operating system that runs completely in your browser, meaning it can be run in any device without any installation.<br>Here, we will set up Acrylic for you.",
+                "continue": "kama",
+                "already-user": "If you are already a user, you may be seeing this screen because there is no data.",
+                "import": "Import data"
+            },
+            "2": {
+                "title": "Create an account",
+                "intro": "Acrylic has a system of user accounts. You can create a user account here.",
+                "username": "nimi",
+                "password": "nimi len",
+                "create": "Create account",
+                "back": "Go back"
+            },
+            "3": {
+                "title": "Customization",
+                "wallpaper-count": "There are $1 default wallpapers to pick from:",
+                "note": "Note that this wallpaper will only appear when you are logged in. When there is no user, like in the login screen, the default Acrylic wallpaper will be shown.",
+                "selected": "Selected wallpaper: <b>$1</b>",
+                "continue": "kama",
+                "back": "Go back"
+            },
+            "4": {
+                "title": "Options",
+                "note": "Additional options currently aren't available.",
+                "continue": "kama",
+                "back": "Go back"
+            },
+            "5": {
+                "title": "Setup is complete!",
+                "complete": "You may now enjoy your installation of Acrylic.<br>Reload the page to enter Acrylic, or simply click the button below:",
+                "reload": "Enter Acrylic"
+            }
+        },
+
+        "login": {
+            "welcome": "Welcome to Acrylic!",
+            "title": "Login",
+            "username": "nimi",
+            "password": "nimi len",
+            "login": "Login",
+            "create": "Create an account"
+        },
+
+        "power": {
+            "logout": "Log out",
+            "reload": "Reload",
+            "quit": "Quit"
+        },
+
+        "quit": {
+            "areyousure": "Are you sure you want to $1?",
+            "quitting": "Quitting...",
+            "done": "You may now close this tab."
+        },
+
+        "fullscreen": {
+            "text": "Click anywhere to go into fullscreen.",
+            "cancel": "Don't go into fullscreen"
+        },
+
+        "datetime": {
+            "0": "$1/$2/$3 $4:$5:$6",
+            "1": "$1 $2 $3 $4",
+            "2": "$1:$2:$3.$4 [$5]",
+            "3": "Juni $1"
+        },
+        "day-names": [
+            "tenpo suno", "tenpo suno mun", "tenpo suno seli", "tenpo suno telo", "tenpo suno kasi", "tenpo suno kiwen", "tenpo suno ma"
+        ],
+        "month-names": [
+            "mun Wan", "mun Kon", "mun Seli", "mun Ma", "mun Telo", "mun Mama", "mun Kasi", "mun Pipi", "mun Kala", "mun Akesi", "mun Waso", "mun Soweli"
+        ],
+        "month-names-abbreviated": [
+            "Wan", "Kon", "Seli", "Ma", "Telo", "Mama", "Kasi", "Pipi", "Kala", "Akesi", "Waso", "Soweli"
+        ],
+
+        "coming-soon": "Coming soon"
+
+    },
+
+    "about": {
+        "name": "sona",
+
+        "alternate-name": "acrylicOS",
+        "version": "Version $1",
+        "user-agent": "User agent",
+        "credits": "Credits",
+        "donut": "Donut",
+
+        "main-dev": "Main development",
+        "small-elements": "Small elements",
+        "wallpapers": "Wallpapers",
+        "literally-everything": "Literally everything",
+        "spinning-donut": "Spinning donut",
+
+        "exit-texts": [
+            "Remove", 
+            "Disconnect",
+            "Un-donut",
+            "Evaporate",
+            "Delete",
+            "Exit",
+            "Abolish",
+            "Eliminate",
+            "Withdraw",
+            "Put an end to",
+            "Cut out",
+            "Get rid of",
+            "Do away with",
+            "Take away",
+            "Expunge",
+            "Annul",
+            "Destroy",
+            "Obliterate",
+            "Eradicate",
+            "Annihilate",
+            "Extirpate",
+            "Erase",
+            "Kill",
+            "Murder",
+            "Cancel",
+            "Undo",
+            "Unpublish",
+            "Force the disappearance of",
+            "Suppress",
+            "Repress",
+            "Redact"
+        ],
+        "exit-text-format": "$1 the donut"
+
+    },
+
+    "calculator": {
+        "name": "ilo nanpa",
+
+        "history": "History",
+        "syntax-error": "Syntax error"
+
+    },
+
+    "clock": {
+        "name": "ilo tenpo",
+
+        "analog": "Analog",
+        "digital": "Digital"
+
+    },
+
+    "file-picker": {
+        "name": "wile e lipu"
+    },
+
+    "files": {
+        "name": "lipu",
+
+        "filename": "Filename",
+        "owner": "Owner",
+
+        "rename": {
+            "button": "Rename",
+            "title": "Rename file",
+            "text": "Rename $1 to:",
+            "confirm": "Rename",
+            "cancel": "Cancel"
+        },
+        "delete": {
+            "button": "Delete",
+            "title": "Delete file",
+            "text": "Are you sure you want to delete $1?",
+            "permanent": "Note that the trash currently isn't implemented yet, so the file will be permanently deleted.",
+            "confirm": "Delete",
+            "cancel": "Cancel"
+        }
+    },
+
+    "logs": {
+        "name": "sona ilo",
+
+        "top": "Go to top",
+        "bottom": "Go to bottom"
+    },
+
+    "notepad": {
+        "name": "lipu sitelen",
+        
+        "save": "Save",
+        "open": "Open",
+
+        "already-exists": "<code>$1</code> already exists. Are you sure you want to overwrite it?",
+        "doesnt-exist": "<code>$1</code> doesn't exist.",
+        "folder": "<code>$1</code> is a folder.",
+        "save-anyway": "Save anyway",
+        "cancel": "Cancel",
+        "ok": "OK"
+
+    },
+
+    "paint": {
+        "name": "sitelen",
+
+        "undo": "Undo",
+        "redo": "Redo",
+        "fill": "Fill",
+        "border": "Border",
+        "tools": {
+            "pencil": "Pencil",
+            "eraser": "Eraser",
+            "rectangle": "Rectangle"
+        },
+
+        "px": "$1px",
+        "dimensions": "$1x$2",
+        "mp": "$1mp"
+
+    },
+
+    "sandbox": {
+        "name": "Sandbox",
+
+        "intro": "Welcome to the Acrylic Sandbox, a place where things can be tested.<br>There are a few tools here.",
+        "dump": "Dump variables",
+        "miscellaneous": "Miscellaneous tools",
+        "elements-test": "Elements test",
+        "dump-of": "Dump of $1:"
+
+    },
+
+    "settings": {
+        "name": "Settings",
+
+        "tabs": {
+            "general": "General",
+            "appearance": "Appearance",
+            "behavior": "Behavior",
+            "effects": "Effects",
+            "extensions": "Extensions",
+            "system": "System"
+        },
+
+        "options": {
+            "general": {
+                "language": {
+                    "name": "Language",
+                    "subtitle": "The language used in Acrylic."
+                }
+            },
+            "appearance": {
+                "wallpaper": {
+                    "name": "Wallpaper",
+                    "subtitle": "Currently you can only select between 4 wallpapers."
+                },
+                "topbar_style": {
+                    "name": "Topbar style",
+                    "subtitle": "The background style of the topbar."
+                },
+                "font_heading": {
+                    "name": "Heading font",
+                    "subtitle": "The font used for headings and the big text on the bootscreen."
+                },
+                "font_main": {
+                    "name": "Main font",
+                    "subtitle": "The main font used in Acrylic."
+                },
+                "font_monospace": {
+                    "name": "Monospace font",
+                    "subtitle": "The font used for code and the version text. Only monospace fonts are available."
+                },
+                "darken_wallpaper": {
+                    "name": "Darken wallpaper",
+                    "subtitle": "Darken the wallpaper by 25%."
+                }
+            },
+            "behavior": {
+                "fullscreen_overlay": {
+                    "name": "Ask to enter fullscreen",
+                    "subtitle": "Enable or disable the overlay that asks to become fullscreen."
+                },
+                "pig_latin": {
+                    "name": "Pig Latin",
+                    "subtitle": "Makes Acrylic use Pig Latin."
+                }
+            },
+            "effects": {
+                "animations": {
+                    "name": "Animations",
+                    "subtitle": "Show various animations, for example when opening a window."
+                },
+                "click_confetti": {
+                    "name": "Click confetti",
+                    "subtitle": "When you click or drag, it'll spawn confetti. Note that this can be laggy."
+                },
+                "blue_rectangle": {
+                    "name": "Blue rectangle",
+                    "subtitle": "Makes a blue selection rectangle appear on the desktop when we drag, like the feature on Windows that we all used to play with."
+                }
+            },
+            "extensions": {
+                "default_theme": {
+                    "name": "Default theme",
+                    "placeholder": "Extension path",
+                    "subtitle": "The theme to use on the login screen where there is no user"
+                }
+            },
+            "system": {
+                "reset": {
+                    "name": "Reset Acrylic",
+                    "subtitle": "Resetting Acrylic means all Acrylic data will be deleted, including users, settings, and files."
+                }
+            }
+        },
+
+        "extensions": {
+            "add": "Add a new extension",
+            "placeholder": "ID (core) or link (external)",
+            "load": "Load",
+            "loaded": "Loaded extensions",
+            "id": "ID",
+            "name": "Name",
+            "type": "Type",
+            "actions": "Actions",
+            "uninstall": "Uninstall"
+        },
+
+        "reload": {
+            "text": "The setting you changed needs a reload to have changes.",
+            "close": "Close",
+            "reload": "Reload"
+        }
+
+    },
+
+    "system-monitor": {
+        "name": "lukin e ilo",
+
+        "processes": "Processes",
+        "live": "Live",
+        "header": {
+            "pid": "PID",
+            "process": "Process",
+            "name": "Name",
+            "type": "Type",
+            "options": "Options"
+        },
+        "types": {
+            "none": "Hidden",
+            "gui": "Graphical",
+            "term": "Terminal",
+            "core": "Core"
+        },
+        "kill": "Kill"
+
+    },
+
+    "terminal": {
+        "name": "temino",
+
+        "input": "Input command",
+        "help": "Run \"help()\" for help",
+        "help-command": "<b>Help</b><br>This is a JS console, so you can simply run JS commands.<br>Functions include clear(), exit(), help(), and print()."
+
+    },
+
+    "weather": {
+        "name": "pana sewi",
+
+        "source": "Weather data provided by <a href=\"https://open-meteo.com/\">Open-Meteo</a>.",
+        "no-location-info": "No location info available",
+        "give-location-info": "Give location permissions"
+
+    },
+
+    "default": {
+        "name": "selo Akili"
+    }
+
+}

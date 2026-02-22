@@ -18,9 +18,20 @@ let acr = new function() {
         this.codename = "werdʰh₁om";
         this.codenamePage = "werdʰh₁om";
 
+    // #endregion
+
+    // #region ─ languages
+
         const languages = {
+
             "en": "English",
-            "th": "ไทย"
+
+            // ISO 639-1
+            "th": "ไทย",
+
+            // ISO 639-3
+            "tok": "Toki Pona"
+
         };
 
     // #endregion
