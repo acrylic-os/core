@@ -2,22 +2,20 @@
 function run(process) {
 
     // show initial window
-    new acr.Window("Sandbox", `
-        <h2>Sandbox</h2>
+    new acr.Window(acr.msg("sandbox/name"), `
+        <h2>${acr.msg("sandbox/name")}</h2>
         <section>
-            Welcome to the Acrylic Sandbox, a place where things can be tested.
-            <br>
-            There are a few tools here.
+            ${acr.msg("sandbox/intro")}
         </section>
         <section>
-            <b>Dump variables</b>
+            <b>${acr.msg("sandbox/dump")}</b>
             <div id="window-${process.PID}-dump-variables"></div>
         </section>
         <section>
-            <b>Miscellaneous tools</b>
+            <b>${acr.msg("sandbox/miscellaneous")}</b>
             <br>
             <button id="window-${process.PID}-button-test" class="bflat">
-                Elements test
+                ${acr.msg("sandbox/elements-test")}
             </button>
         </section>
     `, process);

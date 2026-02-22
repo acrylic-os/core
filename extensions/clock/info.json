@@ -3,7 +3,6 @@
     "id": "clock",
     "type": "app",
     "appInfo": {
-        "display": "Clock",
         "type": "gui",
         "category": "utilities",
         "icon": "../../iconol/clock_1500.svg"

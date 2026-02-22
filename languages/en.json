@@ -5,6 +5,7 @@
         "acrylic": "Acrylic",
         "version": "Acrylic v$1",
         "booting": "Booting up...",
+        "loading": "Loading...",
 
         "search": "Search / Open / Go to",
         "start": "Start",
@@ -71,10 +72,12 @@
         "fullscreen": {
             "text": "Click anywhere to go into fullscreen.",
             "cancel": "Don't go into fullscreen"
-        }
+        },
+
+        "coming-soon": "Coming soon"
 
     },
-    
+
     "about": {
         "name": "About",
 
@@ -127,6 +130,56 @@
 
     },
 
+    "calculator": {
+        "name": "Calculator",
+
+        "history": "History",
+        "syntax-error": "Syntax error"
+
+    },
+
+    "clock": {
+        "name": "Clock",
+
+        "analog": "Analog",
+        "digital": "Digital"
+
+    },
+
+    "file-picker": {
+        "name": "File picker"
+    },
+
+    "files": {
+        "name": "Files",
+
+        "filename": "Filename",
+        "owner": "Owner",
+
+        "rename": {
+            "button": "Rename",
+            "title": "Rename file",
+            "text": "Rename $1 to:",
+            "confirm": "Rename",
+            "cancel": "Cancel"
+        },
+        "delete": {
+            "button": "Delete",
+            "title": "Delete file",
+            "text": "Are you sure you want to delete $1?",
+            "permanent": "Note that the trash currently isn't implemented yet, so the file will be permanently deleted.",
+            "confirm": "Delete",
+            "cancel": "Cancel"
+        }
+    },
+
+    "logs": {
+        "name": "Logs",
+
+        "top": "Go to top",
+        "bottom": "Go to bottom"
+    },
+
     "notepad": {
         "name": "Notepad",
         
@@ -161,6 +214,114 @@
 
     },
 
+    "sandbox": {
+        "name": "Sandbox",
+
+        "intro": "Welcome to the Acrylic Sandbox, a place where things can be tested.<br>There are a few tools here.",
+        "dump": "Dump variables",
+        "miscellaneous": "Miscellaneous tools",
+        "elements-test": "Elements test",
+        "dump-of": "Dump of $1:"
+
+    },
+
+    "settings": {
+        "name": "Settings",
+
+        "welcome": "<b>Welcome to the settings app!</b>",
+        "no-general": "General settings currently aren't available.",
+
+        "tabs": {
+            "general": "General",
+            "appearance": "Appearance",
+            "behavior": "Behavior",
+            "effects": "Effects",
+            "extensions": "Extensions",
+            "system": "System"
+        },
+
+        "options": {
+            "appearance": {
+                "wallpaper": {
+                    "name": "Wallpaper",
+                    "subtitle": "Currently you can only select between 3 wallpapers."
+                },
+                "topbar_style": {
+                    "name": "Topbar style",
+                    "subtitle": "The background style of the topbar."
+                },
+                "font_heading": {
+                    "name": "Heading font",
+                    "subtitle": "The font used for headings and the big text on the bootscreen."
+                },
+                "font_main": {
+                    "name": "Main font",
+                    "subtitle": "The main font used in Acrylic."
+                },
+                "font_monospace": {
+                    "name": "Monospace font",
+                    "subtitle": "The font used for code and the version text. Only monospace fonts are available."
+                },
+                "darken_wallpaper": {
+                    "name": "Darken wallpaper",
+                    "subtitle": "Darken the wallpaper by 25%."
+                }
+            },
+            "behavior": {
+                "fullscreen_overlay": {
+                    "name": "Ask to enter fullscreen",
+                    "subtitle": "Enable or disable the overlay that asks to become fullscreen."
+                }
+            },
+            "effects": {
+                "animations": {
+                    "name": "Animations",
+                    "subtitle": "Show various animations, for example when opening a window."
+                },
+                "click_confetti": {
+                    "name": "Click confetti",
+                    "subtitle": "When you click or drag, it'll spawn confetti. Note that this can be laggy."
+                },
+                "blue_rectangle": {
+                    "name": "Blue rectangle",
+                    "subtitle": "Makes a blue selection rectangle appear on the desktop when we drag, like the feature on Windows that we all used to play with."
+                }
+            },
+            "extensions": {
+                "default_theme": {
+                    "name": "Default theme",
+                    "placeholder": "Extension path",
+                    "subtitle": "The theme to use on the login screen where there is no user"
+                }
+            },
+            "system": {
+                "reset": {
+                    "name": "Reset Acrylic",
+                    "subtitle": "Resetting Acrylic means all Acrylic data will be deleted, including users, settings, and files."
+                }
+            }
+        },
+
+        "extensions": {
+            "add": "Add a new extension",
+            "placeholder": "ID (core) or link (external)",
+            "load": "Load",
+            "loaded": "Loaded extensions",
+            "id": "ID",
+            "name": "Name",
+            "type": "Type",
+            "actions": "Actions",
+            "uninstall": "Uninstall"
+        },
+
+        "reload": {
+            "text": "The setting you changed needs a reload to have changes.",
+            "close": "Close",
+            "reload": "Reload"
+        }
+
+    },
+
     "system-monitor": {
         "name": "System Monitor",
 
@@ -181,6 +342,28 @@
         },
         "kill": "Kill"
 
+    },
+
+    "terminal": {
+        "name": "Terminal",
+
+        "input": "Input command",
+        "help": "Run \"help()\" for help",
+        "help-command": "<b>Help</b><br>This is a JS console, so you can simply run JS commands.<br>Functions include clear(), exit(), help(), and print()."
+
+    },
+
+    "weather": {
+        "name": "Weather",
+
+        "source": "Weather data provided by <a href=\"https://open-meteo.com/\">Open-Meteo</a>.",
+        "no-location-info": "No location info available",
+        "give-location-info": "Give location permissions"
+
+    },
+
+    "default": {
+        "name": "Default theme"
     }
 
 }

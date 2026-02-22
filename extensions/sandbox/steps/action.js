@@ -6,19 +6,19 @@ function action(process, action, data) {
     switch (action) {
 
         case "dump": {
-            const newProcess = new acr.Process("Variable dump", "sandbox", windowID);
+            const newProcess = new acr.Process(acr.msg("sandbox/dump"), "sandbox", windowID);
             const dumpOutput = JSON.stringify(eval(`acr.${data["variable"]}`), null, 2);
-            new acr.Window("Variable dump", `
-                <b>Dump of ${data["variable"]}:</b>
+            new acr.Window(acr.msg("sandbox/dump"), `
+                <b>${acr.msg("sandbox/dump-of", [data["variable"]])}</b>
                 <pre class="apps-sandbox-dump-output">${dumpOutput}</pre>
             `, newProcess);
             break;
         }
 
         case "elements_test": {
-            const newProcess = new acr.Process("Elements test", "sandbox", windowID);
+            const newProcess = new acr.Process(acr.msg("sandbox/elements-test"), "sandbox", windowID);
             const newPID = newProcess.PID;
-            new acr.Window("Elements test", `
+            new acr.Window(acr.msg("sandbox/elements-test"), `
                 <div class="apps-sandbox-elements-box">
                     <div>
                         <h1>Heading 1</h1>

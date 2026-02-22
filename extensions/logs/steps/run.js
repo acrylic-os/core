@@ -4,12 +4,12 @@ function run(process) {
     let windowID = process.PID;
 
     // spawn window
-    new acr.Window("Logs", `
+    new acr.Window(acr.msg("logs/name"), `
         <div class="apps-logs-grid">
             <pre class="apps-logs-content" id="window-${windowID}-logs-content"></pre>
             <div>
-                <button id="window-${windowID}-logs-button-top">Go to top</button>
-                <button id="window-${windowID}-logs-button-bottom">Go to bottom</button>
+                <button id="window-${windowID}-logs-button-top">${acr.msg("logs/top")}</button>
+                <button id="window-${windowID}-logs-button-bottom">${acr.msg("logs/bottom")}</button>
             </div>
         </div>
     `, process, ["40em", "40em"]);

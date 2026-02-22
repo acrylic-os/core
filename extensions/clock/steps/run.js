@@ -4,11 +4,11 @@ function run(process) {
     let windowID = process.PID;
 
     // spawn window
-    new acr.Window("Clock", `
+    new acr.Window(acr.msg("clock/name"), `
         <section class="app-clock-top">
             <div class="button-group horizontal app-clock-top-buttons">
-                <button id="window-${windowID}-clock-buttons-analog">Analog</button>
-                <button id="window-${windowID}-clock-buttons-digital">Digital</button>
+                <button id="window-${windowID}-clock-buttons-analog">${acr.msg("clock/analog")}</button>
+                <button id="window-${windowID}-clock-buttons-digital">${acr.msg("clock/digital")}</button>
             </div>
         </section>
         <section id="window-${windowID}-clock-analog" class="app-clock-analog">

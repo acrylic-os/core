@@ -3,7 +3,7 @@ function run(process) {
     
     let windowID = process.PID;
 
-    new acr.Window("About", `
+    new acr.Window(acr.msg("about/name"), `
         <div class="apps-about-grid">
             <div class="apps-about-grid-logo">
                 <img src="assets/acrylic_logo.svg" class="apps-about-logo">

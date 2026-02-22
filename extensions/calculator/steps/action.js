@@ -42,19 +42,21 @@ function action(process, action, data) {
                     for (const [from, to] of Object.entries(replacements)) {
                         equation = equation.replaceAll(from, to);
                     }
-                    let result;
+                    let syntaxError, result;
                     try {
                         result = parseFloat(eval(equation));
+                        syntaxError = false;
                     } catch (error) {
-                        result = "Syntax error";
+                        syntaxError = true;
                     }
 
-                    id(`window-${windowID}-calculator-result`).innerText = result.toString(10);
-                    if (result === "Syntax error") {
+                    if (syntaxError) {
+                        id(`window-${windowID}-calculator-result`).innerText = acr.msg("calculator/syntax-error");
                         id(`window-${windowID}-calculator-bases-bin`).innerText = "";
                         id(`window-${windowID}-calculator-bases-oct`).innerText = "";
                         id(`window-${windowID}-calculator-bases-hex`).innerText = "";
                     } else {
+                        id(`window-${windowID}-calculator-result`).innerText = result.toString(10);
                         id(`window-${windowID}-calculator-bases-bin`).innerText = result.toString(2);
                         id(`window-${windowID}-calculator-bases-oct`).innerText = result.toString(8);
                         id(`window-${windowID}-calculator-bases-hex`).innerText = result.toString(16);

@@ -3,7 +3,6 @@
     "id": "example",
     "type": "app",
     "appInfo": {
-        "display": "Example",
         "type": "gui",
         "category": "system"
     },

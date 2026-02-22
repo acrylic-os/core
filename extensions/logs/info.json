@@ -3,7 +3,6 @@
     "id": "logs",
     "type": "app",
     "appInfo": {
-        "display": "Logs",
         "type": "gui",
         "category": "system",
         "icon": "../../iconol/document_dark.svg"

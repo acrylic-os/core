@@ -102,35 +102,35 @@ function action(process, action, data) {
                 acr.contextMenu(`window-${windowID}-file-picker-table-${name}`, [
                     {
                         "type": "button",
-                        "text": "Rename",
+                        "text": acr.msg("files/rename/button"),
                         "run": () => {
 
-                            let dialogProcess = new acr.Process("Rename file", "files", windowID);
+                            let dialogProcess = new acr.Process(acr.msg("files/rename/title"), "files", windowID);
 
                             // put dialog
                             new acr.Window("Rename file", `
                                 <div class="centered">
                                     <section>
-                                        Rename <b>${name}</b> to:
+                                        ${acr.msg("files/rename/text", [`<b>${name}</b>`])}
                                     </section>
                                     <section>
-                                        <input type="text" id="window-${windowID}-file-picker-renamebox" value="${name}">
+                                        <input type="text" id="window-${windowID}-files-renamebox" value="${name}">
                                     </section>
                                     <section>
-                                        <button id="window-${windowID}-file-picker-rename">Rename</button>
-                                        <button id="window-${windowID}-file-picker-cancel">Cancel</button>
+                                        <button id="window-${windowID}-files-rename">${acr.msg("files/rename/confirm")}</button>
+                                        <button id="window-${windowID}-files-cancel">${acr.msg("files/rename/cancel")}</button>
                                     </section>
                                 </div>
                             `, dialogProcess);
 
                             // buttons
-                            onclick(`window-${windowID}-file-picker-rename`, () => {
+                            onclick(`window-${windowID}-files-rename`, () => {
 
                                 // get new path/name
                                 let splitted = inode.path.split("/");
                                 splitted.pop();
                                 splitted = splitted.join("/");
-                                const newName = id(`window-${windowID}-file-picker-renamebox`).value;
+                                const newName = id(`window-${windowID}-files-renamebox`).value;
 
                                 // move
                                 inode.move(`${splitted}/${newName}`);
@@ -140,7 +140,7 @@ function action(process, action, data) {
                                 dialogProcess.kill();
 
                             });
-                            onclick(`window-${windowID}-file-picker-cancel`, () => {
+                            onclick(`window-${windowID}-files-cancel`, () => {
                                 dialogProcess.kill();
                             });
 
@@ -148,29 +148,29 @@ function action(process, action, data) {
                     },
                     {
                         "type": "button",
-                        "text": "Delete",
+                        "text": acr.msg("files/delete/button"),
                         "run": () => {
 
-                            let dialogProcess = new acr.Process("Delete file", "files", windowID);
+                            let dialogProcess = new acr.Process(acr.msg("files/delete/title"), "files", windowID);
 
                             // put dialog
-                            new acr.Window("Delete file", `
+                            new acr.Window(acr.msg("files/delete/title"), `
                                 <div class="centered">
                                     <section>
-                                        Are you sure you want to delete <b>${name}</b>?
+                                        ${acr.msg("files/delete/text", [`<b>${name}</b>`])}
                                     </section>
                                     <section>
-                                        <b>Note that the trash currently isn't implemented, so the file will be permanently deleted.</b>
+                                        <b>${acr.msg("files/delete/permanent")}</b>
                                     </section>
                                     <section>
-                                        <button id="window-${windowID}-file-picker-confirm">Confirm</button>
-                                        <button id="window-${windowID}-file-picker-cancel">Cancel</button>
+                                        <button id="window-${windowID}-files-confirm">${acr.msg("files/delete/confirm")}</button>
+                                        <button id="window-${windowID}-files-cancel">${acr.msg("files/delete/cancel")}</button>
                                     </section>
                                 </div>
                             `, dialogProcess);
 
                             // buttons
-                            onclick(`window-${windowID}-file-picker-confirm`, () => {
+                            onclick(`window-${windowID}-files-confirm`, () => {
 
                                 // delete
                                 inode.delete();
@@ -180,7 +180,7 @@ function action(process, action, data) {
                                 dialogProcess.kill();
 
                             });
-                            onclick(`window-${windowID}-file-picker-cancel`, () => {
+                            onclick(`window-${windowID}-files-cancel`, () => {
                                 dialogProcess.kill();
                             });
 

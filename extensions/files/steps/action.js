@@ -99,23 +99,23 @@ function action(process, action, data) {
                 acr.contextMenu(`window-${windowID}-files-table-${name}`, [
                     {
                         "type": "button",
-                        "text": "Rename",
+                        "text": acr.msg("files/rename/button"),
                         "run": () => {
 
-                            let dialogProcess = new acr.Process("Rename file", "files", windowID);
+                            let dialogProcess = new acr.Process(acr.msg("files/rename/title"), "files", windowID);
 
                             // put dialog
                             new acr.Window("Rename file", `
                                 <div class="centered">
                                     <section>
-                                        Rename <b>${name}</b> to:
+                                        ${acr.msg("files/rename/text", [`<b>${name}</b>`])}
                                     </section>
                                     <section>
                                         <input type="text" id="window-${windowID}-files-renamebox" value="${name}">
                                     </section>
                                     <section>
-                                        <button id="window-${windowID}-files-rename">Rename</button>
-                                        <button id="window-${windowID}-files-cancel">Cancel</button>
+                                        <button id="window-${windowID}-files-rename">${acr.msg("files/rename/confirm")}</button>
+                                        <button id="window-${windowID}-files-cancel">${acr.msg("files/rename/cancel")}</button>
                                     </section>
                                 </div>
                             `, dialogProcess);
@@ -145,23 +145,23 @@ function action(process, action, data) {
                     },
                     {
                         "type": "button",
-                        "text": "Delete",
+                        "text": acr.msg("files/delete/button"),
                         "run": () => {
 
-                            let dialogProcess = new acr.Process("Delete file", "files", windowID);
+                            let dialogProcess = new acr.Process(acr.msg("files/delete/title"), "files", windowID);
 
                             // put dialog
-                            new acr.Window("Delete file", `
+                            new acr.Window(acr.msg("files/delete/title"), `
                                 <div class="centered">
                                     <section>
-                                        Are you sure you want to delete <b>${name}</b>?
+                                        ${acr.msg("files/delete/text", [`<b>${name}</b>`])}
                                     </section>
                                     <section>
-                                        <b>Note that the trash currently isn't implemented, so the file will be permanently deleted.</b>
+                                        <b>${acr.msg("files/delete/permanent")}</b>
                                     </section>
                                     <section>
-                                        <button id="window-${windowID}-files-confirm">Confirm</button>
-                                        <button id="window-${windowID}-files-cancel">Cancel</button>
+                                        <button id="window-${windowID}-files-confirm">${acr.msg("files/delete/confirm")}</button>
+                                        <button id="window-${windowID}-files-cancel">${acr.msg("files/delete/cancel")}</button>
                                     </section>
                                 </div>
                             `, dialogProcess);

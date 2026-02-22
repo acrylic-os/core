@@ -36,6 +36,8 @@ function action(process, action, data) {
                     }
                 }
 
+                const optionMsg = acr.msg(`settings/options/${tab}/${optionID}`);
+                
                 // switch type
                 switch (optionData["type"]) {
 
@@ -45,11 +47,11 @@ function action(process, action, data) {
 
                     case "button":
                         optionsDisplay += `
-                            <legend>${optionData["name"]}</legend>
+                            <legend>${optionMsg["name"]}</legend>
                             <button class="bflat" id="${attr_id}">
-                                ${optionData["name"]}
+                                ${optionMsg["name"]}
                             </button>
-                            <span class="subtitle">${optionData["subtitle"]}</span>
+                            <span class="subtitle">${optionMsg["subtitle"]}</span>
                         `;
                         eventListenersToPut[optionID] = {
                             "type": "click",
@@ -67,11 +69,11 @@ function action(process, action, data) {
                             `;
                         }
                         optionsDisplay += `
-                            <legend>${optionData["name"]}</legend>
+                            <legend>${optionMsg["name"]}</legend>
                             <select id="${attr_id}">
                                 ${selectOptions}
                             </select>
-                            <span class="subtitle">${optionData["subtitle"]}</span>
+                            <span class="subtitle">${optionMsg["subtitle"]}</span>
                         `;
                         eventListenersToPut[optionID] = {
                             "type": "change",
@@ -81,10 +83,10 @@ function action(process, action, data) {
 
                     case "checkbox":
                         optionsDisplay += `
-                            <legend>${optionData["name"]}</legend>
+                            <legend>${optionMsg["name"]}</legend>
                             <input type="checkbox" id="${attr_id}" ${selected ? "checked" : ""}>
-                            <span>${optionData["name"]}</span>
-                            <span class="subtitle">${optionData["subtitle"]}</span>
+                            <span>${optionMsg["name"]}</span>
+                            <span class="subtitle">${optionMsg["subtitle"]}</span>
                         `;
                         eventListenersToPut[optionID] = {
                             "type": "click",
@@ -94,9 +96,9 @@ function action(process, action, data) {
                     
                     case "textbox":
                         optionsDisplay += `
-                            <legend>${optionData["name"]}</legend>
-                            <input type="text" id="${attr_id}" value="${selected}" placeholder="${optionData["placeholder"]? "":optionData["placeholder"]}">
-                            <span class="subtitle">${optionData["subtitle"]}</span>
+                            <legend>${optionMsg["name"]}</legend>
+                            <input type="text" id="${attr_id}" value="${selected}" placeholder="${optionMsg["placeholder"]? "":optionMsg["placeholder"]}">
+                            <span class="subtitle">${optionMsg["subtitle"]}</span>
                         `;
                         eventListenersToPut[optionID] = {
                             "type": "input",
@@ -106,22 +108,22 @@ function action(process, action, data) {
 
                     case "extension-load":
                         optionsDisplay += `
-                            <legend>Add a new extension</legend>
-                            <input id="window-${windowID}-settings-extension-path" type="text" placeholder="ID (core) or link (external)">
-                            <button id="window-${windowID}-settings-extension-load">Load</button>
+                            <legend>${acr.msg("settings/extensions/add")}</legend>
+                            <input id="window-${windowID}-settings-extension-path" type="text" placeholder="${acr.msg("settings/extensions/placeholder")}">
+                            <button id="window-${windowID}-settings-extension-load">${acr.msg("settings/extensions/load")}</button>
                         `;
                         break;
 
                     case "extension-list":
                         optionsDisplay += `
-                            <legend>Loaded extensions</legend>
+                            <legend>${acr.msg("settings/extensions/loaded")}</legend>
                             <table class="apps-settings-extension-table">
                                 <thead>
                                     <tr class="apps-settings-extension-table-header">
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Type</th>
-                                        <th>Actions</th>
+                                        <th>${acr.msg("settings/extensions/id")}</th>
+                                        <th>${acr.msg("settings/extensions/name")}</th>
+                                        <th>${acr.msg("settings/extensions/type")}</th>
+                                        <th>${acr.msg("settings/extensions/actions")}</th>
                                     </tr>
                                 </thead>
                                 <tbody id="window-${windowID}-settings-extension-table-body">
@@ -162,10 +164,10 @@ function action(process, action, data) {
                     append(`window-${windowID}-settings-extension-table-body`, `
                         <tr>
                             <td><code>${info.id}</code></td>
-                            <td>${"appInfo" in info? info.appInfo.display:""}</td>
+                            <td>${acr.msg(`${info.id}/name`)}</td>
                             <td>${info.type}</td>
                             <td>
-                                <button id="window-${windowID}-settings-extension-${info.id}-uninstall">Uninstall</button>
+                                <button id="window-${windowID}-settings-extension-${info.id}-uninstall">${acr.msg("settings/extensions/uninstall")}</button>
                             </td>
                         </tr>
                     `);
@@ -202,17 +204,13 @@ function action(process, action, data) {
 
         // "reload to see changes" popup
         case "reload-popup":
+            let popupOptions = {};
+            popupOptions[acr.msg("settings/reload/close")] = (process) => { process.kill(); };
+            popupOptions[acr.msg("settings/reload/reload")] = () => { window.location.reload(); };
             acr.spawnPopup(
                 "info",
-                "The setting you changed needs a reload to have changes.",
-                {
-                    "Close": (process) => {
-                        process.kill();
-                    },
-                    "Reload": () => {
-                        window.location.reload();
-                    }
-                }
+                acr.msg("settings/reload/text"),
+                popupOptions
             );
             break;
 

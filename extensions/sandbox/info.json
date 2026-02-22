@@ -3,7 +3,6 @@
     "id": "sandbox",
     "type": "app",
     "appInfo": {
-        "display": "Sandbox",
         "type": "gui",
         "category": "utilities",
         "icon": "../../iconol/sandbox.svg"

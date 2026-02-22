@@ -3,7 +3,6 @@
     "id": "terminal",
     "type": "app",
     "appInfo": {
-        "display": "Terminal",
         "type": "gui",
         "category": "system",
         "icon": "../../iconol/display_black.svg"

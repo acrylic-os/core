@@ -4,7 +4,7 @@ function run(process) {
     let windowID = process.PID;
 
     // spawn window
-    new acr.Window("Settings", `
+    new acr.Window(acr.msg("settings/name"), `
         <section id="window-${windowID}-settings-tab-buttons" class="button-group horizontal"></section>
         <h2 id="window-${windowID}-settings-tab-title"></h2>
         <div id="window-${windowID}-settings-content"></div>
@@ -13,7 +13,7 @@ function run(process) {
     // render tab selector
     for (const [tabID, tabData] of Object.entries(settingsData)) {
         append(`window-${windowID}-settings-tab-buttons`,
-            `<button class="bflat" id="window-${windowID}-settings-tab-button-${tabID}">${tabData["name"]}</button>`
+            `<button class="bflat" id="window-${windowID}-settings-tab-button-${tabID}">${acr.msg(`settings/tabs/${tabID}`)}</button>`
         );
         id(`window-${windowID}-settings-tab-button-${tabID}`).addEventListener("click",
             function (tab) {

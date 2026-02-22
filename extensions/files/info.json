@@ -3,7 +3,6 @@
     "id": "files",
     "type": "app",
     "appInfo": {
-        "display": "Files",
         "type": "gui",
         "category": "utilities",
         "icon": "../../iconol/folder.svg"

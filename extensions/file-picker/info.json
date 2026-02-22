@@ -3,7 +3,6 @@
     "id": "file-picker",
     "type": "app",
     "appInfo": {
-        "display": "File picker",
         "type": "gui",
         "category": "utilities",
         "utility": true

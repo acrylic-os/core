@@ -6,7 +6,7 @@ function run(process) {
     let windowID = process.PID;
 
     // make window
-    new acr.Window("File picker", `
+    new acr.Window(acr.msg("file-picker/name"), `
         <div class="app-file-picker-grid">
             <div class="app-file-picker-navigation button-group horizontal">
                 <button id="window-${windowID}-file-picker-navigation-up">&ShortUpArrow;</button>
@@ -19,8 +19,8 @@ function run(process) {
                 <table class="app-file-picker-table">
                     <thead>
                         <tr>
-                            <th>Filename</th>
-                            <th>Owner</th>
+                            <th>${acr.msg("files/filename")}</th>
+                            <th>${acr.msg("files/owner")}</th>
                         </tr>
                     </thead>
                     <tbody id="window-${windowID}-file-picker-table"></tbody>

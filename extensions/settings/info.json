@@ -3,7 +3,6 @@
     "id": "settings",
     "type": "app",
     "appInfo": {
-        "display": "Settings",
         "type": "gui",
         "category": "system",
         "icon": "../../iconol/settings.svg"

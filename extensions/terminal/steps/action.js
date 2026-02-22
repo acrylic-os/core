@@ -22,7 +22,7 @@ function action(process, action, data) {
                     acr.processes[${process.PID}].kill();
                 }
                 function help() {
-                    return "<b>Help</b><br>This is a JS console, so you can simply run JS commands.<br>Functions include clear(), exit(), help(), and print().";
+                    return "${acr.msg("terminal/help-command")}";
                 }
                 function print(text) {
                     return text;

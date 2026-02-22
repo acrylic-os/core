@@ -3,11 +3,11 @@ function run(process) {
 
     let windowID = process.PID;
 
-    new acr.Window("Terminal", `
+    new acr.Window(acr.msg("terminal/name"), `
         <div class="apps-terminal-box">
             <div id="window-${windowID}-terminal-result" class="apps-terminal-result"></div>
             <div class="apps-terminal-input-outer">
-                <label for="window-${windowID}-terminal-input">Input command</label>
+                <label for="window-${windowID}-terminal-input">${acr.msg("terminal/input")}</label>
                 &gt; <input class="apps-terminal-input" id="window-${windowID}-terminal-input"></input> 
             </div>
         </div>
@@ -18,9 +18,9 @@ function run(process) {
 
     process.storage.initialTerminalText = `
         <br>
-        &nbsp;&nbsp;<b>Acrylic v${acr.version}</b>
+        &nbsp;&nbsp;<b>${acr.msg("core/version", [acr.version])}</b>
         <br>
-        &nbsp;&nbsp;Run "help()" for help
+        &nbsp;&nbsp;${acr.msg("terminal/help")}
         <br>
     `;
     id(`window-${windowID}-terminal-result`).innerHTML = process.storage.initialTerminalText;

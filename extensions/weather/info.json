@@ -3,7 +3,6 @@
     "id": "weather",
     "type": "app",
     "appInfo": {
-        "display": "Weather",
         "type": "gui",
         "category": "utilities",
         "icon": "../../iconol/sun.svg"

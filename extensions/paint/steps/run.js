@@ -26,7 +26,7 @@ function run(process) {
 
     // put window
 
-    new acr.Window("Paint", `
+    new acr.Window(acr.msg("paint/name"), `
         <div class="app-paint-grid">
             <div>
                 <div class="button-group horizontal" id="window-${windowID}-paint-tools"></div>

@@ -3,21 +3,21 @@ function run(process) {
     let windowID = process.PID;
     
     // make window
-    new acr.Window("Weather", `
+    new acr.Window(acr.msg("weather/name"), `
         <div class="centered apps-weather-loading" id="window-${windowID}-weather-loading">
-            <h1>Loading...</h1>
+            <h1>${acr.msg("core/loading")}</h1>
         </div>
         <div class="centered apps-weather-has-location" id="window-${windowID}-weather-has-location">
-            <h1>Weather</h1>
+            <h1>${acr.msg("weather/name")}</h1>
             <div class="apps-weather-boxes" id="window-${windowID}-weather-boxes"></div>
             <span class="subtitle">
-                Weather data provided by <a href="https://open-meteo.com/">Open-Meteo</a>.
+                ${acr.msg("weather/source")}
             </span>
         </div>
         <div class="centered apps-weather-no-location" id="window-${windowID}-weather-no-location">
-            <h1>No location info available</h1>
+            <h1>${acr.msg("weather/no-location-info")}</h1>
             <button class="bfull" onclick="appAction(${windowID}, 'update')">
-                Give location permissions
+                ${acr.msg("weather/give-location-info")}
             </button>
         </div>
     `, process);

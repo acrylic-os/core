@@ -13,7 +13,7 @@ function run(process) {
     let windowID = process.PID;
 
     // make window
-    new acr.Window("Calculator", `
+    new acr.Window(acr.msg("calculator/name"), `
         <div class="app-calculator-grid app-calculator-grid-history-hidden" id="window-${windowID}-calculator-grid">
             <div class="app-calculator-bases">
                 <div>
@@ -30,8 +30,8 @@ function run(process) {
                 </div>
             </div>
             <div class="app-calculator-history" id="window-${windowID}-calculator-history">
-                <h2>History</h2>
-                Coming soon!
+                <h2>${acr.msg("calculator/history")}</h2>
+                ${acr.msg("core/coming-soon")}
             </div>
             <div class="app-calculator-number">
                 <span class="app-calculator-equation" id="window-${windowID}-calculator-equation"></span>
@@ -39,10 +39,10 @@ function run(process) {
             </div>
             <div class="app-calculator-options">
                 <div class="app-calculator-options-types">
-                    Coming soon!
+                    ${acr.msg("core/coming-soon")}
                 </div>
                 <div class="app-calculator-options-history-toggle">
-                    <button id="window-${windowID}-calculator-toggle" class="bflat">History</button>
+                    <button id="window-${windowID}-calculator-toggle" class="bflat">${acr.msg("calculator/history")}</button>
                 </div>
             </div>
             <div class="app-calculator-buttons" id="window-${windowID}-calculator-buttons"></div>
