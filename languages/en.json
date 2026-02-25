@@ -8,7 +8,6 @@
         "loading": "Loading...",
 
         "search": "Search / Open / Go to",
-        "start": "Start",
 
         "setup": {
             "stage": "Stage $1 - $2",
@@ -94,6 +93,19 @@
         "month-names-abbreviated": [
             "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
         ],
+
+        "start": {
+            "name": "Start",
+            "categories": {
+                "favorites": "Favorites",
+                "games": "Games",
+                "graphics": "Graphics",
+                "internet": "Internet",
+                "media": "Media",
+                "system": "System",
+                "utilities": "Utilities"
+            }
+        },
 
         "coming-soon": "Coming soon"
 

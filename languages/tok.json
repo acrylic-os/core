@@ -8,7 +8,6 @@
         "loading": "open...",
 
         "search": "alasa / open / tawa",
-        "start": "open",
 
         "setup": {
             "stage": "kipisi nanpa $1 - $2",
@@ -94,6 +93,19 @@
         "month-names-abbreviated": [
             "Wan", "Kon", "Seli", "Ma", "Telo", "Mama", "Kasi", "Pipi", "Kala", "Akesi", "Waso", "Soweli"
         ],
+
+        "start": {
+            "name": "open",
+            "categories": {
+                "favorites": "Favorites",
+                "games": "Games",
+                "graphics": "Graphics",
+                "internet": "Internet",
+                "media": "Media",
+                "system": "System",
+                "utilities": "Utilities"
+            }
+        },
 
         "coming-soon": "Coming soon"
 

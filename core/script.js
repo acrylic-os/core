@@ -512,6 +512,9 @@ let acr = new function() {
             // set acrylic's name
             acr.apps.acrylic.display = msg("core/acrylic");
 
+            // set start categories
+            startCategories = msg("core/start/categories");
+
         }
 
     // #endregion
@@ -1416,7 +1419,7 @@ let acr = new function() {
             // set messages
             id("searchbar-label").innerText = msg("core/search");
             id("searchbar").placeholder = msg("core/search");
-            id("startmenu-name").innerText = msg("core/start");
+            id("startmenu-name").innerText = msg("core/start/name");
             for(const message of ["logout", "reload", "quit"]) {
                 id(`power-${message}`).innerText = msg(`core/power/${message}`);
             }
@@ -1853,14 +1856,14 @@ let acr = new function() {
 
         let startOpened = false;
 
-        const startCategories = {
-            "favorites": "Favorites",
-            "games": "Games",
-            "graphics": "Graphics",
-            "internet": "Internet",
-            "media": "Media",
-            "system": "System",
-            "utilities": "Utilities"
+        let startCategories = {
+            "favorites": null,
+            "games": null,
+            "graphics": null,
+            "internet": null,
+            "media": null,
+            "system": null,
+            "utilities": null
         };
 
         function positionStart() {

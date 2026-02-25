@@ -364,7 +364,11 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     height: 5em;
     color: #fff;
 }
-.startmenu-app-tile-icon{ width: 3.45em; }
+.startmenu-app-tile-icon{
+    display: block;
+    margin: 0 auto;
+    width: 3.45em;
+}
 
 #startmenu-power{
     grid-column: 1 / 3;
