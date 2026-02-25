@@ -368,6 +368,8 @@ let acr = new function() {
         // get language
         if(getGlobalConfig("language") && getGlobalConfig("language") !== "en") {
             fetchLanguage(getGlobalConfig("language"));
+        } else {
+            fetchLanguage("en");
         }
 
         // progress safe mode
