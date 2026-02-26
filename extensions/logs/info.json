@@ -5,7 +5,7 @@
     "appInfo": {
         "type": "gui",
         "category": "system",
-        "icon": "../../iconol/document_dark.svg"
+        "icon": "../../icons/svg/document-dark.svg"
     },
 
     "version": {

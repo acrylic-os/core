@@ -5,7 +5,7 @@
     "appInfo": {
         "type": "gui",
         "category": "utilities",
-        "icon": "../../iconol/calculator.svg"
+        "icon": "../../icons/svg/calculator.svg"
     },
 
     "version": {

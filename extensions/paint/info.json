@@ -5,7 +5,7 @@
     "appInfo": {
         "type": "gui",
         "category": "graphics",
-        "icon": "../../iconol/paintbrush.svg"
+        "icon": "../../icons/svg/paintbrush.svg"
     },
 
     "version": {

@@ -317,7 +317,7 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 }
 
 #start-button{
-    background-image: url("../iconol/start.svg");
+    background-image: url("../icons/svg/start.svg");
     background-size: contain;
     margin-right: 2em;
     display: inline-block;
@@ -438,9 +438,9 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
     display: inline-block;
     filter: opacity(0.85);
 }
-.titlebar-button-minimize{ background-image: url("../iconol/button_minimize.svg"); }
-.titlebar-button-toggle{ background-image: url("../iconol/button_maximize.svg"); }
-.titlebar-button-close{ background-image: url("../iconol/button_close.svg"); }
+.titlebar-button-minimize{ background-image: url("../icons/svg/button_minimize.svg"); }
+.titlebar-button-toggle{ background-image: url("../icons/svg/button_maximize.svg"); }
+.titlebar-button-close{ background-image: url("../icons/svg/button_close.svg"); }
 
 .window-content{
     background-color: var(--gray);

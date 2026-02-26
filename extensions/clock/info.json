@@ -5,7 +5,7 @@
     "appInfo": {
         "type": "gui",
         "category": "utilities",
-        "icon": "../../iconol/clock_1500.svg"
+        "icon": "../../icons/svg/clock-1500.svg"
     },
 
     "version": {

@@ -1106,7 +1106,7 @@ let acr = new function() {
                 this.type = info.type;
                 this.category = info.category;
                 this.utility = ("utility" in info)? info.utility:false;
-                this.icon = "icon" in info? info.icon: "../../iconol/square_question.svg";
+                this.icon = "icon" in info? info.icon: "../../icons/svg/square_question.svg";
                 this.run = "run" in steps? steps.run: function() {};
                 this.action = "action" in steps? steps.action: function() {};
                 this.kill = "kill" in steps? steps.kill: function() {};
@@ -1572,9 +1572,9 @@ let acr = new function() {
             "quit": "Quit option"
         };
         const searchFileIcons = {
-            "File": "../iconol/document.svg",
-            "Folder": "../iconol/folder.svg",
-            "Symlink": "../iconol/arrow_blue_45.svg"
+            "File": "../icons/svg/document.svg",
+            "Folder": "../icons/svg/folder.svg",
+            "Symlink": "../icons/svg/arrow_blue_45.svg"
         }
         const linkSearchEntries = {
             "github": [
@@ -1589,17 +1589,17 @@ let acr = new function() {
             ],
             "wiki": [
                 "Wiki",
-                "../iconol/document.svg",
+                "../icons/svg/document.svg",
                 "https://wiki.anpang.lol/acr"
             ],
             "getting-started": [
                 "Getting started",
-                "../iconol/person.svg",
+                "../icons/svg/person.svg",
                 "https://wiki.anpang.lol/acr/Getting_started"
             ],
             "versions": [
                 "Versions",
-                "../iconol/clock_1500.svg",
+                "../icons/svg/clock_1500.svg",
                 "https://wiki.anpang.lol/acr/Versions"
             ]
         }
@@ -1657,7 +1657,7 @@ let acr = new function() {
                 searchMatches.push(new searchMatch("link", `link:${entryID}`, entryData[0], entryData[1], searchTerm));
             }
             for(const [entryID, entryData] of Object.entries(quitActionText)) {
-                searchMatches.push(new searchMatch("quit", `quit:${entryID}`, entryData["button"], "../iconol/circle_no.svg", searchTerm));
+                searchMatches.push(new searchMatch("quit", `quit:${entryID}`, entryData["button"], "../icons/svg/circle_no.svg", searchTerm));
             }
 
             // sort matches by score
@@ -2392,19 +2392,19 @@ let acr = new function() {
         const popupTypes = {
             "error": {
                 "name": "Error",
-                "icon": "iconol/circle_no.png"
+                "icon": "icons/svg/circle_no.png"
             },
             "warning": {
                 "name": "Warning",
-                "icon": "iconol/square_?.svg"
+                "icon": "icons/svg/square_?.svg"
             },
             "info": {
                 "name": "Info",
-                "icon": "iconol/square_?.svg"
+                "icon": "icons/svg/square_?.svg"
             },
             "unknown": {
                 "name": "Unknown",
-                "icon": "iconol/square_?.svg"
+                "icon": "icons/svg/square_?.svg"
             }
         };
 
