@@ -1,6 +1,6 @@
 "use strict";
 /*
-    Acrylic is (c) Anpang 2024 - 2025
+    Acrylic is (c) Anpang 2024 - 2026
     https://github.com/acrylic-os/core
 */
 
