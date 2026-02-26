@@ -27,6 +27,7 @@ let acr = new function() {
             "en": "English",
 
             // ISO 639-1
+            "de": "Deutsch",
             "th": "ไทย",
 
             // ISO 639-3
@@ -1245,7 +1246,6 @@ let acr = new function() {
             }, 10);
 
             // put wallpaper options
-            id("setup-3-wallpaper-count").innerText = msg("core/setup/3/wallpaper-count", [defaultWallpapers.length]);
             for(const wallpaper of defaultWallpapers) {
                 append("setup-3-wallpapers", `
                     <button id="setup-3-wallpapers-${wallpaper}">
@@ -1365,7 +1365,8 @@ let acr = new function() {
 
                     setupMsg(3, ["title", "note", "continue", "back"]);
                     id("setup-3-selected").innerHTML = msg("core/setup/3/selected", [wallpaperNames[selectedWallpaper]]);
-
+                    id("setup-3-wallpaper-count").innerText = msg("core/setup/3/wallpaper-count", [defaultWallpapers.length]);
+                    
                     onclick("setup-3-continue", () => {
                         config["users"][user]["wallpaper"] = selectedWallpaper;
                         showSetupStage(4);

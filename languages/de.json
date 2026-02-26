@@ -1,0 +1,383 @@
+{
+
+    "core": {
+
+        "acrylic": "Acrylic",
+        "version": "Acrylic v$1",
+        "booting": "Hochfahren...",
+        "loading": "Laden...",
+
+        "search": "Suchen / Offen / Gehen",
+
+        "setup": {
+            "stage": "Stufe $1 - $2",
+            "0": {
+                "title": "Sprache",
+                "intro": "Acrylic ist mehrsprachig, daher wählen Sie bitte eine Sprache aus, um mit der Einrichtung fortzufahren.",
+                "continue": "Fortsetzen"
+            },
+            "1": {
+                "welcome": "Willkommen bei Acrylic!",
+                "intro": "Sie scheinen ein neuer Benutzer zu sein. Acrylic ist ein neues Betriebssystem, das vollständig im Browser läuft und somit auf jedem Gerät ohne Installation genutzt werden kann.<br>Wir richten Acrylic hier für Sie ein.",
+                "continue": "Fortsetzen",
+                "already-user": "Wenn Sie bereits Benutzer sind, sehen Sie diesen Bildschirm möglicherweise, weil keine Daten vorhanden sind.",
+                "import": "Daten importieren"
+            },
+            "2": {
+                "title": "Benutzerkonto erstellen",
+                "intro": "Acrylic verfügt über ein System von Benutzerkonten. Hier können Sie ein Benutzerkonto erstellen.",
+                "username": "Benutzername",
+                "password": "Passwort",
+                "create": "Benutzerkonto erstellen",
+                "back": "Zurückgehen"
+            },
+            "3": {
+                "title": "Anpassung",
+                "wallpaper-count": "Es stehen $1 Hintergründe zur Auswahl:",
+                "note": "Beachten Sie, dass dieses Hintergrundbild nur angezeigt wird, wenn Sie angemeldet sind. Wenn kein Benutzer angemeldet ist, z. B. auf dem Anmeldebildschirm, wird das Standard-Acrylic-Hintergründe angezeigt.",
+                "selected": "Ausgewählten Hintergrund: <b>$1</b>",
+                "continue": "Fortsetzen",
+                "back": "Zurückgehen"
+            },
+            "4": {
+                "title": "Optionen",
+                "note": "Weitere Optionen sind derzeit nicht verfügbar.",
+                "continue": "Fortsetzen",
+                "back": "Zurückgehen"
+            },
+            "5": {
+                "title": "Die Einrichtung ist abgeschlossen!",
+                "complete": "Sie können Ihre Acrylic-Installation nun genießen.<br>Laden Sie die Seite neu, um Acrylic zu öffnen, oder klicken Sie einfach auf die Schaltfläche unten:",
+                "reload": "Betreten Sie Acrylic"
+            }
+        },
+
+        "login": {
+            "welcome": "Willkommen bei Acrylic!",
+            "title": "Login",
+            "username": "Benutzername",
+            "password": "Passwort",
+            "login": "Login",
+            "create": "Benutzerkonto erstellen"
+        },
+
+        "power": {
+            "logout": "Abmelden",
+            "reload": "Neu laden",
+            "quit": "Aufhören"
+        },
+
+        "quit": {
+            "areyousure": "Bist du sicher, dass du $1 willst?",
+            "quitting": "Aufhören...",
+            "done": "Sie können diesen Tab jetzt schließen."
+        },
+
+        "fullscreen": {
+            "text": "Klicken Sie irgendwo, um in den Vollbildmodus zu wechseln.",
+            "cancel": "Schalte nicht in den Vollbildmodus."
+        },
+
+        "datetime": {
+            "0": "$1/$2/$3 $4:$5:$6",
+            "1": "$1 $2 $3 $4",
+            "2": "$1:$2:$3.$4 [$5]",
+            "3": "Unix $1"
+        },
+        "day-names": [
+            "Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freistag", "Samstag"
+        ],
+        "month-names": [
+            "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"
+        ],
+        "month-names-abbreviated": [
+            "Jan.", "Feb.", "Mär.", "Apr.", "Mai.", "Jun.", "Jul.", "Aug.", "Sep.", "Okt.", "Nov.", "Dec."
+        ],
+
+        "start": {
+            "name": "Start",
+            "categories": {
+                "favorites": "Lieblings-Apps",
+                "games": "Spiele",
+                "graphics": "Grafik",
+                "internet": "Internet",
+                "media": "Medien",
+                "system": "System",
+                "utilities": "Dienstprogramme"
+            }
+        },
+
+        "coming-soon": "Kommt bald"
+
+    },
+
+    "about": {
+        "name": "Über",
+
+        "alternate-name": "acrylicOS",
+        "version": "Version $1",
+        "user-agent": "User agent",
+        "credits": "Ehren",
+        "donut": "Donut",
+
+        "main-dev": "Hauptentwicklung",
+        "small-elements": "Kleine Elemente",
+        "wallpapers": "Hintergründe",
+        "literally-everything": "Im Grunde alles",
+        "spinning-donut": "Donut drehen",
+
+        "exit-texts": [
+            "löschen",
+            "streichen",
+            "tilgen",
+            "entfernen",
+            "beseitigen"
+        ],
+        "exit-text-format": "Donut $1"
+
+    },
+
+    "calculator": {
+        "name": "Kalkulator",
+
+        "history": "Geschichte",
+        "syntax-error": "Syntaxfehler"
+
+    },
+
+    "clock": {
+        "name": "Uhr",
+
+        "analog": "Analog",
+        "digital": "Digital"
+
+    },
+
+    "file-picker": {
+        "name": "Datei auswählen"
+    },
+
+    "files": {
+        "name": "Dateien",
+
+        "filename": "Dateiname",
+        "owner": "Besitzer",
+
+        "rename": {
+            "button": "Umbenennen",
+            "title": "Datei umbenennen",
+            "text": "Benennen Sie A um in:",
+            "confirm": "Umbenennen",
+            "cancel": "Stornieren"
+        },
+        "delete": {
+            "button": "Löschen",
+            "title": "Datei löschen",
+            "text": "Möchten Sie A wirklich löschen?",
+            "permanent": "Beachten Sie, dass der Papierkorb derzeit noch nicht implementiert ist, daher wird die Datei endgültig gelöscht.",
+            "confirm": "Löschen",
+            "cancel": "Stornieren"
+        }
+    },
+
+    "logs": {
+        "name": "Logs",
+
+        "top": "Nach oben gehen",
+        "bottom": "Nach unten gehen"
+    },
+
+    "notepad": {
+        "name": "Notizblock",
+        
+        "save": "Speichern",
+        "open": "Offen",
+
+        "already-exists": "Die Datei <code>$1</code> existiert bereits. Möchten Sie sie wirklich überschreiben?",
+        "doesnt-exist": "Die Datei <code>$1</code> existiert nicht.",
+        "folder": "Die Datei <code>$1</code> ist ein Ordner",
+        "save-anyway": "Trotzdem sparen",
+        "cancel": "Stornieren",
+        "ok": "OK"
+
+    },
+
+    "paint": {
+        "name": "Malen",
+
+        "undo": "Undo",
+        "redo": "Redo",
+        "fill": "Füllen",
+        "border": "Grenze",
+        "tools": {
+            "pencil": "Bleistift",
+            "eraser": "Radiergummi",
+            "rectangle": "Rechteck"
+        },
+
+        "px": "$1px",
+        "dimensions": "$1x$2",
+        "mp": "$1mp"
+
+    },
+
+    "sandbox": {
+        "name": "Sandbox",
+
+        "intro": "Willkommen im Acrylic-Sandbox, einem Ort, an dem Dinge getestet werden können.<br>Hier gibt es einige Werkzeuge.",
+        "dump": "Variable Inhalte anzeigen",
+        "miscellaneous": "Verschiedene Werkzeuge",
+        "elements-test": "Elementetest",
+        "dump-of": "Inhalt von $1:"
+
+    },
+
+    "settings": {
+        "name": "Einstellungen",
+
+        "tabs": {
+            "general": "Allgemein",
+            "appearance": "Aussehen",
+            "behavior": "Verhalten",
+            "effects": "Effekte",
+            "extensions": "Erweiterungen",
+            "system": "System"
+        },
+
+        "options": {
+            "general": {
+                "language": {
+                    "name": "Sprache",
+                    "subtitle": "Die in Acrylic verwendete Sprache."
+                }
+            },
+            "appearance": {
+                "wallpaper": {
+                    "name": "Hintergrund",
+                    "subtitle": "Aktuell stehen nur 4 Hintergründe zur Auswahl."
+                },
+                "topbar_style": {
+                    "name": "Topbar-Stil",
+                    "subtitle": "Der Hintergrundstil der oberen Leiste."
+                },
+                "font_heading": {
+                    "name": "Schriftart der Überschrift",
+                    "subtitle": "Die Schriftart, die für Überschriften und den großen Text auf dem Startbildschirm verwendet wird."
+                },
+                "font_main": {
+                    "name": "Hauptschriftart",
+                    "subtitle": "Die in Acrylic hauptsächlich verwendete Schriftart."
+                },
+                "font_monospace": {
+                    "name": "Monospace-Schriftart",
+                    "subtitle": "Die für den Quellcode und den Versionstext verwendete Schriftart. Es stehen nur nichtproportionale Schriftarten zur Verfügung."
+                },
+                "darken_wallpaper": {
+                    "name": "Hintergrund abdunkeln",
+                    "subtitle": "Das Hintergrund um 25 % abdunkeln."
+                }
+            },
+            "behavior": {
+                "fullscreen_overlay": {
+                    "name": "Vollbildmodus aktivieren",
+                    "subtitle": "Aktivieren oder deaktivieren Sie das Overlay, das zum Vollbildmodus auffordert."
+                },
+                "pig_latin": {
+                    "name": "Pig Latin",
+                    "subtitle": "Acrylfarben verwenden Pig Latin. (Funktioniert nur auf Englisch)"
+                }
+            },
+            "effects": {
+                "animations": {
+                    "name": "Animationen",
+                    "subtitle": "Zeigen Sie verschiedene Animationen an, zum Beispiel beim Öffnen eines Fensters."
+                },
+                "click_confetti": {
+                    "name": "Klicken Sie auf Konfetti",
+                    "subtitle": "Beim Klicken oder Ziehen wird Konfetti erzeugt. Dies kann zu Verzögerungen führen."
+                },
+                "blue_rectangle": {
+                    "name": "Blaues Rechteck",
+                    "subtitle": "Lässt beim Ziehen ein blaues Auswahlrechteck auf dem Desktop erscheinen, ähnlich der Funktion unter Windows, mit der wir alle früher gerne gespielt haben."
+                }
+            },
+            "extensions": {
+                "default_theme": {
+                    "name": "Standarddesign",
+                    "placeholder": "Erweiterungs-URL",
+                    "subtitle": "Das Design, das auf dem Anmeldebildschirm verwendet werden soll, wenn kein Benutzer vorhanden ist"
+                }
+            },
+            "system": {
+                "reset": {
+                    "name": "Werksreset",
+                    "subtitle": "Das Zurücksetzen von Acrylic bedeutet, dass sämtliche Acrylic-Daten gelöscht werden, einschließlich Benutzer, Einstellungen und Dateien."
+                }
+            }
+        },
+
+        "extensions": {
+            "add": "Fügen Sie eine neue Erweiterung hinzu",
+            "placeholder": "ID (Kern) oder Link (extern)",
+            "load": "Installieren",
+            "loaded": "Installierte Erweiterungen",
+            "id": "ID",
+            "name": "Name",
+            "type": "Typ",
+            "actions": "Aktionen",
+            "uninstall": "Deinstallieren"
+        },
+
+        "reload": {
+            "text": "Die geänderten Einstellungen müssen neu geladen werden, um wirksam zu werden.",
+            "close": "Schließen",
+            "reload": "Neu laden"
+        }
+
+    },
+
+    "system-monitor": {
+        "name": "Systemmonitor",
+
+        "processes": "Prozesse",
+        "live": "Live",
+        "header": {
+            "pid": "PID",
+            "process": "Process",
+            "name": "Name",
+            "type": "Typ",
+            "options": "Aktionen"
+        },
+        "types": {
+            "none": "Unsichtbar",
+            "gui": "Grafisch",
+            "term": "Terminal",
+            "core": "Kern"
+        },
+        "kill": "Töten"
+
+    },
+
+    "terminal": {
+        "name": "Terminal",
+
+        "input": "Eingabebefehl",
+        "help": "Führen Sie \"help()\" aus, um Hilfe zu erhalten.",
+        "help-command": "<b>Hilfe</b><br>Dies ist eine JS-Konsole, mit der Sie einfach JS-Befehle ausführen können.<br>Zu den Funktionen gehören clear(), exit(), help() und print()."
+
+    },
+
+    "weather": {
+        "name": "Wetter",
+
+        "source": "Wetterdaten bereitgestellt von <a href=\"https://open-meteo.com/\">Open-Meteo</a>.",
+        "no-location-info": "Keine Standortinformationen verfügbar",
+        "give-location-info": "Erteilen Sie Standortberechtigungen"
+
+    },
+
+    "default": {
+        "name": "Standarddesign"
+    }
+
+}
