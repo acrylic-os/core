@@ -7,19 +7,14 @@
 
     <head id="head">
 
-        <!-- title -->
         <title>Acrylic</title>
-
-        <!-- utf8 -->
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        
-        <!-- google fonts -->
+
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <!-- essential --> <link href="https://fonts.googleapis.com/css2?family=Inter&family=Schibsted+Grotesk&display=swap" rel="stylesheet">
-        <!-- the rest -->  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code&family=IBM+Plex+Sans&family=IBM+Plex+Mono&family=Noto+Sans&family=Noto+Serif&family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter&family=Schibsted+Grotesk&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code&family=IBM+Plex+Sans&family=IBM+Plex+Mono&family=Noto+Sans&family=Noto+Serif&family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
         
-        <!-- assets -->
         <link rel="stylesheet" href="common.css" fetchpriority="high">
         <link rel="icon" href="https://acrylic.anpang.lol/stable/core/assets/acrylic_logo.svg">
 
@@ -27,14 +22,12 @@
 
     <body id="body">
 
-        <!-- version indicator in top left -->
         <div id="version" class="version-boot">
             <span id="version-number"></span>
             <br>
             <span id="version-date"></span>
         </div>
 
-        <!-- boot screen -->
         <div id="bootscreen" class="screen">
             <div id="bootscreen-title">
                 <span>a</span><span>c</span><span>r</span><span>y</span><span>l</span><span>i</span><span>c</span><span>O</span><span>S</span>
@@ -42,7 +35,6 @@
             <div id="bootscreen-text"></div>
         </div>
 
-        <!-- setup screen -->
         <div id="setupscreen" class="screen">
             <div id="setupscreen-box">
                 <span id="setup-stage"></span>
@@ -112,7 +104,6 @@
             </div>
         </div>
 
-        <!-- login screen -->
         <div id="loginscreen" class="screen">
             <div id="loginbox">
                 <h1 id="loginbox-welcome"></h1>
@@ -133,13 +124,10 @@
             </div>
         </div>
         
-        <!-- desktop -->
         <div id="desktop" class="screen">
 
-            <!-- blue rectangle hitbox -->
             <div id="desktop-background" class="desktop-only desktop-show"></div>
 
-            <!-- topbar -->
             <div id="topbar" class="desktop-only desktop-show">
                 <div id="topbar-left"></div>
                 <div id="topbar-center">
@@ -153,14 +141,12 @@
                 </div>
             </div>
 
-            <!-- dock -->
             <div id="dock" class="desktop-only desktop-show">
                 <a href="#" id="start-button"></a>
                 <div id="dock-apps">
                 </div>
             </div>
 
-            <!-- start menu -->
             <div id="startmenu" class="desktop-only">
                 <div id="startmenu-name"></div>
                 <div id="startmenu-buttons"></div>
@@ -174,15 +160,12 @@
                 </div>
             </div>
 
-            <!-- windows -->
             <div id="windows" class="screen"></div>
 
-            <!-- the actual blue rectangle -->
             <div id="bluerectangle" class="desktop-only desktop-show"></div>
 
         </div>
 
-        <!-- quit overlay -->
         <div id="quitscreen" class="screen">
             <div id="quit-areyousure" class="quit-box">
                 <section id="quit-areyousure-action"></section>
@@ -195,19 +178,15 @@
             <span id="quit-done" class="quit-box"></span>
         </div>
 
-        <!-- fullscreen overlay -->
         <div id="fullscreen" class="screen">
             <div id="fullscreen-text"></div>
             <button id="fullscreen-cancel"></button>
         </div>
 
-        <!-- click confetti -->
         <div id="click-confetti"></div>
 
-        <!-- context menu -->
         <div id="contextmenu"></div>
         
-        <!-- load script -->
         <script src="script.js"></script>
         
     </body>
