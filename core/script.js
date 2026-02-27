@@ -31,7 +31,10 @@ let acr = new function() {
             "th": "ไทย",
 
             // ISO 639-3
-            "tok": "Toki Pona"
+            "tok": "Toki Pona",
+
+            // other
+            "qqx": "[ View message names ]"
 
         };
 
@@ -249,8 +252,17 @@ let acr = new function() {
     // #region ─ messages
 
         let messagesAvailable = false, messages;
+        let qqxLanguage = false;
 
         function fetchLanguage(code, callback = () => {}) {
+
+            // debug
+            if(code === "qqx") {
+                qqxLanguage = true;
+                return;
+            }
+
+            // normal
             fetch(`../languages/${code}.json`)
                 .then((response) => {
                     if(response.ok) {
@@ -266,6 +278,7 @@ let acr = new function() {
                     log("done", `${code} messages loaded`);
                     callback();
                 });
+
         }
 
         function pigLatinWord(str) {
@@ -304,6 +317,13 @@ let acr = new function() {
         }
 
         function msg(name, replace = []) {
+
+            // debug
+            if(qqxLanguage) {
+                return `[${name}]`;
+            }
+
+            // normal
             let message = messages, i = 1;
             if(messagesAvailable) {
                 try{
@@ -324,6 +344,7 @@ let acr = new function() {
             } else {
                 error("Messages haven't been loaded yet");
             }
+
         }
 
     // #endregion
