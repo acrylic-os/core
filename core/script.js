@@ -1128,7 +1128,7 @@ let acr = new function() {
                 this.type = info.type;
                 this.category = info.category;
                 this.utility = ("utility" in info)? info.utility:false;
-                this.icon = "icon" in info? info.icon: "../../icons/svg/square_question.svg";
+                this.icon = "icon" in info? info.icon: "../../icons/svg/square-purple-question.svg";
                 this.run = "run" in steps? steps.run: function() {};
                 this.action = "action" in steps? steps.action: function() {};
                 this.kill = "kill" in steps? steps.kill: function() {};
@@ -2414,19 +2414,19 @@ let acr = new function() {
         const popupTypes = {
             "error": {
                 "name": "Error",
-                "icon": "icons/svg/circle_no.png"
+                "icon": "../icons/svg/circle-no.png"
             },
             "warning": {
                 "name": "Warning",
-                "icon": "icons/svg/square_?.svg"
+                "icon": "../icons/svg/square-purple-question.svg"
             },
             "info": {
                 "name": "Info",
-                "icon": "icons/svg/square_?.svg"
+                "icon": "../icons/svg/square-purple-question.svg"
             },
             "unknown": {
                 "name": "Unknown",
-                "icon": "icons/svg/square_?.svg"
+                "icon": "../icons/svg/square-purple-question.svg"
             }
         };
 
