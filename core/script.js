@@ -2359,6 +2359,7 @@ let acr = new function() {
             windows[this.windowID]["leftStyle"] = id(`window-${this.windowID}`).style.left;
             windows[this.windowID]["topStyle"] = id(`window-${this.windowID}`).style.top;
             id(`window-${this.windowID}`).removeAttribute("style");
+            id(`window-${this.windowID}`).style.display = "flex";
             log("done", `Window ${this.windowID} maximized`);
         }
         unmaximize() {
