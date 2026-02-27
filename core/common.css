@@ -520,9 +520,7 @@ button.bfull, input.bfull{ padding: 0.5em 1em; }
 }
 #contextmenu > button + button{ border-top: none; }
 
-#contextmenu > hr{
-    border: none;
-}
+#contextmenu > hr{ border: none; }
 
 #contextmenu > div{
     white-space: nowrap;
