@@ -2648,7 +2648,7 @@ let acr = new function() {
     const coreExtensions = [
 
         // apps
-        "about", "calculator", "clock", "files", "logs", "notepad", "paint", "sandbox", "settings", "system-monitor", "terminal", "weather",
+        "about", "calculator", "clock", "files", "frames", "logs", "notepad", "paint", "sandbox", "settings", "system-monitor", "terminal", "weather",
 
         // utilities
         "file-picker",

@@ -1,0 +1,24 @@
+{
+
+    "id": "frames",
+    "type": "app",
+    "appInfo": {
+        "type": "gui",
+        "category": "internet",
+        "icon": "../../icons/svg/earth-random.svg"
+    },
+
+    "version": {
+        "number": "0.2.0-r0",
+        "date": [2025, 7, 27],
+        "acrylic": "0.2.0"
+    },
+    "authors": [
+        "Anpang (https://anpang.lol/)"
+    ],
+
+    "steps": ["run", "action"],
+    "hooks": [],
+    "styles": true
+
+}

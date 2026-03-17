@@ -206,6 +206,11 @@
         }
     },
 
+    "frames": {
+        "name": "Frames"
+        
+    },
+
     "logs": {
         "name": "Logs",
 
