@@ -14,7 +14,9 @@
 Despite not being an actual OS which runs on top of hardware, it acts basically as an OS. You can install apps, edit files, etc.
 
 > [!NOTE]
-> Note that Acrylic is currently in alpha, so a lot of things are broken or just haven't been implemented yet.
+> Acrylic development is currently on hiatus, as I have many other projects to work on, and Acrylic is really just a hobby project for fun with no actual purpose.\
+> I will still continue developing 0.3.0 from time to time, and it will come out eventually, just not any time soon.\
+> If anyone is interested in continuing development of this project, please contact me, or if you just want to make a PR, absolutely feel free to.
 
 ---
 
