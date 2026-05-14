@@ -15,7 +15,7 @@ Despite not being an actual OS which runs on top of hardware, it acts basically 
 
 > [!NOTE]
 > Acrylic development is currently on hiatus, as I have many other projects to work on, and Acrylic is really just a hobby project for fun with no actual purpose.\
-> I will still continue developing 0.3.0 from time to time, and it will come out eventually, just not any time soon.\
+> I will still continue developing 0.3.0 from time to time, and it will come out eventually, just not anytime soon.\
 > If anyone is interested in continuing development of this project, please contact me, or if you just want to make a PR, absolutely feel free to.
 
 ---
