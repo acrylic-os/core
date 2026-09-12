@@ -16,13 +16,13 @@
             
             let example = "main.caro";
 
-            let file = `../${example}`.split("/").pop();
+            let file = `${example}`.split("/").pop();
             var Module = {
                 preRun: [() => {
                     addRunDependency(file);
-                    fetch(`../${example}`)
+                    fetch(`./${example}`)
                         .then(response => {
-                            if (!response.ok) throw new Error(`Failed to fetch ../${example}: ${response.status}`);
+                            if (!response.ok) throw new Error(`Failed to fetch ${example}: ${response.status}`);
                             return response.text();
                         })
                         .then(code => {
@@ -34,7 +34,7 @@
             };
 
         </script>
-        <script src="../../builds/web/caro-web.js"></script>
+        <script src="caro-web/caro-web.js"></script>
 
     </body>
 </html>
