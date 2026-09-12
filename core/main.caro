@@ -8,6 +8,8 @@
 
 use gui;
 use dom;
+use random;
+
 
 // #endregion
 
@@ -17,18 +19,30 @@ class Acrylic{
 
     // #region ━ START
 
+    channel(h, l, a, n) {
+        k = (n + h) % 12;
+        value = l - a * max([-1, min([k - 3, 9 - k, 1])]);
+        return str(int(value * 255), 16).pad_left(2, "0");
+    }
+
+    randomAcrylicColor() {
+        h = random.float(40, 280) / 30;
+        l = random.float(60, 90) / 100;
+        a = min([l, 1 - l]);
+        return f"{this.channel(h, l, a, 0)}{this.channel(h, l, a, 8)}{this.channel(h, l, a, 4)}";
+    }
+
     init() {
 
-        // #region ─ constants
+        // version
+        this.version      = "0.3.0-b4";
+        this.versionDate  = [2026, 09, 12];
+        this.dataVersion  = 2;
+        this.codename     = "werdʰh₁om";
+        this.codenamePage = "werdʰh₁om";
 
-        version      = "0.3.0-b3";
-        versionDate  = [22, 2, 2026];
-        dataVersion  = 1;
-
-        codename     = "werdʰh₁om";
-        codenamePage = "werdʰh₁om";
-
-        languages = {
+        // languages
+        this.languages = {
 
             // ISO 639-1
             "de": "Deutsch",
@@ -43,18 +57,37 @@ class Acrylic{
 
         };
 
-        // #endregion
+        // initial log message
+        plainText = f"Acrylic {this.version}";
+        coloredText = f"\n[b][1.5]";
+        repeat(plainText.length()): i{
+            coloredText += "[#" + this.randomAcrylicColor() + "]" + plainText[i];
+        }
+        print(coloredText + "[]\n\nHi there! This is where Acrylic will log stuff.\n\n");
 
-        // #region ─ MAKE WINDW
-
+        // make window
         window = gui.Window("Acrylic");
-
         window.add(gui.Label("Welcome to Acrylic 0.3.x!"), 0, 0);
+        window.show(this.boot);
 
-        window.show();
 
-        // #endregion
+    }
 
+    boot() {
+
+        // make container cover the entire screen
+        dom.id("caro-container").css = {
+            "left":       0,
+            "top":        0,
+            "width":     "100vw",
+            "height":    "100vh",
+            "padding":   0,
+            "gap":       0,
+            "transform": "none"
+        };
+
+        log("i", "Started Acrylic.");
+        
     }
 
     // #endregion
