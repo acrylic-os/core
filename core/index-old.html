@@ -1,0 +1,193 @@
+<!--
+    Acrylic is (c) Anpang 2024 - 2026
+    https://github.com/acrylic-os/core
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+    <head id="head">
+
+        <title>Acrylic</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter&family=Schibsted+Grotesk&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code&family=IBM+Plex+Sans&family=IBM+Plex+Mono&family=Noto+Sans&family=Noto+Serif&family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
+        
+        <link rel="stylesheet" href="common.css" fetchpriority="high">
+        <link rel="icon" href="https://acrylic.anpang.lol/stable/core/assets/acrylic_logo.svg">
+
+    </head>
+
+    <body id="body">
+
+        <div id="version" class="version-boot">
+            <span id="version-number"></span>
+            <br>
+            <span id="version-date"></span>
+        </div>
+
+        <div id="bootscreen" class="screen">
+            <div id="bootscreen-title">
+                <span>a</span><span>c</span><span>r</span><span>y</span><span>l</span><span>i</span><span>c</span><span>O</span><span>S</span>
+            </div>
+            <div id="bootscreen-text"></div>
+        </div>
+
+        <div id="setupscreen" class="screen">
+            <div id="setupscreen-box">
+                <span id="setup-stage"></span>
+                <hr>
+                <div id="setup-0">
+                    <h1 id="setup-0-title"></h1>
+                    <section id="setup-0-intro"></section>
+                    <section>
+                        <select id="setup-0-select"></select>
+                    </section>
+                    <section>
+                        <button class="bfull" id="setup-0-continue"></button>
+                    </section>
+                </div>
+                <div id="setup-1">
+                    <h1 id="setup-1-welcome"></h1>
+                    <section id="setup-1-intro"></section>
+                    <section>
+                        <button class="bfull" id="setup-1-continue"></button>
+                    </section>
+                    <hr>
+                    <section id="setup-1-already-user"></section>
+                    <section>
+                        <button class="bfull" id="setup-1-import"></button>
+                    </section>
+                </div>
+                <div id="setup-2">
+                    <h2 id="setup-2-title"></h2>
+                    <section id="setup-2-intro"></section>
+                    <section>
+                        <label for="setup-2-username"></label>
+                        <input type="text" id="setup-2-username" class="textbox bfull">
+                        <label for="setup-2-password"></label>
+                        <input type="text" id="setup-2-password" class="textbox bfull">
+                    </section>
+                    <section>
+                        <button class="bfull" id="setup-2-create"></button>
+                        <button class="bfull" id="setup-2-back"></button>
+                    </section>
+                </div>
+                <div id="setup-3">
+                    <h2 id="setup-3-title"></h2>
+                    <section id="setup-3-wallpaper-count"></section>
+                    <section id="setup-3-wallpapers"></section>
+                    <section id="setup-3-note"></section>
+                    <section id="setup-3-selected"></section>
+                    <section>
+                        <button class="bfull" id="setup-3-continue"></button>
+                        <button class="bfull" id="setup-3-back"></button>
+                    </section>
+                </div>
+                <div id="setup-4">
+                    <h2 id="setup-4-title"></h2>
+                    <section id="setup-4-note"></section>
+                    <section>
+                        <button class="bfull" id="setup-4-continue"></button>
+                        <button class="bfull" id="setup-4-back"></button>
+                    </section>
+                </div>
+                <div id="setup-5">
+                    <h2 id="setup-5-title"></h2>
+                    <section id="setup-5-complete"></section>
+                    <div>
+                        <button class="bfull" id="setup-5-reload"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="loginscreen" class="screen">
+            <div id="loginbox">
+                <h1 id="loginbox-welcome"></h1>
+                <div>
+                    <h2 id="loginbox-title"></h2>
+                    <section>
+                        <label for="loginbox-username" id="loginbox-username-label"></label>
+                        <input type="text" id="loginbox-username" class="textbox bfull">
+                        <label for="loginbox-password" id="loginbox-password-label"></label>
+                        <input type="text" id="loginbox-password" class="textbox bfull">
+                    </section>
+                    <section>
+                        <button class="bfull" id="loginbox-login"></button>
+                    </section>
+                </div>
+                <hr>
+                <button class="bfull" id="loginbox-create"></button>
+            </div>
+        </div>
+        
+        <div id="desktop" class="screen">
+
+            <div id="desktop-background" class="desktop-only desktop-show"></div>
+
+            <div id="topbar" class="desktop-only desktop-show">
+                <div id="topbar-left"></div>
+                <div id="topbar-center">
+                    <label for="searchbar" id="searchbar-label"></label>
+                    <input type="text" id="searchbar" class="textbox">
+                    <div id="searchmenu"></div>
+                </div>
+                <div id="topbar-right">
+                    <div id="menubar"></div>
+                    <button id="timebar" class="bflat"></button>
+                </div>
+            </div>
+
+            <div id="dock" class="desktop-only desktop-show">
+                <a href="#" id="start-button"></a>
+                <div id="dock-apps">
+                </div>
+            </div>
+
+            <div id="startmenu" class="desktop-only">
+                <div id="startmenu-name"></div>
+                <div id="startmenu-buttons"></div>
+                <div id="startmenu-categories"></div>
+                <div id="startmenu-apps">
+                </div>
+                <div id="startmenu-power">
+                    <button id="power-logout" onclick="acr.quit('logout')" class="bflat"></button>
+                    <button id="power-reload" onclick="acr.quit('reload')" class="bflat"></button>
+                    <button id="power-quit" onclick="acr.quit('quit')" class="bflat"></button>
+                </div>
+            </div>
+
+            <div id="windows" class="screen"></div>
+
+            <div id="bluerectangle" class="desktop-only desktop-show"></div>
+
+        </div>
+
+        <div id="quitscreen" class="screen">
+            <div id="quit-areyousure" class="quit-box">
+                <section id="quit-areyousure-action"></section>
+                <section>
+                    <button class="bfull quit-button" id="quit-areyousure-button">Quit</button>
+                    <button class="bfull quit-button" id="quit-areyousure-cancel">Cancel</button>
+                </section>
+            </div>
+            <span id="quit-quitting" class="quit-box"></span>
+            <span id="quit-done" class="quit-box"></span>
+        </div>
+
+        <div id="fullscreen" class="screen">
+            <div id="fullscreen-text"></div>
+            <button id="fullscreen-cancel"></button>
+        </div>
+
+        <div id="click-confetti"></div>
+
+        <div id="contextmenu"></div>
+        
+        <script src="script.js"></script>
+        
+    </body>
+</html>
