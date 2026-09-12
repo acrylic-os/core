@@ -64,6 +64,7 @@ class Acrylic{
             coloredText += "[#" + this.randomAcrylicColor() + "]" + plainText[i];
         }
         print(coloredText + "[]\n\nHi there! This is where Acrylic will log stuff.\n\n");
+        log("i", "Started booting");
 
         // make window
         window = gui.Window("Acrylic");
@@ -86,7 +87,7 @@ class Acrylic{
             "transform": "none"
         };
 
-        log("i", "Started Acrylic.");
+        log("i", "Booted");
         
     }
 
