@@ -8,15 +8,18 @@
 
 <img src="/.github/readme/acrylic_0.1.0_showcase.png">
 
+---
+
+> [!NOTE]
+> This branch, `0.3.x`, is an experimental port of Acrylic to [Carotene](https://github.com/anpang54/carotene).
+> It is currently incomplete, so if you want a functional Acrylic, see the `0.2.x` branch.
+
+---
+
 # Acrylic
 
 **Acrylic is, put simply, an OS that runs in your browser.**\
 Despite not being an actual OS which runs on top of hardware, it acts basically as an OS. You can install apps, edit files, etc.
-
-> [!NOTE]
-> Acrylic development is currently on hiatus, as I have many other projects to work on, and Acrylic is really just a hobby project for fun with no actual purpose.\
-> I will still continue developing 0.3.0 from time to time, and it will come out eventually, just not anytime soon.\
-> If anyone is interested in continuing development of this project, please contact me, or if you just want to make a PR, absolutely feel free to.
 
 ---
 
